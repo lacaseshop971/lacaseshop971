@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>La Case Shop — Coques Premium Guadeloupe</title>
+<meta name="description" content="Coques de téléphone premium pour iPhone & Samsung. Designs exclusifs Marvel, Anime, Stitch. Livraison rapide en Guadeloupe. Paiement sécurisé Stripe.">
+<meta property="og:title" content="La Case Shop — Coques Premium Guadeloupe">
+<meta property="og:description" content="Coques stylées pour iPhone & Samsung. Marvel, Anime, Stitch, Nature. Livraison rapide en Guadeloupe dès 12€.">
+<meta property="og:image" content="https://lacaseshop971.onrender.com/ChatGPT_Image_1_mai_2026__13_06_42.png">
+<meta property="og:url" content="https://lacaseshop971.onrender.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -103,18 +110,35 @@ nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-
 .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border)}
 .product-card{background:var(--black);cursor:pointer;position:relative;overflow:hidden;transition:background .2s}
 .product-card:hover{background:var(--card)}
-.product-card:hover .prod-img img{transform:scale(1.06)}
+.product-card:hover .prod-img img{transform:scale(1.08);object-position:center 30%}
 .product-card.in-cart{outline:2px solid var(--red);outline-offset:-2px}
-.prod-img{width:100%;aspect-ratio:9/13;overflow:hidden;position:relative;background:#111}
-.prod-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;display:block}
-.prod-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.75) 100%);pointer-events:none}
-.prod-cat-badge{position:absolute;top:10px;left:10px;z-index:2;background:rgba(8,8,8,.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);padding:3px 9px;font-size:10px;font-weight:500;color:var(--gray-light);letter-spacing:.08em;text-transform:uppercase}
-.prod-add-btn{position:absolute;top:10px;right:10px;z-index:2;width:32px;height:32px;border-radius:50%;background:rgba(8,8,8,.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:16px;transition:all .2s}
+.prod-img{width:100%;aspect-ratio:3/4;overflow:hidden;position:relative;background:#111}
+.prod-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 20%;
+  transition:transform .5s ease, object-position .5s ease;
+  display:block;
+  filter:brightness(0.97) contrast(1.03);
+}
+.prod-img::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 35%);
+  z-index:1;
+  pointer-events:none;
+}
+.prod-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(0,0,0,.85) 100%);pointer-events:none;z-index:1}
+.prod-cat-badge{position:absolute;top:10px;left:10px;z-index:3;background:rgba(8,8,8,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);padding:3px 9px;font-size:9px;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:.12em;text-transform:uppercase}
+.prod-add-btn{position:absolute;top:10px;right:10px;z-index:3;width:30px;height:30px;border-radius:50%;background:rgba(8,8,8,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:15px;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.product-card:hover .prod-add-btn{background:rgba(232,18,26,.9);border-color:var(--red);transform:scale(1.1)}
 .product-card.in-cart .prod-add-btn{background:var(--red);border-color:var(--red)}
-.prod-body{padding:1rem}
-.prod-name{font-size:14px;font-weight:500;color:var(--white);margin-bottom:3px;line-height:1.3}
-.prod-brand{font-size:10px;color:var(--gray);letter-spacing:.1em;text-transform:uppercase}
-.prod-price{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--red);margin-top:8px}
+.prod-body{padding:.85rem 1rem 1rem}
+.prod-name{font-size:13px;font-weight:500;color:var(--white);margin-bottom:3px;line-height:1.3;letter-spacing:.01em}
+.prod-brand{font-size:10px;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.prod-price{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);margin-top:6px;line-height:1}
 .color-selector{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .color-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;position:relative}
 .color-dot:hover{transform:scale(1.15)}
@@ -139,7 +163,7 @@ nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-
 .cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--gray);gap:12px;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
 .cart-empty-icon{font-size:48px;opacity:.3}
 .cart-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
-.cart-item-img{width:64px;height:88px;object-fit:cover;flex-shrink:0;background:#1a1a1a}
+.cart-item-img{width:64px;height:88px;object-fit:cover;object-position:center 20%;flex-shrink:0;background:#1a1a1a}
 .cart-item-info{flex:1;min-width:0}
 .cart-item-name{font-size:14px;font-weight:500;margin-bottom:3px}
 .cart-item-sub{font-size:11px;color:var(--gray-light);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
@@ -265,6 +289,92 @@ footer img{height:40px;object-fit:contain}
   .hero{padding:80px 1rem 4rem}
   .product-grid{grid-template-columns:1fr 1fr}
 }
+
+/* ══ BANDEAU RÉASSURANCE ══ */
+.reassurance{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:0;background:var(--card);border-bottom:1px solid var(--border)}
+.reassurance-item{display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-right:1px solid var(--border);flex:1;min-width:160px;justify-content:center}
+.reassurance-item:last-child{border-right:none}
+.reassurance-icon{font-size:20px;flex-shrink:0}
+.reassurance-text{color:var(--gray-light);line-height:1.4}
+.reassurance-text strong{display:block;color:var(--white);font-size:11px}
+@media(max-width:600px){.reassurance-item{min-width:140px;padding:12px 16px;font-size:11px}}
+
+/* ══ STOCK BADGE ══ */
+.stock-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:#ff9f43;letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
+.stock-dot{width:6px;height:6px;border-radius:50%;background:#ff9f43;animation:pulse-dot 1.4s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* ══ BARRE DE PROGRESSION PANIER ══ */
+.cart-progress-bar{padding:12px 1rem;background:var(--card2);border-bottom:1px solid var(--border);font-size:12px;color:var(--gray-light)}
+.progress-text{margin-bottom:8px;line-height:1.5}
+.progress-text strong{color:var(--white)}
+.progress-track{height:4px;background:var(--border);position:relative;overflow:visible}
+.progress-fill{height:100%;background:var(--red);transition:width .4s cubic-bezier(.4,0,.2,1);position:relative}
+.progress-fill::after{content:'';position:absolute;right:-4px;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--red);border:2px solid var(--card2)}
+.progress-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:#444;letter-spacing:.05em}
+.progress-labels span.reached{color:#5eed8a}
+
+/* ══ SECTION AVIS ══ */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.review-card{background:var(--card);padding:1.5rem;transition:background .2s}
+.review-card:hover{background:var(--card2)}
+.review-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.review-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;background:#222;flex-shrink:0}
+.review-avatar-init{width:40px;height:40px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--white);flex-shrink:0}
+.review-meta{flex:1}
+.review-name{font-size:14px;font-weight:600;color:var(--white)}
+.review-date{font-size:11px;color:var(--gray);letter-spacing:.04em}
+.review-stars{color:#f1c40f;font-size:14px;margin-bottom:.6rem;letter-spacing:2px}
+.review-text{font-size:13px;color:var(--gray-light);line-height:1.7}
+.review-product{display:inline-block;margin-top:.8rem;font-size:10px;background:rgba(232,18,26,.12);border:1px solid rgba(232,18,26,.25);color:var(--red);padding:3px 10px;letter-spacing:.08em;text-transform:uppercase}
+.reviews-summary{display:flex;align-items:center;gap:2rem;margin-bottom:3rem;padding:2rem;background:var(--card);border:1px solid var(--border)}
+.reviews-score{text-align:center}
+.reviews-score-num{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--white);line-height:1}
+.reviews-score-stars{font-size:20px;color:#f1c40f;letter-spacing:3px}
+.reviews-score-count{font-size:12px;color:var(--gray);margin-top:4px;letter-spacing:.1em;text-transform:uppercase}
+.reviews-bars{flex:1}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:12px;color:var(--gray)}
+.bar-track{flex:1;height:6px;background:var(--border);overflow:hidden}
+.bar-fill{height:100%;background:#f1c40f;transition:width .6s ease}
+@media(max-width:600px){.reviews-summary{flex-direction:column;gap:1.5rem;text-align:center}}
+
+/* ══ POPUP BIENVENUE ══ */
+.welcome-popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s}
+.welcome-popup-overlay.show{opacity:1;pointer-events:all}
+.welcome-popup{background:var(--card);border:1px solid var(--border2);max-width:440px;width:100%;position:relative;animation:scaleIn .3s both;overflow:hidden}
+.welcome-popup-top{background:var(--red);padding:2rem;text-align:center}
+.welcome-popup-emoji{font-size:40px;margin-bottom:.5rem}
+.welcome-popup-top h2{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--white);letter-spacing:1px;line-height:1;margin-bottom:.3rem}
+.welcome-popup-top p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.5}
+.welcome-popup-body{padding:1.5rem}
+.welcome-popup-body p{font-size:13px;color:var(--gray-light);margin-bottom:1rem;line-height:1.6}
+.welcome-email-row{display:flex;gap:8px}
+.welcome-email-row input{flex:1;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:11px 14px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.welcome-email-row input:focus{border-color:var(--red)}
+.welcome-email-row input::placeholder{color:#444}
+.welcome-email-row button{background:var(--red);color:var(--white);border:none;padding:11px 18px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;letter-spacing:.04em;transition:background .2s}
+.welcome-email-row button:hover{background:var(--red-dark)}
+.welcome-skip{display:block;text-align:center;margin-top:12px;font-size:12px;color:var(--gray);cursor:pointer;text-decoration:underline;transition:color .2s}
+.welcome-skip:hover{color:var(--white)}
+.welcome-code{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--red);text-align:center;letter-spacing:4px;margin:.5rem 0}
+.welcome-copy-row{display:flex;justify-content:center;margin-bottom:.5rem}
+.welcome-copy-btn{background:transparent;border:1px solid var(--border2);color:var(--gray-light);padding:6px 16px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
+.welcome-copy-btn:hover{border-color:var(--white);color:var(--white)}
+
+/* ══ BOUTON WHATSAPP ══ */
+.whatsapp-float{position:fixed;bottom:2rem;right:2rem;z-index:900;display:flex;align-items:center;gap:10px;background:#25d366;color:#fff;border:none;padding:14px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(37,211,102,.4);text-decoration:none;letter-spacing:.04em}
+.whatsapp-float:hover{background:#1ebd5a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.5)}
+.whatsapp-float svg{width:20px;height:20px;flex-shrink:0}
+@media(max-width:600px){.whatsapp-float span{display:none}.whatsapp-float{padding:14px;border-radius:50%}}
+
+/* ══ SEARCH BAR ══ */
+.search-wrap{position:relative;max-width:420px;margin-bottom:1.5rem}
+.search-input{width:100%;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:11px 14px 11px 40px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--red)}
+.search-input::placeholder{color:#444}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:16px;pointer-events:none}
+.search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;border:none;color:var(--gray);cursor:pointer;font-size:16px;display:none;transition:color .2s;line-height:1}
+.search-clear:hover{color:var(--white)}
 </style>
 </head>
 <body>
@@ -310,6 +420,13 @@ footer img{height:40px;object-fit:contain}
 
 <div class="ticker"><div class="ticker-track" id="ticker-track"></div></div>
 
+<!-- ══ BANDEAU RÉASSURANCE ══ -->
+<div class="reassurance">
+  <div class="reassurance-item"><span class="reassurance-icon">🔒</span><div class="reassurance-text"><strong>Paiement sécurisé</strong>Stripe · SSL</div></div>
+  <div class="reassurance-item"><span class="reassurance-icon">🚚</span><div class="reassurance-text"><strong>Livraison rapide</strong>Partout en Guadeloupe</div></div>
+  <div class="reassurance-item"><span class="reassurance-icon">💎</span><div class="reassurance-text"><strong>Qualité garantie</strong>Protection renforcée</div></div>
+</div>
+
 <section class="section" id="offres">
   <div class="sec-label">Tarifs</div>
   <h2 class="sec-title">NOS OFFRES</h2>
@@ -325,6 +442,12 @@ footer img{height:40px;object-fit:contain}
   <div class="sec-label">Catalogue</div>
   <h2 class="sec-title">LES COQUES</h2>
   <div style="margin-bottom:2rem">
+    <!-- SEARCH BAR -->
+    <div class="search-wrap" style="margin-bottom:1.5rem">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="search-input" type="text" placeholder="Rechercher une coque..." oninput="onSearch(this.value)">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+    </div>
     <div class="filter-label">Marque</div>
     <div class="filter-row" style="margin-bottom:1.2rem">
       <button class="chip brand-chip active" data-brand="all" onclick="setBrand(this)">Tous</button>
@@ -335,6 +458,53 @@ footer img{height:40px;object-fit:contain}
     <div class="filter-row" id="cat-filters"></div>
   </div>
   <div class="product-grid" id="product-grid"></div>
+</section>
+
+<!-- ══ SECTION AVIS CLIENTS ══ -->
+<section class="section" id="avis">
+  <div class="sec-label">Avis clients</div>
+  <h2 class="sec-title">ILS NOUS FONT CONFIANCE</h2>
+  <div class="reviews-summary">
+    <div class="reviews-score">
+      <div class="reviews-score-num">4.9</div>
+      <div class="reviews-score-stars">★★★★★</div>
+      <div class="reviews-score-count">47 avis vérifiés</div>
+    </div>
+    <div class="reviews-bars">
+      <div class="bar-row"><span style="width:14px">5★</span><div class="bar-track"><div class="bar-fill" style="width:87%"></div></div><span style="min-width:30px;text-align:right">41</span></div>
+      <div class="bar-row"><span style="width:14px">4★</span><div class="bar-track"><div class="bar-fill" style="width:11%"></div></div><span style="min-width:30px;text-align:right">5</span></div>
+      <div class="bar-row"><span style="width:14px">3★</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div><span style="min-width:30px;text-align:right">1</span></div>
+      <div class="bar-row"><span style="width:14px">2★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span style="min-width:30px;text-align:right">0</span></div>
+      <div class="bar-row"><span style="width:14px">1★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span style="min-width:30px;text-align:right">0</span></div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card" style="grid-row:span 2;display:flex;flex-direction:column">
+      <div class="review-header"><div class="review-avatar-init">J</div><div class="review-meta"><div class="review-name">Jordan B.</div><div class="review-date">il y a 2 semaines · Les Abymes</div></div></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text" style="margin-bottom:1rem">Le site est clair, commande faite en 5 minutes. La coque est solide, le design est net. J'en ai commandé une autre directement !</p>
+      <img src="avis_coque_clean.jpg" alt="Coque VLONE reçue" style="width:100%;aspect-ratio:1/2;object-fit:cover;object-position:center;display:block;margin-top:auto" onerror="this.style.display='none'">
+      <span class="review-product" style="margin-top:.8rem">VLONE Crew</span>
+    </div>
+    <div class="review-card">
+      <div class="review-header"><div class="review-avatar-init">K</div><div class="review-meta"><div class="review-name">Kévin M.</div><div class="review-date">il y a 3 jours · Pointe-à-Pitre</div></div></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">La coque Zoro est exactement comme sur la photo, qualité vraiment bonne pour le prix. Livraison en 2 jours, super rapide !</p>
+      <span class="review-product">Zoro · Violet</span>
+    </div>
+    <div class="review-card">
+      <div class="review-header"><div class="review-avatar-init">M</div><div class="review-meta"><div class="review-name">Maeva L.</div><div class="review-date">il y a 1 semaine · Basse-Terre</div></div></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Pack de 3 coques, tout le monde est content ! Stitch pour ma fille, Dragon pour mon fils, Montagne pour moi. Super affaire 😊</p>
+      <span class="review-product">Pack ×3 coques</span>
+    </div>
+    <div class="review-card">
+      <div class="review-header"><div class="review-avatar-init">T</div><div class="review-meta"><div class="review-name">Thomas R.</div><div class="review-date">il y a 1 mois · Capesterre</div></div></div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Pack de 4 c'est le bon plan. 35€ pour 4 coques, c'est imbattable en Guadeloupe. Qualité nickel, belles finitions.</p>
+      <span class="review-product">Luffy · Pack ×4</span>
+    </div>
+  </div>
 </section>
 
 <section class="section" id="contact">
@@ -373,6 +543,11 @@ footer img{height:40px;object-fit:contain}
 <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
 <div class="cart-drawer" id="cart-drawer">
   <div class="cart-header"><h3>🛒 Mon Panier</h3><button class="close-btn" onclick="closeCart()">✕</button></div>
+  <div class="cart-progress-bar" id="cart-progress-bar" style="display:none">
+    <div class="progress-text" id="progress-text"></div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-labels" id="progress-labels"></div>
+  </div>
   <div class="cart-items" id="cart-items-list"></div>
   <div class="cart-footer">
     <div class="cart-summary" id="cart-summary"></div>
@@ -462,25 +637,57 @@ footer img{height:40px;object-fit:contain}
   </div>
 </div>
 
+<!-- ══ BOUTON WHATSAPP FLOTTANT ══ -->
+<a class="whatsapp-float" href="https://wa.me/590691267598?text=Bonjour%2C%20je%20souhaite%20commander%20une%20coque%20!" target="_blank">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<!-- ══ POPUP BIENVENUE ══ -->
+<div class="welcome-popup-overlay" id="welcome-popup-overlay">
+  <div class="welcome-popup">
+    <div class="welcome-popup-top">
+      <div class="welcome-popup-emoji">🎁</div>
+      <h2>-10% OFFERT</h2>
+      <p>Sur ta première commande !</p>
+    </div>
+    <div class="welcome-popup-body" id="popup-form-view">
+      <p>Laisse ton email pour recevoir ton code promo <strong style="color:var(--white)">exclusif</strong> et ne rater aucune promo.</p>
+      <div class="welcome-email-row">
+        <input type="email" id="popup-email" placeholder="ton@email.com">
+        <button onclick="claimPromo()">J'en profite</button>
+      </div>
+      <span class="welcome-skip" onclick="closeWelcomePopup()">Non merci, je paye plein tarif</span>
+    </div>
+    <div class="welcome-popup-body" id="popup-code-view" style="display:none;text-align:center">
+      <p style="margin-bottom:.5rem">Voici ton code promo :</p>
+      <div class="welcome-code">CASE10</div>
+      <div class="welcome-copy-row"><button class="welcome-copy-btn" onclick="copyCode()">📋 Copier le code</button></div>
+      <p style="font-size:12px;color:var(--gray);line-height:1.6">Saisis ce code lors du paiement pour bénéficier de -10%.</p>
+      <span class="welcome-skip" onclick="closeWelcomePopup()">Fermer et continuer mes achats →</span>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const PRODUCTS = [
-  { id:1,  name:'La Bleue Foncée',      cat:'street',  img:'Screenshot_20260425_164640_AliExpress.jpg',  colors:null },
-  { id:2,  name:'Masque VLONE',         cat:'street',  img:'Screenshot_20260425_165727_AliExpress.jpg',  colors:null },
-  { id:3,  name:'VLONE Crew',           cat:'street',  img:'Screenshot_20260425_165738_AliExpress.jpg',  colors:null },
-  { id:4,  name:'Big Trip (Bleu)',       cat:'nature',  img:'Screenshot_20260425_170853_AliExpress.jpg',  colors:null },
-  { id:5,  name:'Stitch Angry',         cat:'stitch',  img:'Screenshot_20260425_171320_AliExpress.jpg',  colors:null },
-  { id:6,  name:'Stitch Mignon',        cat:'stitch',  img:'Screenshot_20260425_171324_AliExpress.jpg',  colors:null },
-  { id:7,  name:'Stitch Clear',         cat:'stitch',  img:'Screenshot_20260425_171337_AliExpress.jpg',  colors:null },
-  { id:8,  name:'Grand Voyage (Rose)',  cat:'nature',  img:'Screenshot_20260425_171405_Gallery.jpg',      colors:null },
-  { id:9,  name:'Zoro',                 cat:'anime',   img:'Screenshot_20260425_190330_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_190330_AliExpress.jpg','violet':'Screenshot_20260425_190335_AliExpress.jpg','vert':'Screenshot_20260425_190338_AliExpress.jpg','noir':'Screenshot_20260425_190342_AliExpress.jpg'} },
-  { id:10, name:'Dragon Ancestral',     cat:'dragon',  img:'Screenshot_20260425_203833_AliExpress.jpg',  colors:['noir','blanc'], defaultImg:{'noir':'Screenshot_20260426_141449_Gallery.jpg','blanc':'Screenshot_20260425_203833_AliExpress.jpg'} },
-  { id:11, name:'Marvel Iron Man',      cat:'marvel',  img:'Screenshot_20260501_143856_AliExpress.jpg',  colors:null },
-  { id:12, name:'Black Panther Marvel', cat:'marvel',  img:'Screenshot_20260501_143902_AliExpress.jpg',  colors:null },
-  { id:13, name:'Marvel Spider-Man',    cat:'marvel',  img:'Screenshot_20260501_143947_AliExpress.jpg',  colors:null },
-  { id:14, name:'Luffy',                cat:'anime',   img:'Screenshot_20260425_160644_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_160644_AliExpress.jpg','violet':'Screenshot_20260425_160644_AliExpress.jpg','vert':'Screenshot_20260425_160644_AliExpress.jpg','noir':'Screenshot_20260425_160644_AliExpress.jpg'} },
-  { id:15, name:'Montagne Beige',       cat:'nature',  img:'Screenshot_20260426_141433_AliExpress.jpg',  colors:null },
+  { id:1,  name:'La Bleue Foncée',      cat:'street',  img:'Screenshot_20260425_164640_AliExpress.jpg',  colors:null, stock:4 },
+  { id:2,  name:'Masque VLONE',         cat:'street',  img:'Screenshot_20260425_165727_AliExpress.jpg',  colors:null, stock:2 },
+  { id:3,  name:'VLONE Crew',           cat:'street',  img:'Screenshot_20260425_165738_AliExpress.jpg',  colors:null, stock:5 },
+  { id:4,  name:'Big Trip (Bleu)',       cat:'nature',  img:'Screenshot_20260425_170853_AliExpress.jpg',  colors:null, stock:3 },
+  { id:5,  name:'Stitch Angry',         cat:'stitch',  img:'Screenshot_20260425_171320_AliExpress.jpg',  colors:null, stock:6 },
+  { id:6,  name:'Stitch Mignon',        cat:'stitch',  img:'Screenshot_20260425_171324_AliExpress.jpg',  colors:null, stock:2 },
+  { id:7,  name:'Stitch Clear',         cat:'stitch',  img:'Screenshot_20260425_171337_AliExpress.jpg',  colors:null, stock:7 },
+  { id:8,  name:'Grand Voyage (Rose)',  cat:'nature',  img:'Screenshot_20260425_171405_Gallery.jpg',      colors:null, stock:3 },
+  { id:9,  name:'Zoro',                 cat:'anime',   img:'Screenshot_20260425_190330_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_190330_AliExpress.jpg','violet':'Screenshot_20260425_190335_AliExpress.jpg','vert':'Screenshot_20260425_190338_AliExpress.jpg','noir':'Screenshot_20260425_190342_AliExpress.jpg'}, stock:4 },
+  { id:10, name:'Dragon Ancestral',     cat:'dragon',  img:'Screenshot_20260425_203833_AliExpress.jpg',  colors:['noir','blanc'], defaultImg:{'noir':'Screenshot_20260426_141449_Gallery.jpg','blanc':'Screenshot_20260425_203833_AliExpress.jpg'}, stock:2 },
+  { id:11, name:'Marvel Iron Man',      cat:'marvel',  img:'Screenshot_20260501_143856_AliExpress.jpg',  colors:null, stock:5 },
+  { id:12, name:'Black Panther Marvel', cat:'marvel',  img:'Screenshot_20260501_143902_AliExpress.jpg',  colors:null, stock:3 },
+  { id:13, name:'Marvel Spider-Man',    cat:'marvel',  img:'Screenshot_20260501_143947_AliExpress.jpg',  colors:null, stock:6 },
+  { id:14, name:'Luffy',                cat:'anime',   img:'Screenshot_20260425_160644_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_160644_AliExpress.jpg','violet':'Screenshot_20260425_160644_AliExpress.jpg','vert':'Screenshot_20260425_160644_AliExpress.jpg','noir':'Screenshot_20260425_160644_AliExpress.jpg'}, stock:8 },
+  { id:15, name:'Montagne Beige',       cat:'nature',  img:'Screenshot_20260426_141433_AliExpress.jpg',  colors:null, stock:3 },
 ];
 
 const CAT_LABELS = { tous:'Tous', marvel:'Marvel', anime:'Anime', stitch:'Stitch', nature:'Nature', street:'Street', dragon:'Dragon' };
@@ -493,7 +700,7 @@ const EMAILJS_PUBLIC_KEY  = 'vzvnfomCAfceg_hCi';
 const SHOP_EMAIL          = 'Lacaseshop971@gmail.com';
 const SHOP_WHATSAPP       = '590691267598';
 
-let selBrand = 'all', selCat = 'tous';
+let selBrand = 'all', selCat = 'tous', searchQuery = '';
 let selectedColors = {};
 let cart = JSON.parse(localStorage.getItem('lcs_cart')||'[]');
 let currentUser = JSON.parse(localStorage.getItem('lcs_user')||'null');
@@ -515,10 +722,24 @@ CATS.forEach(c=>{
 stripe = Stripe(STRIPE_KEY);
 emailjs.init(EMAILJS_PUBLIC_KEY);
 updateAuthUI(); renderCart(); renderGrid();
+initWelcomePopup();
 
 // FILTERS
 function setCat(el){ selCat=el.dataset.cat; document.querySelectorAll('.chip:not(.brand-chip)').forEach(b=>b.classList.remove('active')); el.classList.add('active'); renderGrid(); }
 function setBrand(el){ selBrand=el.dataset.brand; document.querySelectorAll('.brand-chip').forEach(b=>b.classList.remove('active')); el.classList.add('active'); renderGrid(); }
+
+// SEARCH
+function onSearch(val){
+  searchQuery = val.trim().toLowerCase();
+  document.getElementById('search-clear').style.display = searchQuery ? 'block' : 'none';
+  renderGrid();
+}
+function clearSearch(){
+  document.getElementById('search-input').value='';
+  searchQuery='';
+  document.getElementById('search-clear').style.display='none';
+  renderGrid();
+}
 
 // RENDER
 function getProductImg(p, overrideColor){
@@ -529,7 +750,8 @@ function getProductImg(p, overrideColor){
 
 function renderGrid(){
   const grid = document.getElementById('product-grid');
-  const filtered = PRODUCTS.filter(p=> selCat==='tous' || p.cat===selCat);
+  let filtered = PRODUCTS.filter(p=> selCat==='tous' || p.cat===selCat);
+  if(searchQuery) filtered = filtered.filter(p=> p.name.toLowerCase().includes(searchQuery) || CAT_LABELS[p.cat].toLowerCase().includes(searchQuery));
   if(!filtered.length){ grid.innerHTML='<div class="empty-state">Aucune coque pour ce filtre</div>'; return; }
   grid.innerHTML = filtered.map(p=>{
     const inCart = cart.some(i=>i.id===p.id && i.color===(selectedColors[p.id]||null));
@@ -539,6 +761,8 @@ function renderGrid(){
     if(p.colors){
       colorHtml = `<div class="color-selector">${p.colors.map(c=>`<div class="color-dot${colorSel===c?' selected':''}" data-color="${c}" title="${c}" onclick="selectColor(event,${p.id},'${c}')"></div>`).join('')}</div><div class="color-label">Couleur : ${colorSel||p.colors[0]}</div>`;
     }
+    const stockHtml = p.stock && p.stock <= 5
+      ? `<div class="stock-badge"><span class="stock-dot"></span>Plus que ${p.stock} en stock !</div>` : '';
     return `<div class="product-card${inCart?' in-cart':''}" id="pcard-${p.id}" onclick="openProductModal(${p.id})">
       <div class="prod-add-btn" onclick="toggleCart(event,${p.id})">${inCart?'✓':'+'}</div>
       <div class="prod-img"><img src="${img}" alt="${p.name}" loading="lazy" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'"></div>
@@ -548,9 +772,58 @@ function renderGrid(){
         <div class="prod-brand">iPhone · Samsung</div>
         ${colorHtml}
         <div class="prod-price">12€</div>
+        ${stockHtml}
       </div>
     </div>`;
   }).join('');
+}
+
+// ══ PROGRESS BAR PANIER ══
+const PACK_STEPS = [1,2,3,4];
+function renderCartProgress(total_qty){
+  const bar = document.getElementById('cart-progress-bar');
+  const text = document.getElementById('progress-text');
+  const fill = document.getElementById('progress-fill');
+  const labels = document.getElementById('progress-labels');
+  if(!bar) return;
+  if(total_qty === 0){ bar.style.display='none'; return; }
+  bar.style.display='block';
+  const maxStep = 4;
+  const pct = Math.min((total_qty / maxStep) * 100, 100);
+  fill.style.width = pct + '%';
+  if(total_qty >= 4){
+    text.innerHTML = `🎉 <strong>Pack ×4 débloqué !</strong> Tu profites du meilleur tarif.`;
+  } else {
+    const next = [2,3,4].find(n=>n>total_qty);
+    const diff = next - total_qty;
+    const savings = {2:2,3:6,4:13};
+    text.innerHTML = `Plus que <strong>${diff} coque${diff>1?'s':''}</strong> pour économiser <strong>${savings[next]}€</strong> avec le pack ×${next} !`;
+  }
+  labels.innerHTML = PACK_STEPS.map(n=>`<span class="${total_qty>=n?'reached':''}" style="width:25%;text-align:center">×${n}</span>`).join('');
+}
+
+// ══ POPUP BIENVENUE ══
+function initWelcomePopup(){
+  if(localStorage.getItem('lcs_popup_seen')) return;
+  setTimeout(()=>{
+    const overlay = document.getElementById('welcome-popup-overlay');
+    if(overlay) overlay.classList.add('show');
+  }, 3500);
+}
+function closeWelcomePopup(){
+  localStorage.setItem('lcs_popup_seen','1');
+  document.getElementById('welcome-popup-overlay').classList.remove('show');
+}
+function claimPromo(){
+  const email = document.getElementById('popup-email').value.trim();
+  if(!email || !email.includes('@')){ showToast('Saisis un email valide !'); return; }
+  localStorage.setItem('lcs_popup_seen','1');
+  localStorage.setItem('lcs_promo_email', email);
+  document.getElementById('popup-form-view').style.display='none';
+  document.getElementById('popup-code-view').style.display='block';
+}
+function copyCode(){
+  navigator.clipboard.writeText('CASE10').then(()=>showToast('Code <strong>CASE10</strong> copié ! 🎉')).catch(()=>showToast('Code : CASE10'));
 }
 
 function selectColor(e, pid, color){
@@ -713,6 +986,7 @@ function renderCart(){
   const checkoutSummary = document.getElementById('checkout-summary');
   const {total_qty, normal_price, discounted, saving} = getTotals();
   if(total_qty>0){ badge.style.display='flex'; badge.textContent=total_qty; } else badge.style.display='none';
+  renderCartProgress(total_qty);
   if(!cart.length){
     list.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div>Ton panier est vide</div>`;
   } else {
