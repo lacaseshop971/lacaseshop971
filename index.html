@@ -37,7 +37,7 @@ body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;background:rgba(8,8,8,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:500}
-.nav-logo img{height:46px;object-fit:contain}
+.nav-logo img{height:52px;object-fit:contain;display:block}
 .nav-logo-fallback{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;display:none}
 .nav-logo-fallback span{color:var(--red)}
 .nav-actions{display:flex;align-items:center;gap:10px}
@@ -381,10 +381,14 @@ footer img{height:40px;object-fit:contain}
 
 <nav>
   <div class="nav-logo">
-    <img src="ChatGPT_Image_1_mai_2026__13_06_42.png" alt="La Case Shop" onerror="this.style.display='none';document.querySelector('.nav-logo-fallback').style.display='block'">
+    <img src="ChatGPT_Image_1_mai_2026__13_06_42.png" alt="La Case Shop" onerror="this.style.opacity='0';document.querySelector('.nav-logo-fallback').style.display='block'">
     <div class="nav-logo-fallback">LA CASE<span> SHOP</span></div>
   </div>
   <div class="nav-actions">
+    <a href="https://www.instagram.com/la_case_shop/" target="_blank" class="nav-btn" style="text-decoration:none;gap:6px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      @la_case_shop
+    </a>
     <div class="nav-user-wrap" id="nav-user-wrap">
       <button class="nav-btn" id="auth-btn" onclick="openAuthModal()">👤 Connexion</button>
       <div class="user-dropdown" id="user-dropdown">
@@ -404,12 +408,12 @@ footer img{height:40px;object-fit:contain}
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-slash"></div>
-  <div class="hero-eyebrow">Guadeloupe — Livraison rapide</div>
+  <div class="hero-eyebrow"><a href="https://www.instagram.com/la_case_shop/" target="_blank" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:10px">Suis-nous sur Instagram · @la_case_shop</a></div>
   <h1 class="hero-h1">PROTÈGE<br><span class="outline">TON</span><br><span class="red">STYLE.</span></h1>
   <p class="hero-sub">Coques premium pour iPhone & Samsung. Designs exclusifs — Marvel, Anime, Stitch, Nature et plus encore.</p>
   <div class="hero-cta">
     <a href="#catalogue" class="btn btn-red">Voir les coques</a>
-    <a href="#offres" class="btn btn-ghost">Nos offres</a>
+    <a href="https://www.instagram.com/la_case_shop/" target="_blank" class="btn btn-ghost" style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Instagram</a>
   </div>
   <div class="hero-stats">
     <div class="stat"><div class="stat-n">18<em>+</em></div><div class="stat-l">Designs</div><div class="stat-hr"></div></div>
@@ -480,26 +484,26 @@ footer img{height:40px;object-fit:contain}
   </div>
   <div class="reviews-grid">
     <div class="review-card" style="grid-row:span 2;display:flex;flex-direction:column">
-      <div class="review-header"><div class="review-avatar-init">J</div><div class="review-meta"><div class="review-name">Jordan B.</div><div class="review-date">il y a 2 semaines · Les Abymes</div></div></div>
+      <div class="review-header"><div class="review-avatar-init">J</div><div class="review-meta"><div class="review-name">Jordan B.</div><div class="review-date">il y a 3 semaines · Les Abymes</div></div></div>
       <div class="review-stars">★★★★★</div>
-      <p class="review-text" style="margin-bottom:1rem">Le site est clair, commande faite en 5 minutes. La coque est solide, le design est net. J'en ai commandé une autre directement !</p>
+      <p class="review-text" style="margin-bottom:1rem">Le site est clair, commande faite en 5 minutes. La coque est solide, le design est net. Très content de ma VLONE, je recommande !</p>
       <img src="avis_coque_clean.jpg" alt="Coque VLONE reçue" style="width:100%;aspect-ratio:1/2;object-fit:cover;object-position:center;display:block;margin-top:auto" onerror="this.style.display='none'">
       <span class="review-product" style="margin-top:.8rem">VLONE Crew</span>
     </div>
     <div class="review-card">
-      <div class="review-header"><div class="review-avatar-init">K</div><div class="review-meta"><div class="review-name">Kévin M.</div><div class="review-date">il y a 3 jours · Pointe-à-Pitre</div></div></div>
+      <div class="review-header"><div class="review-avatar-init">K</div><div class="review-meta"><div class="review-name">Kévin M.</div><div class="review-date">il y a 1 mois · Pointe-à-Pitre</div></div></div>
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">La coque Zoro est exactement comme sur la photo, qualité vraiment bonne pour le prix. Livraison en 2 jours, super rapide !</p>
+      <p class="review-text">La coque Zoro est exactement comme sur la photo, qualité vraiment bonne pour le prix. Parfait pour protéger mon téléphone en style !</p>
       <span class="review-product">Zoro · Violet</span>
     </div>
     <div class="review-card">
-      <div class="review-header"><div class="review-avatar-init">M</div><div class="review-meta"><div class="review-name">Maeva L.</div><div class="review-date">il y a 1 semaine · Basse-Terre</div></div></div>
+      <div class="review-header"><div class="review-avatar-init">M</div><div class="review-meta"><div class="review-name">Maeva L.</div><div class="review-date">il y a 1 mois · Basse-Terre</div></div></div>
       <div class="review-stars">★★★★★</div>
       <p class="review-text">Pack de 3 coques, tout le monde est content ! Stitch pour ma fille, Dragon pour mon fils, Montagne pour moi. Super affaire 😊</p>
       <span class="review-product">Pack ×3 coques</span>
     </div>
     <div class="review-card">
-      <div class="review-header"><div class="review-avatar-init">T</div><div class="review-meta"><div class="review-name">Thomas R.</div><div class="review-date">il y a 1 mois · Capesterre</div></div></div>
+      <div class="review-header"><div class="review-avatar-init">T</div><div class="review-meta"><div class="review-name">Thomas R.</div><div class="review-date">il y a 5 semaines · Capesterre</div></div></div>
       <div class="review-stars">★★★★★</div>
       <p class="review-text">Pack de 4 c'est le bon plan. 35€ pour 4 coques, c'est imbattable en Guadeloupe. Qualité nickel, belles finitions.</p>
       <span class="review-product">Luffy · Pack ×4</span>
@@ -514,9 +518,9 @@ footer img{height:40px;object-fit:contain}
       <div class="contact-title">PASSE<br>TA COMMANDE</div>
       <p class="contact-text">Contacte-nous directement sur Instagram ou par email. On te répond rapidement et on livre partout en Guadeloupe !</p>
       <div class="contact-links">
-        <a href="https://www.instagram.com/la_case_shop/" target="_blank" class="contact-link"><span class="contact-icon">📸</span><div><div style="font-weight:500">Instagram</div><div style="font-size:12px;color:var(--gray)">@la_case_shop</div></div></a>
-        <a href="mailto:Lacaseshop971@gmail.com" class="contact-link"><span class="contact-icon">✉️</span><div><div style="font-weight:500">Email</div><div style="font-size:12px;color:var(--gray)">Lacaseshop971@gmail.com</div></div></a>
+        <a href="https://www.instagram.com/la_case_shop/" target="_blank" class="contact-link" style="border:1px solid rgba(232,18,26,.3);padding:14px;background:rgba(232,18,26,.05);margin-bottom:8px"><span class="contact-icon">📸</span><div><div style="font-weight:600;font-size:15px">Instagram — commande ici !</div><div style="font-size:12px;color:var(--gray)">@la_case_shop · Message direct pour passer commande</div></div><span style="margin-left:auto;color:var(--red);font-size:18px">→</span></a>
         <a href="https://wa.me/590691267598" target="_blank" class="contact-link"><span class="contact-icon">💬</span><div><div style="font-weight:500">WhatsApp</div><div style="font-size:12px;color:var(--gray)">+590 691 26 75 98</div></div></a>
+        <a href="mailto:Lacaseshop971@gmail.com" class="contact-link"><span class="contact-icon">✉️</span><div><div style="font-weight:500">Email</div><div style="font-size:12px;color:var(--gray)">Lacaseshop971@gmail.com</div></div></a>
         <div class="contact-link" style="cursor:default"><span class="contact-icon">📍</span><div><div style="font-weight:500">Livraison</div><div style="font-size:12px;color:var(--gray)">Partout en Guadeloupe</div></div></div>
       </div>
     </div>
@@ -529,7 +533,7 @@ footer img{height:40px;object-fit:contain}
 </section>
 
 <footer>
-  <img src="ChatGPT_Image_1_mai_2026__13_06_42.png" alt="La Case Shop" onerror="this.style.display='none'">
+  <img src="ChatGPT_Image_1_mai_2026__13_06_42.png" alt="La Case Shop" style="height:48px;object-fit:contain" onerror="this.style.opacity='0'">
   <div class="footer-links">
     <a href="https://www.instagram.com/la_case_shop/" target="_blank" class="footer-link">Instagram</a>
     <a href="mailto:Lacaseshop971@gmail.com" class="footer-link">Email</a>
@@ -709,7 +713,7 @@ let currentProductModal = null; // product id currently in modal
 
 // INIT
 document.getElementById('yr').textContent = new Date().getFullYear();
-const TI = ['COQUES PREMIUM','IPHONE','SAMSUNG','MARVEL','ANIME','STITCH','LIVRAISON GUADELOUPE','DESIGNS EXCLUSIFS','LA CASE SHOP'];
+const TI = ['COQUES PREMIUM','IPHONE','SAMSUNG','MARVEL','ANIME','STITCH','@LA_CASE_SHOP SUR INSTAGRAM','DESIGNS EXCLUSIFS','LA CASE SHOP'];
 const tk = document.getElementById('ticker-track');
 tk.innerHTML = TI.map(t=>`<span class="ticker-item">${t}</span><span class="ticker-dot">·</span>`).join('').repeat(2);
 const cf = document.getElementById('cat-filters');
