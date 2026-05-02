@@ -147,6 +147,22 @@ nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-
 .color-dot[data-color="noir"]{background:#1a1a1a;border-color:#444}
 .color-dot[data-color="violet"]{background:#6b21a8}
 .color-dot[data-color="vert"]{background:#16a34a}
+.color-dot[data-color="bleu"]{background:#2563eb}
+.color-dot[data-color="gold"]{background:linear-gradient(135deg,#f5c842,#c8860a)}
+.color-dot[data-color="black"]{background:#0a0a0a;border-color:#444}
+.color-dot[data-color="white"]{background:#f5f5f5;border-color:#555}
+.color-dot[data-color="bleu-vert-b"]{background:linear-gradient(135deg,#22c55e,#3b82f6)}
+.color-dot[data-color="bleu-vert-w"]{background:linear-gradient(135deg,#86efac,#93c5fd)}
+.color-dot[data-color="bleu-violet-w"]{background:linear-gradient(135deg,#ec4899,#3b82f6)}
+.color-dot[data-color="degrade-bleu"]{background:linear-gradient(135deg,#1e3a8a,#60a5fa)}
+.color-dot[data-color="degrade-violet"]{background:linear-gradient(135deg,#7e22ce,#f0abfc)}
+.color-dot[data-color="moon-bleu"]{background:linear-gradient(135deg,#bfdbfe,#1e40af)}
+.color-dot[data-color="moon-red"]{background:linear-gradient(135deg,#ef4444,#7f1d1d)}
+.color-dot[data-color="moon-dark-red"]{background:linear-gradient(135deg,#450a0a,#dc2626)}
+.color-dot[data-color="moon-rose"]{background:linear-gradient(135deg,#fda4af,#be123c)}
+.color-dot[data-color="gang-noir"]{background:#111;border-color:#444}
+.color-dot[data-color="gang-violet"]{background:#4c1d95}
+.color-dot[data-color="gang-white"]{background:#e5e5e5;border-color:#555}
 .color-label{font-size:10px;color:var(--gray);margin-top:6px;letter-spacing:.08em;text-transform:uppercase}
 .empty-state{grid-column:1/-1;padding:4rem;text-align:center;color:var(--gray);font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:var(--black)}
 
@@ -680,20 +696,32 @@ const PRODUCTS = [
   { id:1,  name:'La Bleue Foncée',      cat:'street',  img:'Screenshot_20260425_164640_AliExpress.jpg',  colors:null, stock:4 },
   { id:2,  name:'Masque VLONE',         cat:'street',  img:'Screenshot_20260425_165727_AliExpress.jpg',  colors:null, stock:2 },
   { id:3,  name:'VLONE Crew',           cat:'street',  img:'Screenshot_20260425_165738_AliExpress.jpg',  colors:null, stock:5 },
-  { id:4,  name:'Big Trip (Bleu)',       cat:'nature',  img:'Screenshot_20260425_170853_AliExpress.jpg',  colors:null, stock:3 },
+  { id:4,  name:'Big Trip',             cat:'nature',  img:'Big_Trip_Bleu.jpeg', colors:['bleu','violet'], defaultImg:{'bleu':'Big_Trip_Bleu.jpeg','violet':'Big_Trip_Violet.jpeg'}, stock:5 },
   { id:5,  name:'Stitch Angry',         cat:'stitch',  img:'Screenshot_20260425_171320_AliExpress.jpg',  colors:null, stock:6 },
   { id:6,  name:'Stitch Mignon',        cat:'stitch',  img:'Screenshot_20260425_171324_AliExpress.jpg',  colors:null, stock:2 },
   { id:7,  name:'Stitch Clear',         cat:'stitch',  img:'Screenshot_20260425_171337_AliExpress.jpg',  colors:null, stock:7 },
   { id:8,  name:'Grand Voyage (Rose)',  cat:'nature',  img:'Screenshot_20260425_171405_Gallery.jpg',      colors:null, stock:3 },
   { id:9,  name:'Zoro',                 cat:'anime',   img:'Screenshot_20260425_190330_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_190330_AliExpress.jpg','violet':'Screenshot_20260425_190335_AliExpress.jpg','vert':'Screenshot_20260425_190338_AliExpress.jpg','noir':'Screenshot_20260425_190342_AliExpress.jpg'}, stock:4 },
-  { id:10, name:'Dragon Ancestral',     cat:'dragon',  img:'Screenshot_20260425_203833_AliExpress.jpg',  colors:['noir','blanc'], defaultImg:{'noir':'Screenshot_20260426_141449_Gallery.jpg','blanc':'Screenshot_20260425_203833_AliExpress.jpg'}, stock:2 },
+  { id:10, name:'Dragon Ancestral',     cat:'dragon',  img:'Screenshot_20260425_203833_AliExpress.jpg',  colors:['noir','blanc'], defaultImg:{'noir':'Screenshot_20260426_141433_AliExpress.jpg','blanc':'Screenshot_20260425_203833_AliExpress.jpg'}, stock:2 },
   { id:11, name:'Marvel Iron Man',      cat:'marvel',  img:'Screenshot_20260501_143856_AliExpress.jpg',  colors:null, stock:5 },
   { id:12, name:'Black Panther Marvel', cat:'marvel',  img:'Screenshot_20260501_143902_AliExpress.jpg',  colors:null, stock:3 },
   { id:13, name:'Marvel Spider-Man',    cat:'marvel',  img:'Screenshot_20260501_143947_AliExpress.jpg',  colors:null, stock:6 },
   { id:14, name:'Luffy',                cat:'anime',   img:'Screenshot_20260425_160644_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_160644_AliExpress.jpg','violet':'Screenshot_20260425_160644_AliExpress.jpg','vert':'Screenshot_20260425_160644_AliExpress.jpg','noir':'Screenshot_20260425_160644_AliExpress.jpg'}, stock:8 },
-  { id:15, name:'Dragon Ancestral II',  cat:'dragon',  img:'Screenshot_20260426_141433_AliExpress.jpg',  colors:null, stock:3 },
+  { id:16, name:'Big Trip Moon',        cat:'nature',  img:'Big_Trip_Moon_Bleu.jpeg', colors:['moon-bleu','moon-red','moon-dark-red','moon-rose'], defaultImg:{'moon-bleu':'Big_Trip_Moon_Bleu.jpeg','moon-red':'Big_Trip_Moon_Red.jpeg','moon-dark-red':'Big_Trip_Moon_Dark_Red.jpeg','moon-rose':'Big_Trip_Moon_Rose.jpeg'}, stock:5 },
+  { id:17, name:'VLONE',                cat:'street',  img:'VLONE_Black.jpeg', colors:['black','violet'], defaultImg:{'black':'VLONE_Black.jpeg','violet':'VLONE_Violet.jpeg'}, stock:4 },
+  { id:18, name:'VLONE Gang',           cat:'street',  img:'VLONE_Gang_Noir.jpeg', colors:['gang-noir','gang-violet','gang-white'], defaultImg:{'gang-noir':'VLONE_Gang_Noir.jpeg','gang-violet':'VLONE_Gang_Violet.jpeg','gang-white':'VLONE_Gang_White.jpeg'}, stock:4 },
+  { id:19, name:'VFlow',                cat:'street',  img:'VFlow_Black.jpeg', colors:['black','white','degrade-violet','degrade-bleu','bleu-vert-b','bleu-vert-w','bleu-violet-w','gold'], defaultImg:{'black':'VFlow_Black.jpeg','white':'VFlow_White.jpeg','degrade-violet':'VFlow__Dégradé_Violet.jpeg','degrade-bleu':'VFlow_Dégradé_Bleu.jpeg','bleu-vert-b':'VFlow_B_dégradé_Bleu_et_Vert.jpeg','bleu-vert-w':'VFlow_W_dégradé_Bleu_et_Vert.jpeg','bleu-violet-w':'VFlow_W_dégradé_Bleu_et_Violet.jpeg','gold':'VFlow_Gold.jpeg'}, stock:6 },
 ];
 
+const COLOR_LABELS = {
+  'blanc':'Blanc','noir':'Noir','violet':'Violet','vert':'Vert','bleu':'Bleu',
+  'gold':'Gold','black':'Black','white':'White',
+  'bleu-vert-b':'Dégradé Bleu & Vert (Noir)','bleu-vert-w':'Dégradé Bleu & Vert (Blanc)',
+  'bleu-violet-w':'Dégradé Bleu & Violet (Blanc)','degrade-bleu':'Dégradé Bleu',
+  'degrade-violet':'Dégradé Violet','moon-bleu':'Lune Bleue','moon-red':'Lune Rouge',
+  'moon-dark-red':'Lune Dark Red','moon-rose':'Lune Rosé',
+  'gang-noir':'Noir','gang-violet':'Violet','gang-white':'Blanc'
+};
 const CAT_LABELS = { tous:'Tous', marvel:'Marvel', anime:'Anime', stitch:'Stitch', nature:'Nature', street:'Street', dragon:'Dragon' };
 const CATS = Object.keys(CAT_LABELS);
 const PRICE_MAP = n => n<=0?0:n===1?12:n===2?22:n===3?30:n===4?35:35+(n-4)*10;
@@ -763,9 +791,11 @@ function renderGrid(){
     const colorSel = selectedColors[p.id] || (p.colors ? p.colors[0] : null);
     let colorHtml = '';
     if(p.colors){
-      colorHtml = `<div class="color-selector">${p.colors.map(c=>`<div class="color-dot${colorSel===c?' selected':''}" data-color="${c}" title="${c}" onclick="selectColor(event,${p.id},'${c}')"></div>`).join('')}</div><div class="color-label">Couleur : ${colorSel||p.colors[0]}</div>`;
+      colorHtml = `<div class="color-selector">${p.colors.map(c=>`<div class="color-dot${colorSel===c?' selected':''}" data-color="${c}" title="${COLOR_LABELS[c]||c}" onclick="selectColor(event,${p.id},'${c}')"></div>`).join('')}</div><div class="color-label">Couleur : ${COLOR_LABELS[colorSel]||colorSel||COLOR_LABELS[p.colors[0]]||p.colors[0]}</div>`;
     }
-    const stockHtml = p.stock && p.stock <= 5
+    const stockHtml = p.stock === 0
+      ? `<div class="stock-badge" style="color:#e8121a">💀 Victime de son succès !</div>`
+      : p.stock <= 5
       ? `<div class="stock-badge"><span class="stock-dot"></span>Plus que ${p.stock} en stock !</div>` : '';
     return `<div class="product-card${inCart?' in-cart':''}" id="pcard-${p.id}" onclick="openProductModal(${p.id})">
       <div class="prod-add-btn" onclick="toggleCart(event,${p.id})">${inCart?'✓':'+'}</div>
@@ -861,7 +891,7 @@ function openProductModal(pid){
   if(p.colors){
     colorsDiv.style.display = 'block';
     dotsDiv.innerHTML = p.colors.map(c=>`
-      <div class="color-dot${selectedColors[pid]===c?' selected':''}" data-color="${c}" title="${c}"
+      <div class="color-dot${selectedColors[pid]===c?' selected':''}" data-color="${c}" title="${COLOR_LABELS[c]||c}"
            onclick="pmSelectColor('${c}')"></div>`).join('');
     document.getElementById('pm-color-label').textContent = 'Couleur sélectionnée : ' + (selectedColors[pid]||p.colors[0]);
   } else {
