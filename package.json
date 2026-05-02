@@ -1,0 +1,8 @@
+{
+  "name": "lacaseshop",
+  "version": "1.0.0",
+  "description": "La Case Shop — Boutique coques premium Guadeloupe",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}
