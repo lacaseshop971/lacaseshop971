@@ -615,6 +615,7 @@ footer img{height:40px;object-fit:contain}
     <label style="font-size:11px;color:var(--gray-light);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:6px">Carte bancaire</label>
     <div id="card-element"></div>
     <div id="card-errors"></div>
+    <div class="form-group"><label>Modèle de téléphone</label><input type="text" id="phone-model" placeholder="Ex: iPhone 15 Pro, Samsung S24..."></div>
     <div class="form-group"><label>Adresse de livraison (commune)</label><input type="text" id="delivery-address" placeholder="Ex: Pointe-à-Pitre, Basse-Terre..."></div>
     <button class="checkout-btn" id="pay-btn" onclick="processPayment()">
       <span class="lock-icon">🔒</span> <span id="pay-btn-text">Confirmer et payer</span>
@@ -1163,7 +1164,9 @@ async function processPayment(){
   const {discounted,total_qty}=getTotals();
   const cardName=document.getElementById('card-name').value.trim();
   const address=document.getElementById('delivery-address').value.trim();
+  const phoneModel=document.getElementById('phone-model').value.trim();
   if(!cardName){ document.getElementById('card-errors').textContent='Saisis le nom sur ta carte.'; return; }
+  if(!phoneModel){ document.getElementById('card-errors').textContent='Saisis ton modèle de téléphone.'; return; }
   if(!address){ document.getElementById('card-errors').textContent='Saisis ton adresse de livraison.'; return; }
   const btn=document.getElementById('pay-btn');
   btn.disabled=true;
@@ -1174,6 +1177,9 @@ async function processPayment(){
   const itemsList=cart.map(i=>`• ${i.name}${i.color?' ('+i.color+')':''} ×${i.qty} = ${i.qty*12}€`).join('\n');
   const itemsHtml=cart.map(i=>`<tr><td style="padding:6px 12px">${i.name}${i.color?' <em>('+i.color+')</em>':''}</td><td style="padding:6px 12px;text-align:center">×${i.qty}</td><td style="padding:6px 12px;text-align:right;color:#e8121a;font-weight:600">${i.qty*12}€</td></tr>`).join('');
   const orderDetails=cart.map(i=>`${i.name}${i.color?' ('+i.color+')':''} ×${i.qty}`).join(', ');
+  // Build image links for each product
+  const imgBaseUrl = window.location.origin;
+  const itemsWithImgs = cart.map(i=>`• ${i.name}${i.color?' ('+i.color+')':''} ×${i.qty}\n  🖼️ ${imgBaseUrl}/${i.img}`).join('\n');
   try {
     document.getElementById('pay-btn-text').textContent='⏳ Initialisation du paiement...';
     const intentRes=await fetch('/api/create-payment-intent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:discounted,currency:'eur',customerEmail:currentUser.email,customerName:currentUser.name,orderDetails})});
@@ -1185,7 +1191,7 @@ async function processPayment(){
     if(paymentIntent.status!=='succeeded') throw new Error('Le paiement n\'a pas abouti. Réessaie.');
     const order={
       id:orderId, date:orderDate, items:[...cart], total:discounted,
-      address, status:'Confirmée', paymentIntentId:paymentIntent.id,
+      address, phoneModel, status:'Confirmée', paymentIntentId:paymentIntent.id,
       clientName:currentUser.name, clientEmail:currentUser.email,
       clientTel:currentUser.tel||'', nbCoques:total_qty,
       itemsText:itemsList, itemsHtml,
@@ -1204,12 +1210,20 @@ async function processPayment(){
     cart=[]; saveCart(); renderCart(); renderGrid(); closeCheckoutModal();
     showToast(`🎉 Paiement confirmé ! Commande <strong>${orderId}</strong> enregistrée.`);
 
-    // ── WhatsApp enrichi ──
+    // ── WhatsApp enrichi avec images des coques ──
     const waText=encodeURIComponent(
-      `🛍️ *NOUVELLE COMMANDE — La Case Shop*\n\n🔖 Réf : ${orderId}\n📅 Date : ${orderDate}\n\n` +
-      `👤 *Client :* ${currentUser.name}\n✉️ Email : ${currentUser.email}\n📱 WhatsApp : ${currentUser.tel||'Non renseigné'}\n\n` +
-      `📦 *Articles :*\n${itemsList}\n\n💰 *Total : ${discounted}€*\n📍 Livraison : ${address}\n\n` +
-      `✅ Stripe confirmé · ID : ${paymentIntent.id}\n\n🔗 Admin : ${window.location.origin}/admin`
+      `🛍️ *NOUVELLE COMMANDE — La Case Shop*\n\n` +
+      `🔖 *N° Commande :* ${orderId}\n` +
+      `📅 *Date :* ${orderDate}\n\n` +
+      `👤 *Client :* ${currentUser.name}\n` +
+      `✉️ *Email :* ${currentUser.email}\n` +
+      `📱 *WhatsApp :* ${currentUser.tel||'Non renseigné'}\n\n` +
+      `📦 *Coques commandées :*\n${itemsWithImgs}\n\n` +
+      `📱 *Modèle téléphone :* ${phoneModel}\n\n` +
+      `💰 *Total : ${discounted}€*\n` +
+      `📍 *Livraison :* ${address}\n\n` +
+      `✅ Stripe confirmé · ID : ${paymentIntent.id}\n\n` +
+      `🔗 Admin : ${window.location.origin}/admin`
     );
     setTimeout(()=>window.open(`https://wa.me/${SHOP_WHATSAPP}?text=${waText}`,'_blank'),800);
   } catch(err){
