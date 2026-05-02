@@ -32,6 +32,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100),
       currency,
+      payment_method_types: ['card'],
       receipt_email: customerEmail,
       description: `La Case Shop — ${orderDetails}`,
       metadata: {
