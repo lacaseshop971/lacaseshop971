@@ -1,8 +1,13 @@
 {
   "name": "lacaseshop",
   "version": "1.0.0",
-  "description": "La Case Shop — Boutique coques premium Guadeloupe",
+  "description": "La Case Shop — Boutique coques premium Martinique",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
+    "express": "^4.18.2",
     "stripe": "^14.0.0"
   }
 }
