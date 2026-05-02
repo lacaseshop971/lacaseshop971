@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — La Case Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a; --white: #f5f4f0; --red: #e8121a;
+    --gray: #888; --card: #141414; --border: rgba(255,255,255,0.08);
+    --green: #4ade80; --yellow: #fbbf24; --blue: #60a5fa; --purple: #a78bfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+  /* LOGIN */
+  .login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--black);
+  }
+  .login-box {
+    width: 360px; background: var(--card);
+    border: 1px solid var(--border); padding: 2.5rem;
+  }
+  .login-logo {
+    font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+    letter-spacing: 3px; margin-bottom: 2rem; text-align: center;
+  }
+  .login-logo span { color: var(--red); }
+  .login-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; display: block; }
+  .login-input {
+    width: 100%; background: var(--black); border: 1px solid var(--border);
+    color: var(--white); padding: 12px 16px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; outline: none; transition: border-color 0.2s; margin-bottom: 1rem;
+  }
+  .login-input:focus { border-color: var(--red); }
+  .login-btn {
+    width: 100%; background: var(--red); color: var(--white); border: none;
+    padding: 13px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    font-weight: 500; cursor: pointer; letter-spacing: 0.05em;
+    text-transform: uppercase; transition: all 0.2s;
+  }
+  .login-btn:hover { background: var(--white); color: var(--black); }
+  .login-error { font-size: 12px; color: var(--red); margin-top: 8px; text-align: center; }
+
+  /* ADMIN LAYOUT */
+  .admin-wrap { display: none; min-height: 100vh; flex-direction: column; }
+  .admin-wrap.visible { display: flex; }
+  .admin-nav {
+    background: var(--card); border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .admin-nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px; }
+  .admin-nav-logo span { color: var(--red); }
+  .admin-nav-right { display: flex; align-items: center; gap: 16px; }
+  .admin-badge { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); border: 1px solid rgba(232,18,26,0.4); padding: 4px 12px; }
+  .logout-btn { background: transparent; border: 1px solid var(--border); color: var(--gray); padding: 6px 14px; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+  .logout-btn:hover { border-color: var(--white); color: var(--white); }
+  .admin-main { flex: 1; padding: 2rem; }
+
+  /* STATS */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 2rem; }
+  .stat-card { background: var(--black); padding: 1.5rem; }
+  .stat-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+  .stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 36px; line-height: 1; }
+  .stat-value.red { color: var(--red); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.yellow { color: var(--yellow); }
+  .stat-value.blue { color: var(--blue); }
+
+  /* FILTERS */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .filter-btn { border: 1px solid var(--border); background: transparent; color: var(--gray); padding: 6px 16px; font-size: 12px; font-family: 'DM Sans', sans-serif; letter-spacing: 0.05em; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+  .filter-btn:hover { border-color: var(--white); color: var(--white); }
+  .filter-btn.active { background: var(--white); color: var(--black); border-color: var(--white); }
+
+  /* ORDERS TABLE */
+  .orders-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .orders-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; }
+  .refresh-btn { background: transparent; border: 1px solid var(--border); color: var(--gray); padding: 8px 16px; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
+  .refresh-btn:hover { border-color: var(--white); color: var(--white); }
+
+  .order-card {
+    background: var(--card); border: 1px solid var(--border);
+    margin-bottom: 1px; transition: border-color 0.2s;
+  }
+  .order-card:hover { border-color: rgba(255,255,255,0.2); }
+  .order-header {
+    padding: 1.25rem 1.5rem; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; cursor: pointer; flex-wrap: wrap;
+  }
+  .order-left { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .order-id { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; color: var(--white); }
+  .order-client { font-size: 14px; color: var(--white); font-weight: 500; }
+  .order-date { font-size: 12px; color: var(--gray); }
+  .order-total { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--red); }
+  .order-right { display: flex; align-items: center; gap: 12px; }
+  .status-badge {
+    font-size: 11px; font-weight: 500; padding: 4px 12px;
+    border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap;
+  }
+  .status-Confirmée   { background: rgba(255,255,255,0.1); color: var(--white); }
+  .status-En-préparation { background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .status-Expédiée    { background: rgba(96,165,250,0.15); color: var(--blue); border: 1px solid rgba(96,165,250,0.3); }
+  .status-Livrée      { background: rgba(74,222,128,0.15); color: var(--green); border: 1px solid rgba(74,222,128,0.3); }
+  .chevron { font-size: 12px; color: var(--gray); transition: transform 0.2s; }
+  .order-card.open .chevron { transform: rotate(180deg); }
+
+  .order-body { display: none; padding: 0 1.5rem 1.5rem; border-top: 1px solid var(--border); }
+  .order-card.open .order-body { display: block; }
+  .order-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+  .detail-block { }
+  .detail-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+  .detail-value { font-size: 14px; color: var(--white); line-height: 1.6; }
+  .items-list { margin-top: 1rem; }
+  .item-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .item-name { color: var(--white); }
+  .item-price { color: var(--red); font-weight: 500; }
+
+  /* STATUS SELECTOR */
+  .status-actions { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+  .status-actions-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 12px; }
+  .status-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .status-action-btn {
+    border: 1px solid var(--border); background: transparent; color: var(--gray);
+    padding: 8px 16px; font-size: 12px; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .status-action-btn:hover { border-color: var(--white); color: var(--white); }
+  .status-action-btn.current { background: var(--white); color: var(--black); border-color: var(--white); }
+  .status-action-btn.loading { opacity: 0.5; cursor: not-allowed; }
+
+  /* AliExpress links */
+  .ali-section { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+  .ali-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 12px; }
+  .ali-links { display: flex; flex-direction: column; gap: 6px; }
+  .ali-link {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--black); border: 1px solid var(--border); padding: 10px 14px;
+    text-decoration: none; transition: border-color 0.15s;
+  }
+  .ali-link:hover { border-color: rgba(255,160,0,0.5); }
+  .ali-link-name { font-size: 13px; color: var(--white); }
+  .ali-link-btn { font-size: 11px; color: #ff9800; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* EMPTY */
+  .empty { text-align: center; padding: 4rem; color: var(--gray); }
+  .empty-icon { font-size: 48px; margin-bottom: 1rem; }
+  .empty-text { font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--white); color: var(--black); padding: 12px 24px;
+    font-size: 14px; font-weight: 500; z-index: 999;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 640px) {
+    .order-body-grid { grid-template-columns: 1fr; }
+    .admin-main { padding: 1rem; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">LA CASE<span> SHOP</span></div>
+    <label class="login-label">Mot de passe admin</label>
+    <input type="password" class="login-input" id="admin-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') login()">
+    <button class="login-btn" onclick="login()">Accéder au dashboard</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin-wrap" id="admin-wrap">
+  <nav class="admin-nav">
+    <div class="admin-nav-logo">LA CASE<span> SHOP</span> — Admin</div>
+    <div class="admin-nav-right">
+      <div class="admin-badge">Dashboard</div>
+      <button class="logout-btn" onclick="logout()">Déconnexion</button>
+    </div>
+  </nav>
+
+  <main class="admin-main">
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><div class="stat-label">Total commandes</div><div class="stat-value" id="stat-total">—</div></div>
+      <div class="stat-card"><div class="stat-label">Chiffre d'affaires</div><div class="stat-value red" id="stat-ca">—</div></div>
+      <div class="stat-card"><div class="stat-label">En attente</div><div class="stat-value yellow" id="stat-pending">—</div></div>
+      <div class="stat-card"><div class="stat-label">Livrées</div><div class="stat-value green" id="stat-delivered">—</div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Toutes</button>
+      <button class="filter-btn" data-filter="Confirmée" onclick="setFilter('Confirmée', this)">Confirmées</button>
+      <button class="filter-btn" data-filter="En préparation" onclick="setFilter('En préparation', this)">En préparation</button>
+      <button class="filter-btn" data-filter="Expédiée" onclick="setFilter('Expédiée', this)">Expédiées</button>
+      <button class="filter-btn" data-filter="Livrée" onclick="setFilter('Livrée', this)">Livrées</button>
+    </div>
+
+    <!-- Orders -->
+    <div class="orders-header">
+      <div class="orders-title">COMMANDES</div>
+      <button class="refresh-btn" onclick="loadOrders()">↻ Actualiser</button>
+    </div>
+    <div id="orders-container"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let adminKey = '';
+let allOrders = [];
+let currentFilter = 'all';
+const STATUSES = ['Confirmée', 'En préparation', 'Expédiée', 'Livrée'];
+
+function login() {
+  const pass = document.getElementById('admin-pass').value.trim();
+  if (!pass) return;
+  adminKey = pass;
+  loadOrders();
+}
+
+function logout() {
+  adminKey = '';
+  allOrders = [];
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-wrap').classList.remove('visible');
+  document.getElementById('admin-pass').value = '';
+}
+
+async function loadOrders() {
+  try {
+    const res = await fetch('/api/admin/orders', {
+      headers: { 'x-admin-key': adminKey }
+    });
+    if (res.status === 401) {
+      document.getElementById('login-error').textContent = 'Mot de passe incorrect.';
+      return;
+    }
+    allOrders = await res.json();
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-wrap').classList.add('visible');
+    updateStats();
+    renderOrders();
+  } catch(err) {
+    document.getElementById('login-error').textContent = 'Erreur de connexion au serveur.';
+  }
+}
+
+function updateStats() {
+  const total = allOrders.length;
+  const ca = allOrders.reduce((s, o) => s + (o.total || 0), 0);
+  const pending = allOrders.filter(o => o.status !== 'Livrée').length;
+  const delivered = allOrders.filter(o => o.status === 'Livrée').length;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-ca').textContent = ca + '€';
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-delivered').textContent = delivered;
+}
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderOrders();
+}
+
+function renderOrders() {
+  const container = document.getElementById('orders-container');
+  const filtered = currentFilter === 'all' ? allOrders : allOrders.filter(o => o.status === currentFilter);
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Aucune commande</div></div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(order => {
+    const statusClass = 'status-' + (order.status || 'Confirmée').replace(/\s/g, '-').replace(/é/g, 'e').replace(/é/g, 'e');
+    const itemsHtml = (order.items || []).map(i =>
+      `<div class="item-row"><span class="item-name">${i.name}${i.color ? ' <span style="color:var(--gray);">('+i.color+')</span>' : ''} ×${i.qty}</span><span class="item-price">${i.qty * 12}€</span></div>`
+    ).join('');
+    const aliLinks = (order.items || []).map(i =>
+      `<a class="ali-link" href="https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(i.name + ' phone case')}" target="_blank">
+        <span class="ali-link-name">${i.name}${i.color ? ' (' + i.color + ')' : ''} ×${i.qty}</span>
+        <span class="ali-link-btn">Commander sur AliExpress →</span>
+      </a>`
+    ).join('');
+    const statusBtns = STATUSES.map(s =>
+      `<button class="status-action-btn${order.status === s ? ' current' : ''}" onclick="updateStatus('${order.id}', '${s}', this)">${s}</button>`
+    ).join('');
+
+    return `
+    <div class="order-card" id="card-${order.id}">
+      <div class="order-header" onclick="toggleCard('${order.id}')">
+        <div class="order-left">
+          <div class="order-id">${order.id}</div>
+          <div>
+            <div class="order-client">${order.clientName}</div>
+            <div class="order-date">${order.date} · ${order.address}</div>
+          </div>
+        </div>
+        <div class="order-right">
+          <div class="order-total">${order.total}€</div>
+          <div class="status-badge ${statusClass}">${order.status}</div>
+          <div class="chevron">▼</div>
+        </div>
+      </div>
+      <div class="order-body">
+        <div class="order-body-grid">
+          <div class="detail-block">
+            <div class="detail-label">Client</div>
+            <div class="detail-value">
+              ${order.clientName}<br>
+              <a href="mailto:${order.clientEmail}" style="color:var(--gray);font-size:12px;">${order.clientEmail}</a><br>
+              <a href="https://wa.me/${(order.clientTel||'').replace(/\D/g,'')}" target="_blank" style="color:#25d366;font-size:12px;">💬 WhatsApp</a>
+            </div>
+          </div>
+          <div class="detail-block">
+            <div class="detail-label">Livraison</div>
+            <div class="detail-value">${order.address}</div>
+          </div>
+        </div>
+        <div class="items-list">
+          <div class="detail-label" style="margin-top:1rem;">Articles (${order.nbCoques} coque(s))</div>
+          ${itemsHtml}
+          <div style="text-align:right;padding-top:8px;font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);">${order.total}€</div>
+        </div>
+        <div class="ali-section">
+          <div class="ali-label">Commander sur AliExpress 🛒</div>
+          <div class="ali-links">${aliLinks}</div>
+        </div>
+        <div class="status-actions">
+          <div class="status-actions-label">Mettre à jour le statut (notifie le client par email)</div>
+          <div class="status-btns">${statusBtns}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCard(id) {
+  document.getElementById('card-' + id).classList.toggle('open');
+}
+
+async function updateStatus(orderId, newStatus, btn) {
+  const card = document.getElementById('card-' + orderId);
+  const allBtns = card.querySelectorAll('.status-action-btn');
+  allBtns.forEach(b => b.classList.add('loading'));
+
+  try {
+    const res = await fetch('/api/admin/update-status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+      body: JSON.stringify({ orderId, newStatus }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    // Update local data
+    const idx = allOrders.findIndex(o => o.id === orderId);
+    if (idx >= 0) allOrders[idx].status = newStatus;
+    updateStats();
+    renderOrders();
+    showToast(`✅ Statut mis à jour → ${newStatus} · Email envoyé au client`);
+  } catch(err) {
+    allBtns.forEach(b => b.classList.remove('loading'));
+    showToast('❌ Erreur : ' + err.message);
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
