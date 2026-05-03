@@ -827,7 +827,7 @@ footer img{height:40px;object-fit:contain}
 <!-- CART -->
 <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
 <div class="cart-drawer" id="cart-drawer">
-  <div class="cart-header"><h3>🛒 Mon Panier</h3><button class="close-btn" onclick="closeCart()">✕</button></div>
+  <div class="cart-header"><h3>🛒 Mon Panier</h3><div style="display:flex;align-items:center;gap:8px"><button onclick="if(cart.length&&confirm('Vider le panier ?')){cart=[];saveCart();renderCart();renderGrid();}" style="background:transparent;border:1px solid var(--border);color:var(--gray);font-size:10px;cursor:pointer;padding:4px 8px;font-family:'Outfit',sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:all .15s" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(232,18,26,.4)'" onmouseout="this.style.color='var(--gray)';this.style.borderColor='var(--border)'">Vider</button><button class="close-btn" onclick="closeCart()">✕</button></div></div>
   <div class="cart-progress-bar" id="cart-progress-bar" style="display:none">
     <div class="progress-text" id="progress-text"></div>
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
@@ -1148,7 +1148,19 @@ const SHOP_WHATSAPP       = '590691267598';
 
 let selBrand = 'all', selCat = 'tous', searchQuery = '';
 let selectedColors = {};
-let cart = JSON.parse(localStorage.getItem('lcs_cart')||'[]');
+// Chargement et migration du panier
+let cart = (()=>{
+  try {
+    const raw = JSON.parse(localStorage.getItem('lcs_cart')||'[]');
+    // Migration : normaliser color undefined → null, s'assurer que qty est un nombre
+    return raw.map(item=>({
+      ...item,
+      color: item.color || null,
+      qty: parseInt(item.qty)||1,
+      img: item.img || ''
+    }));
+  } catch(e){ return []; }
+})();
 let currentUser = JSON.parse(localStorage.getItem('lcs_user')||'null');
 let stripe, cardElement;
 let currentProductModal = null; // product id currently in modal
@@ -1429,27 +1441,9 @@ function storePhoneModel(model){
 function openPhoneModal(pid, color, action){
   const p = PRODUCTS.find(x=>x.id===pid);
   if(!p) return;
-
-  // Si déjà un modèle sauvegardé → ajouter directement sans modale
+  // Ajouter directement au panier — le modèle téléphone sera saisi au checkout
   const saved = getStoredPhoneModel();
-  if(saved){
-    _doAddToCart(pid, color, action, saved);
-    return;
-  }
-
-  phoneModalState = { pendingPid:pid, pendingColor:color, pendingAction:action, selectedBrand:null, selectedModel:null };
-
-  // Remplir la preview produit
-  const imgSrc = getProductImg(p, color) || p.img || '';
-  document.getElementById('pm-preview-img').src = imgSrc;
-  document.getElementById('pm-preview-name').textContent = p.name;
-  document.getElementById('pm-preview-color').textContent = color ? '🎨 ' + color : '';
-
-  // Reset step 1
-  _showPhoneStep(1);
-  document.querySelectorAll('.brand-card').forEach(c=>c.classList.remove('selected'));
-
-  document.getElementById('phone-modal-overlay').classList.add('open');
+  _doAddToCart(pid, color, action, saved || '');
 }
 
 function closePhoneModal(){
@@ -1603,15 +1597,19 @@ function pmToggleCart(){
 function pmPayNow(){
   const pid = currentProductModal;
   if(!pid) return;
-  const color = selectedColors[pid]||null;
-  const existingIdx = cart.findIndex(i=>i.id===pid && i.color===color);
-  if(existingIdx>=0){
-    // Déjà dans le panier, aller payer directement
-    closeProductModal();
-    startCheckout();
-    return;
+  const p = PRODUCTS.find(x=>x.id===pid);
+  if(!p) return;
+  const color = selectedColors[pid]||(p.colors?p.colors[0]:null)||null;
+  const existingIdx = cart.findIndex(i=>i.id===pid && (i.color||null)===(color||null));
+  if(existingIdx<0){
+    // Ajouter au panier d'abord
+    const saved = getStoredPhoneModel();
+    const imgSrc = getProductImg(p, color) || p.img || '';
+    cart.push({ id:pid, name:p.name, color:color||null, qty:1, img:imgSrc, phoneModel:saved||'' });
+    saveCart(); renderCart(); renderGrid();
   }
-  openPhoneModal(pid, color, 'payNow');
+  closeProductModal();
+  startCheckout();
 }
 
 function changeCartItemPhoneIdx(idx){
@@ -1662,6 +1660,7 @@ function renderCart(){
   const badge = document.getElementById('cart-badge');
   const summary = document.getElementById('cart-summary');
   const checkoutSummary = document.getElementById('checkout-summary');
+  if(!list || !badge) return; // DOM pas encore prêt
   const {total_qty, normal_price, discounted, saving} = getTotals();
   if(total_qty>0){ badge.style.display='flex'; badge.textContent=total_qty; } else badge.style.display='none';
   renderCartProgress(total_qty);
@@ -1742,6 +1741,8 @@ function openCart(){
   document.getElementById('cart-drawer').classList.add('open');
   const wa=document.querySelector('.whatsapp-float');
   if(wa) wa.classList.add('wa-mini');
+  // Forcer le re-render à l'ouverture pour être sûr
+  renderCart();
 }
 function closeCart(){
   document.getElementById('cart-overlay').classList.remove('open');
