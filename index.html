@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Case Shop — Coques Premium Guadeloupe</title>
-<meta name="description" content="Coques de téléphone premium pour iPhone & Samsung. Designs exclusifs Marvel, Anime, Stitch. Livraison rapide en Guadeloupe. Paiement sécurisé Stripe.">
+<title>La Case Shop — Coques Premium iPhone & Samsung | Guadeloupe</title>
+<meta name="description" content="La Case Shop Guadeloupe : coques premium iPhone & Samsung dès 12€. Marvel, Anime, Stitch, Dragon. Livraison rapide. Paiement sécurisé Stripe.">
 <meta property="og:title" content="La Case Shop — Coques Premium Guadeloupe">
 <meta property="og:description" content="Coques stylées pour iPhone & Samsung. Marvel, Anime, Stitch, Nature. Livraison rapide en Guadeloupe dès 12€.">
 <meta property="og:image" content="https://lacaseshop971.onrender.com/ChatGPT_Image_1_mai_2026__13_06_42.png">
@@ -13,6 +13,16 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="ChatGPT_Image_1_mai_2026__13_06_42.png">
 <link rel="apple-touch-icon" href="ChatGPT_Image_1_mai_2026__13_06_42.png">
+<meta name="keywords" content="coque téléphone Guadeloupe, coque iPhone Guadeloupe, coque Samsung Guadeloupe, coque Marvel, coque Anime, La Case Shop">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://lacaseshop971.onrender.com">
+<meta property="og:locale" content="fr_FR">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"OnlineStore","name":"La Case Shop","description":"Coques de téléphone premium pour iPhone et Samsung. Designs exclusifs Marvel, Anime, Stitch, Dragon.","url":"https://lacaseshop971.onrender.com","email":"Lacaseshop971@gmail.com","areaServed":"Guadeloupe","priceRange":"€€","offers":{"@type":"AggregateOffer","lowPrice":"12","highPrice":"35","priceCurrency":"EUR"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"12"}}
+</script>
+<!-- Google Analytics — remplace G-XXXXXXXXXX par ton vrai ID Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -393,6 +403,71 @@ footer img{height:40px;object-fit:contain}
 .search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:16px;pointer-events:none}
 .search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;border:none;color:var(--gray);cursor:pointer;font-size:16px;display:none;transition:color .2s;line-height:1}
 .search-clear:hover{color:var(--white)}
+
+/* ══ BANNIÈRE COOKIES RGPD ══ */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid rgba(255,255,255,.1);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:9000;flex-wrap:wrap;transform:translateY(100%);transition:transform .4s ease}
+#cookie-banner.show{transform:translateY(0)}
+.cookie-text{font-size:12px;color:var(--gray-light);line-height:1.6;flex:1}
+.cookie-text a{color:var(--red);text-decoration:none}
+.cookie-text a:hover{text-decoration:underline}
+.cookie-btns{display:flex;gap:8px;flex-shrink:0}
+.cookie-btn-accept{background:var(--red);color:var(--white);border:none;padding:9px 18px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;transition:background .2s}
+.cookie-btn-accept:hover{background:var(--red-dark)}
+.cookie-btn-refuse{background:transparent;color:var(--gray);border:1px solid var(--border);padding:9px 14px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;transition:all .2s}
+.cookie-btn-refuse:hover{border-color:var(--border2);color:var(--white)}
+@media(max-width:600px){#cookie-banner{flex-direction:column;align-items:stretch}.cookie-btns{flex-direction:column}}
+
+/* ══ MODAL MENTIONS LÉGALES / CGV ══ */
+.legal-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:8000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px)}
+.legal-modal-overlay.open{opacity:1;pointer-events:all}
+.legal-modal{background:var(--card);border:1px solid var(--border2);width:100%;max-width:680px;max-height:85vh;overflow-y:auto;padding:2.5rem;position:relative;animation:scaleIn .3s both}
+.legal-modal h2{font-family:'Bebas Neue',sans-serif;font-size:32px;margin-bottom:.3rem;color:var(--white)}
+.legal-modal h3{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--red);margin:1.5rem 0 .5rem}
+.legal-modal p,.legal-modal li{font-size:13px;color:var(--gray-light);line-height:1.8;margin-bottom:.5rem}
+.legal-modal ul{padding-left:1.2rem}
+.legal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--gray);font-size:22px;cursor:pointer;transition:color .2s;line-height:1}
+.legal-close:hover{color:var(--white)}
+
+/* ══ PRODUIT VEDETTE ══ */
+.featured-banner{background:linear-gradient(135deg,var(--red) 0%,#a00010 100%);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:opacity .2s;position:relative;overflow:hidden}
+.featured-banner:hover{opacity:.92}
+.featured-banner::before{content:'⭐ EN VEDETTE';position:absolute;top:12px;right:12px;font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.7);font-weight:600}
+.featured-banner-img{width:80px;height:80px;object-fit:cover;flex-shrink:0;border:2px solid rgba(255,255,255,.2)}
+.featured-banner-body{flex:1}
+.featured-banner-name{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--white);letter-spacing:1px;line-height:1;margin-bottom:.3rem}
+.featured-banner-desc{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:.5rem;line-height:1.5}
+.featured-banner-price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:rgba(255,255,255,.9)}
+.featured-banner-cta{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:var(--white);padding:8px 18px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;transition:background .2s;flex-shrink:0}
+.featured-banner-cta:hover{background:rgba(255,255,255,.25)}
+@media(max-width:600px){.featured-banner{flex-direction:column;text-align:center}.featured-banner-img{width:120px;height:120px}.featured-banner-cta{width:100%}}
+
+/* ══ PARTAGER ══ */
+.share-btn{background:transparent;border:1px solid var(--border);color:var(--gray);padding:6px 12px;font-size:11px;font-family:'Outfit',sans-serif;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;transition:all .2s;display:flex;align-items:center;gap:5px}
+.share-btn:hover{border-color:var(--border2);color:var(--white)}
+
+/* ══ PROMO CODE ══ */
+.promo-row{display:flex;gap:8px;margin-bottom:1rem}
+.promo-input{flex:1;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:10px 14px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s;text-transform:uppercase}
+.promo-input:focus{border-color:var(--red)}
+.promo-input::placeholder{color:#444;text-transform:none}
+.promo-apply-btn{background:transparent;border:1px solid var(--border2);color:var(--gray-light);padding:10px 16px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;white-space:nowrap}
+.promo-apply-btn:hover{border-color:var(--white);color:var(--white)}
+.promo-msg{font-size:12px;margin-bottom:.5rem;padding:6px 10px;display:none}
+.promo-msg.ok{display:block;color:#5eed8a;background:rgba(94,237,138,.08);border:1px solid rgba(94,237,138,.2)}
+.promo-msg.err{display:block;color:#ff6b70;background:rgba(255,107,112,.08);border:1px solid rgba(255,107,112,.2)}
+
+/* ══ AVIS CLIENTS (laisser un avis) ══ */
+.submit-review-btn{background:transparent;border:1px solid var(--border2);color:var(--gray-light);padding:10px 20px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;margin-bottom:2rem}
+.submit-review-btn:hover{border-color:var(--red);color:var(--red)}
+.review-form-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:8000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px)}
+.review-form-modal.open{opacity:1;pointer-events:all}
+.review-form-box{background:var(--card);border:1px solid var(--border2);width:100%;max-width:500px;padding:2.5rem;position:relative;animation:scaleIn .3s both}
+.star-select{display:flex;gap:6px;margin-bottom:1rem}
+.star-select span{font-size:28px;cursor:pointer;opacity:.35;transition:opacity .15s,transform .15s}
+.star-select span.on,.star-select span:hover{opacity:1;transform:scale(1.1)}
+.review-textarea{width:100%;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;resize:vertical;min-height:100px;margin-bottom:10px;transition:border-color .2s}
+.review-textarea:focus{border-color:var(--red)}
+
 </style>
 </head>
 <body>
@@ -463,6 +538,17 @@ footer img{height:40px;object-fit:contain}
 <section class="section" id="catalogue">
   <div class="sec-label">Catalogue</div>
   <h2 class="sec-title">LES COQUES</h2>
+
+  <!-- ══ PRODUIT EN VEDETTE : VFlow Gold ══ -->
+  <div class="featured-banner" onclick="openProductModal(19);document.querySelectorAll('[data-color=gold]').forEach(d=>{selectedColors[19]='gold';renderGrid()})">
+    <img class="featured-banner-img" src="VFlow Gold.jpg" alt="VFlow Gold" onerror="this.style.opacity='0'">
+    <div class="featured-banner-body">
+      <div class="featured-banner-name">VFlow Gold — Édition Limitée</div>
+      <div class="featured-banner-desc">Notre coque la plus premium. Finition dorée unique, compatible iPhone &amp; Samsung. Design exclusif La Case Shop.</div>
+      <div class="featured-banner-price">12€ · Livraison rapide</div>
+    </div>
+    <button class="featured-banner-cta" onclick="event.stopPropagation();selectedColors[19]='gold';toggleCart(event,19);showToast('✨ VFlow Gold ajoutée au panier !')">+ Ajouter</button>
+  </div>
   <div style="margin-bottom:2rem">
     <!-- SEARCH BAR -->
     <div class="search-wrap" style="margin-bottom:1.5rem">
@@ -486,6 +572,31 @@ footer img{height:40px;object-fit:contain}
 <section class="section" id="avis">
   <div class="sec-label">Avis clients</div>
   <h2 class="sec-title">ILS NOUS FONT CONFIANCE</h2>
+  <button class="submit-review-btn" onclick="openReviewForm()">✍️ Laisser mon avis</button>
+
+  <!-- MODALE AVIS -->
+  <div class="review-form-modal" id="review-form-modal">
+    <div class="review-form-box">
+      <button class="legal-close" onclick="document.getElementById('review-form-modal').classList.remove('open')">✕</button>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:.3rem">Ton avis</div>
+      <div style="font-size:13px;color:var(--gray-light);margin-bottom:1.5rem">Partage ton expérience avec la communauté La Case Shop.</div>
+      <div class="form-group"><label>Ton prénom</label><input type="text" id="rv-name" placeholder="Ex: Jordan B."></div>
+      <div class="form-group"><label>Coque achetée</label><input type="text" id="rv-product" placeholder="Ex: VFlow Gold, Stitch Angry..."></div>
+      <label style="font-size:11px;color:var(--gray-light);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:8px">Note</label>
+      <div class="star-select" id="star-select" data-val="5">
+        <span data-star="1" onclick="setReviewStar(1)">★</span>
+        <span data-star="2" onclick="setReviewStar(2)">★</span>
+        <span data-star="3" onclick="setReviewStar(3)">★</span>
+        <span data-star="4" onclick="setReviewStar(4)">★</span>
+        <span data-star="5" class="on" onclick="setReviewStar(5)">★</span>
+      </div>
+      <label style="font-size:11px;color:var(--gray-light);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:8px">Ton avis</label>
+      <textarea class="review-textarea" id="rv-text" placeholder="Dis-nous ce que tu penses de ta coque..."></textarea>
+      <button class="save-status-btn" style="background:var(--red);color:var(--white);border:none;width:100%;padding:14px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:background .2s" onclick="submitReview()">Envoyer mon avis ✓</button>
+      <p style="font-size:11px;color:var(--gray);margin-top:.8rem;text-align:center;line-height:1.5">Ton avis sera publié après vérification par La Case Shop.</p>
+    </div>
+  </div>
+
   <div class="reviews-summary">
     <div class="reviews-score">
       <div class="reviews-score-num">4.9</div>
@@ -604,6 +715,8 @@ footer img{height:40px;object-fit:contain}
     <a href="mailto:Lacaseshop971@gmail.com" class="footer-link">Email</a>
     <a href="#offres" class="footer-link">Tarifs</a>
     <a href="#catalogue" class="footer-link">Catalogue</a>
+    <a href="#" onclick="openLegalModal('cgv');return false;" class="footer-link">CGV</a>
+    <a href="#" onclick="openLegalModal('mentions');return false;" class="footer-link">Mentions légales</a>
   </div>
   <div class="footer-copy">© <span id="yr"></span> La Case Shop · Guadeloupe</div>
 </footer>
@@ -687,6 +800,14 @@ footer img{height:40px;object-fit:contain}
     <div id="card-errors"></div>
     <div class="form-group"><label>Modèle de téléphone</label><input type="text" id="phone-model" placeholder="Ex: iPhone 15 Pro, Samsung S24..."></div>
     <div class="form-group"><label>Adresse de livraison (commune)</label><input type="text" id="delivery-address" placeholder="Ex: Pointe-à-Pitre, Basse-Terre..."></div>
+    <div style="margin-bottom:1rem">
+      <label style="font-size:11px;color:var(--gray-light);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:8px">Code promo (optionnel)</label>
+      <div class="promo-row">
+        <input class="promo-input" type="text" id="promo-code-input" placeholder="Ex: CASE10">
+        <button class="promo-apply-btn" onclick="applyPromoCode()">Appliquer</button>
+      </div>
+      <div class="promo-msg" id="promo-msg"></div>
+    </div>
     <button class="checkout-btn" id="pay-btn" onclick="processPayment()">
       <span class="lock-icon">🔒</span> <span id="pay-btn-text">Confirmer et payer</span>
     </button>
@@ -711,11 +832,12 @@ footer img{height:40px;object-fit:contain}
         <div class="color-selector" id="pm-color-dots"></div>
         <div class="color-label" id="pm-color-label" style="margin-top:8px"></div>
       </div>
-      <div class="product-modal-info">
+      <div class="product-modal-info" id="pm-compat">
         📦 Livraison rapide en Guadeloupe<br>
-        ✅ Compatible iPhone & Samsung<br>
+        📱 Compatible iPhone 11→16 Pro Max · Samsung S20→S25<br>
         🛡️ Protection renforcée · Design premium
       </div>
+      <button class="share-btn" onclick="shareProduct()" style="margin-bottom:.8rem;width:100%">🔗 Partager cette coque</button>
       <div class="product-modal-actions">
         <button class="pm-add-btn" id="pm-add-btn" onclick="pmToggleCart()">
           🛒 Ajouter au panier
@@ -757,6 +879,25 @@ footer img{height:40px;object-fit:contain}
       <p style="font-size:12px;color:var(--gray);line-height:1.6">Saisis ce code lors du paiement pour bénéficier de -10%.</p>
       <span class="welcome-skip" onclick="closeWelcomePopup()">Fermer et continuer mes achats →</span>
     </div>
+  </div>
+</div>
+
+<!-- ══ BANNIÈRE COOKIES RGPD ══ -->
+<div id="cookie-banner">
+  <div class="cookie-text">
+    🍪 Ce site utilise des cookies pour améliorer ton expérience et analyser le trafic (Google Analytics). En continuant, tu acceptes notre <a href="#" onclick="openLegalModal('mentions');return false;">politique de confidentialité</a>.
+  </div>
+  <div class="cookie-btns">
+    <button class="cookie-btn-accept" onclick="acceptCookies()">Accepter</button>
+    <button class="cookie-btn-refuse" onclick="refuseCookies()">Refuser</button>
+  </div>
+</div>
+
+<!-- ══ MODAL MENTIONS LÉGALES ══ -->
+<div class="legal-modal-overlay" id="legal-modal-overlay" onclick="if(event.target===this)closeLegalModal()">
+  <div class="legal-modal">
+    <button class="legal-close" onclick="closeLegalModal()">✕</button>
+    <div id="legal-content"></div>
   </div>
 </div>
 
@@ -1111,16 +1252,21 @@ function renderCart(){
         <button class="cart-item-remove" onclick="removeFromCart(${item.id},'${item.color}')">✕</button>
       </div>`).join('');
   }
+  const promoTotals = typeof getTotalsWithPromo!=='undefined' ? getTotalsWithPromo() : {discounted,promoSaving:0};
+  const finalPrice = promoTotals.discounted;
+  const promoSaving = promoTotals.promoSaving||0;
   const summHtml = total_qty===0 ? '' : `
     <div class="cart-row"><span>Sous-total (${total_qty} coque${total_qty>1?'s':''})</span><span>${normal_price}€</span></div>
     ${saving>0?`<div class="cart-row saving"><span>🎉 Remise pack</span><span>−${saving}€</span></div>`:''}
+    ${promoSaving>0?`<div class="cart-row saving"><span>🏷️ Code promo</span><span>−${promoSaving}€</span></div>`:''}
     <div class="cart-row total"><span>Total</span><span class="val">${discounted}€</span></div>`;
   if(summary) summary.innerHTML=summHtml;
   if(checkoutSummary) checkoutSummary.innerHTML=summHtml;
+  const _displayPrice = typeof getTotalsWithPromo!=='undefined' ? getTotalsWithPromo().discounted : discounted;
   const btn = document.getElementById('checkout-btn');
-  if(btn){ btn.disabled=total_qty===0; btn.querySelector('span:last-child').textContent=`Payer en sécurité — ${discounted}€`; }
+  if(btn){ btn.disabled=total_qty===0; btn.querySelector('span:last-child').textContent=`Payer en sécurité — ${_displayPrice}€`; }
   const payBtnText = document.getElementById('pay-btn-text');
-  if(payBtnText) payBtnText.textContent=`Confirmer et payer — ${discounted}€`;
+  if(payBtnText) payBtnText.textContent=`Confirmer et payer — ${_displayPrice}€`;
 }
 
 function openCart(){ document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-drawer').classList.add('open'); }
@@ -1272,7 +1418,7 @@ function closeCheckoutModal(){ document.getElementById('checkout-modal').classLi
 
 async function processPayment(){
   if(!currentUser||!cart.length) return;
-  const {discounted,total_qty}=getTotals();
+  const {discounted,total_qty}=getTotalsWithPromo ? getTotalsWithPromo() : getTotals();
   const cardName=document.getElementById('card-name').value.trim();
   const address=document.getElementById('delivery-address').value.trim();
   const phoneModel=document.getElementById('phone-model').value.trim();
@@ -1347,6 +1493,195 @@ async function processPayment(){
 
 let toastTimer;
 function showToast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3500); }
+
+// ══════════════════════════════════════════
+//  COOKIES RGPD
+// ══════════════════════════════════════════
+function initCookieBanner(){
+  const consent = localStorage.getItem('lcs_cookie_consent');
+  if(!consent){
+    setTimeout(()=>document.getElementById('cookie-banner').classList.add('show'), 1500);
+  }
+}
+function acceptCookies(){
+  localStorage.setItem('lcs_cookie_consent','accepted');
+  document.getElementById('cookie-banner').classList.remove('show');
+  // Active GA si consent
+  if(typeof gtag!=='undefined') gtag('consent','update',{'analytics_storage':'granted'});
+}
+function refuseCookies(){
+  localStorage.setItem('lcs_cookie_consent','refused');
+  document.getElementById('cookie-banner').classList.remove('show');
+  if(typeof gtag!=='undefined') gtag('consent','update',{'analytics_storage':'denied'});
+}
+
+// ══════════════════════════════════════════
+//  MENTIONS LÉGALES & CGV
+// ══════════════════════════════════════════
+const LEGAL_CONTENT = {
+  mentions: `
+    <h2>Mentions légales</h2>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:1.5rem">La Case Shop — Guadeloupe</p>
+    <h3>Éditeur du site</h3>
+    <p>La Case Shop<br>Email : Lacaseshop971@gmail.com<br>WhatsApp : +590 691 26 75 98<br>Instagram : @la_case_shop</p>
+    <h3>Hébergement</h3>
+    <p>Le site est hébergé par Render (render.com), 525 Brannan Street, San Francisco, CA 94107, USA.</p>
+    <h3>Propriété intellectuelle</h3>
+    <p>Tous les contenus présents sur ce site (photos, textes, logo) sont la propriété exclusive de La Case Shop. Toute reproduction est interdite sans autorisation.</p>
+    <h3>Protection des données (RGPD)</h3>
+    <p>Les données collectées (nom, email, téléphone, adresse de livraison) sont utilisées uniquement pour le traitement de ta commande. Elles ne sont jamais revendues à des tiers. Tu peux demander la suppression de tes données en nous contactant par email.</p>
+    <h3>Cookies</h3>
+    <p>Ce site utilise Google Analytics pour analyser le trafic. Tu peux refuser les cookies analytiques via la bannière en bas de page.</p>
+    <h3>Contact</h3>
+    <p>Pour toute question : Lacaseshop971@gmail.com</p>
+  `,
+  cgv: `
+    <h2>Conditions Générales de Vente</h2>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:1.5rem">En vigueur au 1er mai 2026</p>
+    <h3>1. Objet</h3>
+    <p>Les présentes CGV régissent les ventes de coques de téléphone réalisées sur le site La Case Shop (lacaseshop971.onrender.com).</p>
+    <h3>2. Prix</h3>
+    <p>Les prix sont indiqués en euros TTC. La Case Shop se réserve le droit de modifier ses prix à tout moment. Les prix affichés au moment de la commande sont ceux applicables.</p>
+    <ul>
+      <li>1 coque : 12€</li>
+      <li>Pack 2 coques : 22€</li>
+      <li>Pack 3 coques : 30€</li>
+      <li>Pack 4 coques : 35€</li>
+    </ul>
+    <h3>3. Commande et paiement</h3>
+    <p>Le paiement est sécurisé par Stripe. En passant commande, tu acceptes les présentes CGV. La commande est confirmée dès réception du paiement.</p>
+    <h3>4. Livraison</h3>
+    <p>Les commandes sont livrées partout en Guadeloupe. Le délai de livraison est indicatif et peut varier selon les disponibilités. Tu seras notifié par WhatsApp ou email à chaque étape.</p>
+    <h3>5. Droit de rétractation</h3>
+    <p>Conformément à la loi, tu disposes d'un délai de 14 jours à compter de la réception de ta commande pour exercer ton droit de rétractation, en nous contactant par email. Les produits doivent être retournés en parfait état.</p>
+    <h3>6. Garantie</h3>
+    <p>En cas de produit défectueux, La Case Shop s'engage à remplacer ou rembourser le produit dans un délai de 30 jours.</p>
+    <h3>7. Contact</h3>
+    <p>Pour toute réclamation : Lacaseshop971@gmail.com ou +590 691 26 75 98</p>
+  `
+};
+function openLegalModal(type){
+  document.getElementById('legal-content').innerHTML = LEGAL_CONTENT[type]||'';
+  document.getElementById('legal-modal-overlay').classList.add('open');
+}
+function closeLegalModal(){
+  document.getElementById('legal-modal-overlay').classList.remove('open');
+}
+
+// ══════════════════════════════════════════
+//  CODE PROMO
+// ══════════════════════════════════════════
+const PROMO_CODES = {
+  'CASE10': { type:'percent', value:10, label:'-10%' },
+  'BIENVENUE': { type:'percent', value:10, label:'-10%' },
+  'PACK2': { type:'fixed', value:2, label:'-2€' },
+  'VIP15': { type:'percent', value:15, label:'-15%' },
+};
+let activePromo = null;
+
+function applyPromoCode(){
+  const code = document.getElementById('promo-code-input').value.trim().toUpperCase();
+  const msg = document.getElementById('promo-msg');
+  if(!code){ msg.className='promo-msg err'; msg.textContent='Entre un code promo.'; return; }
+  const promo = PROMO_CODES[code];
+  if(!promo){ msg.className='promo-msg err'; msg.textContent='❌ Code invalide ou expiré.'; activePromo=null; renderCart(); return; }
+  activePromo = { ...promo, code };
+  msg.className='promo-msg ok';
+  msg.textContent=`✓ Code "${code}" appliqué : ${promo.label} !`;
+  renderCart();
+  showToast(`🎉 Code <strong>${code}</strong> appliqué : ${promo.label} !`);
+}
+
+// Override getTotals to apply promo
+const _origGetTotals = getTotals;
+function getTotalsWithPromo(){
+  const base = _origGetTotals();
+  if(!activePromo) return base;
+  let finalPrice = base.discounted;
+  if(activePromo.type==='percent') finalPrice = Math.round(finalPrice * (1 - activePromo.value/100));
+  else finalPrice = Math.max(0, finalPrice - activePromo.value);
+  return { ...base, discounted: finalPrice, promoSaving: base.discounted - finalPrice };
+}
+
+// ══════════════════════════════════════════
+//  PARTAGER UN PRODUIT
+// ══════════════════════════════════════════
+function shareProduct(){
+  const pid = currentProductModal;
+  if(!pid) return;
+  const p = PRODUCTS.find(x=>x.id===pid);
+  if(!p) return;
+  const url = window.location.origin + window.location.pathname + '?produit=' + pid;
+  const text = `Regarde cette coque "${p.name}" sur La Case Shop ! 🛍️ Seulement 12€. `;
+  if(navigator.share){
+    navigator.share({ title:'La Case Shop — '+p.name, text, url }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(url).then(()=>showToast('🔗 Lien copié dans le presse-papier !')).catch(()=>{
+      const wa = encodeURIComponent(text + url);
+      window.open('https://wa.me/?text='+wa,'_blank');
+    });
+  }
+}
+
+// ══════════════════════════════════════════
+//  AVIS CLIENTS
+// ══════════════════════════════════════════
+let reviewStarVal = 5;
+function openReviewForm(){
+  document.getElementById('review-form-modal').classList.add('open');
+}
+function setReviewStar(n){
+  reviewStarVal = n;
+  document.querySelectorAll('#star-select span').forEach((s,i)=>{
+    s.classList.toggle('on', i < n);
+  });
+}
+function submitReview(){
+  const name = document.getElementById('rv-name').value.trim();
+  const product = document.getElementById('rv-product').value.trim();
+  const text = document.getElementById('rv-text').value.trim();
+  if(!name||!text){ showToast('Remplis ton prénom et ton avis.'); return; }
+  // Save locally + track
+  const reviews = JSON.parse(localStorage.getItem('lcs_reviews')||'[]');
+  reviews.unshift({ name, product, text, stars: reviewStarVal, date: new Date().toLocaleDateString('fr-FR') });
+  localStorage.setItem('lcs_reviews', JSON.stringify(reviews));
+  document.getElementById('review-form-modal').classList.remove('open');
+  document.getElementById('rv-name').value='';
+  document.getElementById('rv-product').value='';
+  document.getElementById('rv-text').value='';
+  showToast('🙏 Merci pour ton avis ! Il sera publié après vérification.');
+  if(typeof gtag!=='undefined') gtag('event','submit_review',{event_category:'engagement',event_label:product});
+}
+
+// ══════════════════════════════════════════
+//  RAPPEL PANIER ABANDONNÉ
+// ══════════════════════════════════════════
+function initAbandonedCart(){
+  if(!currentUser || !cart.length) return;
+  const lastSeen = parseInt(localStorage.getItem('lcs_last_seen')||'0');
+  const now = Date.now();
+  // Si le user revient avec un panier non vide après 30 min
+  if(lastSeen && (now - lastSeen) > 30 * 60 * 1000 && cart.length > 0){
+    setTimeout(()=>{
+      showToast(`👋 Content de te revoir ! Tu as encore ${cart.length} coque${cart.length>1?'s':''} dans ton panier 🛒`);
+    }, 2000);
+  }
+  localStorage.setItem('lcs_last_seen', now);
+}
+
+// ══════════════════════════════════════════
+//  INIT FINAL
+// ══════════════════════════════════════════
+initCookieBanner();
+initAbandonedCart();
+
+// Redirect si produit dans URL
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const pid = parseInt(params.get('produit'));
+  if(pid) setTimeout(()=>openProductModal(pid), 600);
+})();
+
 </script>
 </body>
 </html>
