@@ -1008,16 +1008,16 @@ footer img{height:40px;object-fit:contain}
         <button class="phone-modal-back" onclick="goBackToBrand()">← Changer de marque</button>
         <div class="model-select-wrap">
           <label class="model-select-label" id="model-select-label">Sélectionne ton modèle</label>
-          <!-- Recherche rapide -->
-          <input type="text" id="model-search-input"
-            placeholder="🔍 Rechercher (ex: iPhone 15, S24…)"
-            style="width:100%;box-sizing:border-box;background:#0d0d0d;border:1px solid var(--border);border-bottom:none;color:var(--white);padding:10px 14px;font-family:Outfit,sans-serif;font-size:13px;outline:none;"
-            oninput="filterModelList(this.value)">
-          <!-- Liste scrollable -->
-          <div id="model-list-box"
-            style="width:100%;max-height:200px;overflow-y:auto;background:#0d0d0d;border:1px solid var(--border);box-sizing:border-box;">
+          <div style="position:relative;" id="model-dropdown-wrap">
+            <div id="model-dropdown-trigger" onclick="toggleModelDropdown()"
+              style="width:100%;box-sizing:border-box;background:#0d0d0d;border:1px solid var(--border);color:rgba(255,255,255,.4);padding:12px 40px 12px 14px;font-family:Outfit,sans-serif;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;transition:border-color .2s;">
+              <span id="model-dropdown-label">— Choisir un modèle —</span>
+              <svg id="model-dropdown-arrow" style="width:12px;height:12px;flex-shrink:0;transition:transform .2s;fill:none;stroke:#666;stroke-width:1.5;stroke-linecap:round;" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg>
+            </div>
+            <div id="model-dropdown-list"
+              style="display:none;position:absolute;top:100%;left:0;right:0;background:#0d0d0d;border:1px solid var(--red);border-top:none;max-height:220px;overflow-y:auto;z-index:9999;box-sizing:border-box;">
+            </div>
           </div>
-          <!-- Valeur cachée sélectionnée -->
           <input type="hidden" id="model-select" value="">
         </div>
         <div id="model-other-wrap" style="display:none">
@@ -1488,98 +1488,117 @@ function _showPhoneStep(step){
 function selectBrand(brand){
   phoneModalState.selectedBrand = brand;
   phoneModalState.selectedModel = null;
-
-  document.querySelectorAll('.brand-card').forEach(c=>c.classList.remove('selected'));
-  const map = {'iPhone':'brand-iphone','Samsung S':'brand-samsung-s','Samsung A':'brand-samsung-a','Autre':'brand-other'};
+  document.querySelectorAll('.brand-card').forEach(function(c){ c.classList.remove('selected'); });
+  var map = {'iPhone':'brand-iphone','Samsung S':'brand-samsung-s','Samsung A':'brand-samsung-a','Autre':'brand-other'};
   if(map[brand]) document.getElementById(map[brand]).classList.add('selected');
-
   setTimeout(function(){
     _showPhoneStep(2);
-    const otherWrap = document.getElementById('model-other-wrap');
-    const listBox   = document.getElementById('model-list-box');
-    const searchInp = document.getElementById('model-search-input');
-    const hiddenSel = document.getElementById('model-select');
-    document.getElementById('model-select-label').textContent = brand === 'Autre' ? 'Modèle non listé ?' : 'Sélectionne ton ' + brand;
-
-    if(brand === 'Autre'){
-      otherWrap.style.display  = 'block';
-      listBox.parentElement.style.display = 'none'; // cacher le wrap recherche+liste
+    var otherWrap  = document.getElementById('model-other-wrap');
+    var dropWrap   = document.getElementById('model-dropdown-wrap');
+    var hiddenSel  = document.getElementById('model-select');
+    var labelSpan  = document.getElementById('model-dropdown-label');
+    document.getElementById('model-select-label').textContent = (brand==='Autre') ? 'Modèle non listé ?' : 'Sélectionne ton '+brand;
+    if(brand==='Autre'){
+      otherWrap.style.display = 'block';
+      if(dropWrap) dropWrap.style.display = 'none';
       document.getElementById('model-other-input').value = '';
     } else {
       otherWrap.style.display = 'none';
-      listBox.parentElement.style.display = 'block';
-      searchInp.value = '';
-      hiddenSel.value = '';
-      _buildModelList(PHONE_MODELS[brand]||[], '');
+      if(dropWrap) dropWrap.style.display = 'block';
+      if(hiddenSel) hiddenSel.value = '';
+      if(labelSpan){ labelSpan.textContent='— Choisir un modèle —'; labelSpan.style.color='rgba(255,255,255,.4)'; }
+      var listEl = document.getElementById('model-dropdown-list');
+      if(listEl) listEl.style.display = 'none';
+      var arrow = document.getElementById('model-dropdown-arrow');
+      if(arrow) arrow.style.transform = 'rotate(0deg)';
+      _buildModelDropdown(PHONE_MODELS[brand]||[]);
     }
     document.getElementById('pm-confirm-btn').disabled = true;
   }, 120);
 }
 
-function _buildModelList(models, filter){
-  const box = document.getElementById('model-list-box');
-  const hiddenSel = document.getElementById('model-select');
-  const currentVal = hiddenSel ? hiddenSel.value : '';
-  const filtered = filter ? models.filter(function(m){ return m.toLowerCase().includes(filter.toLowerCase()); }) : models;
-  box.innerHTML = '';
-  if(!filtered.length){
-    var empty = document.createElement('div');
-    empty.style.cssText = 'padding:12px 14px;color:var(--gray);font-size:13px;font-family:Outfit,sans-serif;';
-    empty.textContent = 'Aucun modèle trouvé';
-    box.appendChild(empty);
-    return;
-  }
-  filtered.forEach(function(m){
+function _buildModelDropdown(models){
+  var list = document.getElementById('model-dropdown-list');
+  if(!list) return;
+  list.innerHTML = '';
+  models.forEach(function(m){
     var item = document.createElement('div');
     item.textContent = m;
-    var isSelected = (m === currentVal);
-    item.style.cssText = 'padding:11px 14px;font-family:Outfit,sans-serif;font-size:14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s;color:' + (isSelected ? '#fff' : 'rgba(255,255,255,.8)') + ';background:' + (isSelected ? 'rgba(232,18,26,.2)' : 'transparent') + ';';
-    if(isSelected) item.style.fontWeight = '600';
-    item.onmouseover = function(){ if(m!==currentVal) this.style.background='rgba(255,255,255,.06)'; };
-    item.onmouseout  = function(){ if(m!==currentVal) this.style.background='transparent'; };
-    item.onclick = function(){
-      // Désélectionner l'ancien
-      box.querySelectorAll('div').forEach(function(d){ d.style.background='transparent'; d.style.fontWeight='400'; d.style.color='rgba(255,255,255,.8)'; });
-      // Sélectionner celui-ci
+    item.style.cssText = 'padding:11px 14px;font-family:Outfit,sans-serif;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .1s;';
+    item.onmouseover = function(){ this.style.background='rgba(232,18,26,.15)'; this.style.color='#fff'; };
+    item.onmouseout  = function(){
+      var sel = document.getElementById('model-select');
+      var active = sel && sel.value===m;
+      this.style.background = active ? 'rgba(232,18,26,.2)' : 'transparent';
+      this.style.color      = active ? '#fff' : 'rgba(255,255,255,.85)';
+    };
+    item.onclick = function(e){
+      e.stopPropagation();
+      list.querySelectorAll('div').forEach(function(d){ d.style.background='transparent'; d.style.color='rgba(255,255,255,.85)'; d.style.fontWeight='400'; });
       this.style.background = 'rgba(232,18,26,.2)';
-      this.style.fontWeight = '600';
       this.style.color = '#fff';
-      hiddenSel.value = m;
+      this.style.fontWeight = '600';
+      var labelSpan = document.getElementById('model-dropdown-label');
+      if(labelSpan){ labelSpan.textContent=m; labelSpan.style.color='#fff'; }
+      var hiddenSel = document.getElementById('model-select');
+      if(hiddenSel) hiddenSel.value = m;
       phoneModalState.selectedModel = m;
       document.getElementById('pm-confirm-btn').disabled = false;
+      list.style.display = 'none';
+      var arrow = document.getElementById('model-dropdown-arrow');
+      if(arrow) arrow.style.transform = 'rotate(0deg)';
+      var trigger = document.getElementById('model-dropdown-trigger');
+      if(trigger) trigger.style.borderColor = 'var(--red)';
     };
-    box.appendChild(item);
+    list.appendChild(item);
   });
 }
+
+function toggleModelDropdown(){
+  var list  = document.getElementById('model-dropdown-list');
+  var arrow = document.getElementById('model-dropdown-arrow');
+  if(!list) return;
+  var open = list.style.display !== 'none';
+  if(open){
+    list.style.display = 'none';
+    if(arrow) arrow.style.transform = 'rotate(0deg)';
+  } else {
+    list.style.display = 'block';
+    if(arrow) arrow.style.transform = 'rotate(180deg)';
+    var sel = document.getElementById('model-select');
+    if(sel && sel.value){
+      list.querySelectorAll('div').forEach(function(d){ if(d.textContent===sel.value) d.scrollIntoView({block:'nearest'}); });
+    }
+  }
+}
+
+document.addEventListener('click', function(e){
+  var wrap = document.getElementById('model-dropdown-wrap');
+  if(wrap && !wrap.contains(e.target)){
+    var list  = document.getElementById('model-dropdown-list');
+    var arrow = document.getElementById('model-dropdown-arrow');
+    if(list)  list.style.display = 'none';
+    if(arrow) arrow.style.transform = 'rotate(0deg)';
+  }
+});
 
 function goBackToBrand(){
   phoneModalState.selectedBrand = null;
   phoneModalState.selectedModel = null;
-  document.querySelectorAll('.brand-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.brand-card').forEach(function(c){ c.classList.remove('selected'); });
   _showPhoneStep(1);
 }
 
-function filterModelList(val){
-  const brand = phoneModalState.selectedBrand;
-  if(!brand || brand === 'Autre') return;
-  const hiddenSel = document.getElementById('model-select');
-  if(hiddenSel) hiddenSel.value = '';
-  phoneModalState.selectedModel = null;
-  document.getElementById('pm-confirm-btn').disabled = true;
-  _buildModelList(PHONE_MODELS[brand]||[], val);
-}
+function filterModelList(val){ /* legacy - non utilisé */ }
 
 function onModelSelect(){
-  const brand = phoneModalState.selectedBrand;
-  let model = '';
-  if(brand === 'Autre'){
-    model = document.getElementById('model-other-input').value.trim();
-  } else {
-    model = phoneModalState.selectedModel || '';
-  }
+  var model = (phoneModalState.selectedBrand==='Autre')
+    ? document.getElementById('model-other-input').value.trim()
+    : (phoneModalState.selectedModel||'');
   phoneModalState.selectedModel = model;
   document.getElementById('pm-confirm-btn').disabled = !model;
 }
+
 
 function confirmPhoneAndAddToCart(){
   const { pendingPid, pendingColor, pendingAction, selectedModel } = phoneModalState;
