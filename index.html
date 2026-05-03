@@ -24,8 +24,6 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://js.stripe.com/v3/"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root {
   --black: #080808;
@@ -1116,6 +1114,8 @@ footer img{height:40px;object-fit:contain}
 
 <div class="toast" id="toast"></div>
 
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 const PRODUCTS = [
   { id:1,  name:'La Bleue Foncée',      cat:'street',  img:'Screenshot_20260425_164640_AliExpress.jpg',  colors:null, stock:4 },
@@ -1157,6 +1157,45 @@ const EMAILJS_PUBLIC_KEY  = 'vzvnfomCAfceg_hCi';
 const SHOP_EMAIL          = 'Lacaseshop971@gmail.com';
 const SHOP_WHATSAPP       = '590691267598';
 
+const PROMO_CODES = {
+  'CASE10': { type:'percent', value:10, label:'-10%' },
+  'BIENVENUE': { type:'percent', value:10, label:'-10%' },
+  'PACK2': { type:'fixed', value:2, label:'-2€' },
+  'VIP15': { type:'percent', value:15, label:'-15%' },
+};
+let activePromo = null;
+
+// Modèles de téléphones
+var PHONE_MODELS = {
+  'iPhone': [
+    'iPhone 11','iPhone 11 Pro','iPhone 11 Pro Max',
+    'iPhone 12','iPhone 12 Mini','iPhone 12 Pro','iPhone 12 Pro Max',
+    'iPhone 13','iPhone 13 Mini','iPhone 13 Pro','iPhone 13 Pro Max',
+    'iPhone 14','iPhone 14 Plus','iPhone 14 Pro','iPhone 14 Pro Max',
+    'iPhone 15','iPhone 15 Plus','iPhone 15 Pro','iPhone 15 Pro Max',
+    'iPhone 16','iPhone 16 Plus','iPhone 16 Pro','iPhone 16 Pro Max'
+  ],
+  'Samsung S': [
+    'Galaxy S20','Galaxy S20+','Galaxy S20 Ultra',
+    'Galaxy S21','Galaxy S21+','Galaxy S21 Ultra',
+    'Galaxy S22','Galaxy S22+','Galaxy S22 Ultra',
+    'Galaxy S23','Galaxy S23+','Galaxy S23 Ultra',
+    'Galaxy S24','Galaxy S24+','Galaxy S24 Ultra',
+    'Galaxy S25','Galaxy S25+','Galaxy S25 Ultra'
+  ],
+  'Samsung A': [
+    'Galaxy A32','Galaxy A33','Galaxy A34','Galaxy A35',
+    'Galaxy A42','Galaxy A52','Galaxy A52s','Galaxy A53',
+    'Galaxy A54','Galaxy A55','Galaxy A56',
+    'Galaxy A13','Galaxy A14','Galaxy A15','Galaxy A25'
+  ],
+  'Autre': []
+};
+
+// Autres états globaux
+let _resetToken = null;
+let reviewStarVal = 5;
+
 let selBrand = 'all', selCat = 'tous', searchQuery = '';
 let selectedColors = {};
 // Chargement et migration du panier
@@ -1192,7 +1231,14 @@ CATS.forEach(c=>{
   b.textContent=CAT_LABELS[c]; b.dataset.cat=c;
   b.onclick=()=>setCat(b); cf.appendChild(b);
 });
-stripe = Stripe(STRIPE_KEY);
+function initStripeSafe(){
+  if(typeof Stripe !== 'undefined'){
+    stripe = Stripe(STRIPE_KEY);
+  } else {
+    setTimeout(initStripeSafe, 300);
+  }
+}
+initStripeSafe();
 emailjs.init(EMAILJS_PUBLIC_KEY);
 updateAuthUI(); renderCart(); renderGrid();
 initWelcomePopup();
@@ -1395,31 +1441,7 @@ function handleProductModalClick(e){
 // ══════════════════════════════════════════════════════════════
 
 // Données des modèles par marque
-const PHONE_MODELS = {
-  'iPhone': [
-    'iPhone 11','iPhone 11 Pro','iPhone 11 Pro Max',
-    'iPhone 12','iPhone 12 Mini','iPhone 12 Pro','iPhone 12 Pro Max',
-    'iPhone 13','iPhone 13 Mini','iPhone 13 Pro','iPhone 13 Pro Max',
-    'iPhone 14','iPhone 14 Plus','iPhone 14 Pro','iPhone 14 Pro Max',
-    'iPhone 15','iPhone 15 Plus','iPhone 15 Pro','iPhone 15 Pro Max',
-    'iPhone 16','iPhone 16 Plus','iPhone 16 Pro','iPhone 16 Pro Max'
-  ],
-  'Samsung S': [
-    'Galaxy S20','Galaxy S20+','Galaxy S20 Ultra',
-    'Galaxy S21','Galaxy S21+','Galaxy S21 Ultra',
-    'Galaxy S22','Galaxy S22+','Galaxy S22 Ultra',
-    'Galaxy S23','Galaxy S23+','Galaxy S23 Ultra',
-    'Galaxy S24','Galaxy S24+','Galaxy S24 Ultra',
-    'Galaxy S25','Galaxy S25+','Galaxy S25 Ultra'
-  ],
-  'Samsung A': [
-    'Galaxy A32','Galaxy A33','Galaxy A34','Galaxy A35',
-    'Galaxy A42','Galaxy A52','Galaxy A52s','Galaxy A53',
-    'Galaxy A54','Galaxy A55','Galaxy A56',
-    'Galaxy A13','Galaxy A14','Galaxy A15','Galaxy A25'
-  ],
-  'Autre': []
-};
+
 
 // État interne de la modale téléphone (déclaré en haut du script)
 
@@ -1735,6 +1757,16 @@ function getTotals(){
   const normal_price = total_qty*12;
   const discounted = PRICE_MAP(total_qty);
   return { total_qty, normal_price, discounted, saving: normal_price-discounted };
+}
+
+// Override getTotals to apply promo (doit être juste après getTotals)
+function getTotalsWithPromo(){
+  const base = getTotals();
+  if(!activePromo) return base;
+  let finalPrice = base.discounted;
+  if(activePromo.type==='percent') finalPrice = Math.round(finalPrice * (1 - activePromo.value/100));
+  else finalPrice = Math.max(0, finalPrice - activePromo.value);
+  return { ...base, discounted: finalPrice, promoSaving: base.discounted - finalPrice };
 }
 
 function renderCart(){
@@ -2334,7 +2366,7 @@ function saveNotifPref(){
 // ══════════════════════════════════════════
 //  RESET MOT DE PASSE (depuis lien email)
 // ══════════════════════════════════════════
-let _resetToken = null;
+
 function checkResetToken(){
   const params=new URLSearchParams(window.location.search);
   const token=params.get('reset');
@@ -2393,6 +2425,7 @@ function startCheckout(){
   closeCart(); openCheckoutModal();
 }
 function openCheckoutModal(){
+  setTimeout(prefillCheckoutFields, 200);
   renderCart();
   document.getElementById('checkout-modal').classList.add('open');
   if(!cardElement){
@@ -2559,13 +2592,7 @@ function closeLegalModal(){
 // ══════════════════════════════════════════
 //  CODE PROMO
 // ══════════════════════════════════════════
-const PROMO_CODES = {
-  'CASE10': { type:'percent', value:10, label:'-10%' },
-  'BIENVENUE': { type:'percent', value:10, label:'-10%' },
-  'PACK2': { type:'fixed', value:2, label:'-2€' },
-  'VIP15': { type:'percent', value:15, label:'-15%' },
-};
-let activePromo = null;
+
 
 function applyPromoCode(){
   const code = document.getElementById('promo-code-input').value.trim().toUpperCase();
@@ -2580,16 +2607,6 @@ function applyPromoCode(){
   showToast(`🎉 Code <strong>${code}</strong> appliqué : ${promo.label} !`);
 }
 
-// Override getTotals to apply promo
-const _origGetTotals = getTotals;
-function getTotalsWithPromo(){
-  const base = _origGetTotals();
-  if(!activePromo) return base;
-  let finalPrice = base.discounted;
-  if(activePromo.type==='percent') finalPrice = Math.round(finalPrice * (1 - activePromo.value/100));
-  else finalPrice = Math.max(0, finalPrice - activePromo.value);
-  return { ...base, discounted: finalPrice, promoSaving: base.discounted - finalPrice };
-}
 
 // ══════════════════════════════════════════
 //  PARTAGER UN PRODUIT
@@ -2614,7 +2631,7 @@ function shareProduct(){
 // ══════════════════════════════════════════
 //  AVIS CLIENTS
 // ══════════════════════════════════════════
-let reviewStarVal = 5;
+
 function openReviewForm(){
   document.getElementById('review-form-modal').classList.add('open');
 }
@@ -2675,12 +2692,7 @@ function prefillCheckoutFields(){
   if(modelEl && !modelEl.value && user.defaultPhoneModel) modelEl.value=user.defaultPhoneModel;
 }
 
-// Surcharge openCheckoutModal pour auto-remplir
-const _origOpenCheckoutModal = openCheckoutModal;
-function openCheckoutModal(){
-  _origOpenCheckoutModal();
-  setTimeout(prefillCheckoutFields, 200);
-}
+
 
 // Redirect si produit dans URL
 (function(){
