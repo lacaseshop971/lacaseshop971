@@ -468,6 +468,46 @@ footer img{height:40px;object-fit:contain}
 .review-textarea{width:100%;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;resize:vertical;min-height:100px;margin-bottom:10px;transition:border-color .2s}
 .review-textarea:focus{border-color:var(--red)}
 
+/* ══ COMPTE CLIENT — DROPDOWN ENRICHI ══ */
+.user-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:var(--card);border:1px solid var(--border2);min-width:240px;z-index:600;display:none;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.user-dropdown.open{display:flex}
+.user-dropdown-header{padding:14px 16px 10px;border-bottom:1px solid var(--border)}
+.user-dropdown-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:2px}
+.user-dropdown-email{font-size:11px;color:var(--gray);letter-spacing:.05em}
+.user-dropdown-sep{height:1px;background:var(--border);margin:4px 0}
+
+/* ══ PANIER — BOUTON MODIFIER ADRESSE ══ */
+.cart-item-address-btn{background:transparent;border:1px solid var(--border);color:var(--gray-light);padding:4px 10px;font-family:'Outfit',sans-serif;font-size:10px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;margin-top:6px;display:inline-block}
+.cart-item-address-btn:hover{border-color:var(--red);color:var(--red)}
+.cart-item-phone-model{font-size:10px;color:var(--gray);margin-top:4px;display:flex;align-items:center;gap:4px}
+
+/* ══ MODAL COMPTE CLIENT ══ */
+.account-modal{max-width:480px}
+.account-section{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.account-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.account-section-title{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.account-field-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.account-field-label{font-size:12px;color:var(--gray);letter-spacing:.05em}
+.account-field-val{font-size:13px;color:var(--white);font-weight:500}
+.account-edit-btn{background:transparent;border:1px solid var(--border);color:var(--gray-light);padding:5px 12px;font-family:'Outfit',sans-serif;font-size:11px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;transition:all .15s}
+.account-edit-btn:hover{border-color:var(--red);color:var(--red)}
+.account-save-btn{background:var(--red);border:none;color:var(--white);padding:10px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;width:100%;margin-top:8px}
+.account-save-btn:hover{background:var(--red-dark)}
+.account-referral-box{background:var(--card2);border:1px solid var(--border);padding:14px;text-align:center}
+.account-referral-code{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--red);letter-spacing:3px;margin:6px 0}
+.account-referral-sub{font-size:11px;color:var(--gray);line-height:1.6}
+.account-notif-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.account-notif-label{font-size:13px;color:var(--gray-light)}
+.toggle-switch{position:relative;width:44px;height:24px;cursor:pointer}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:#333;border-radius:24px;transition:.3s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:var(--white);border-radius:50%;transition:.3s}
+.toggle-switch input:checked + .toggle-slider{background:var(--red)}
+.toggle-switch input:checked + .toggle-slider::before{transform:translateX(20px)}
+
+/* ══ MODAL RESET MDP ══ */
+.reset-info{background:rgba(232,18,26,.08);border:1px solid rgba(232,18,26,.25);padding:12px 16px;font-size:13px;color:var(--gray-light);line-height:1.7;margin-bottom:1.5rem}
+
 </style>
 </head>
 <body>
@@ -485,8 +525,17 @@ footer img{height:40px;object-fit:contain}
     <div class="nav-user-wrap" id="nav-user-wrap">
       <button class="nav-btn" id="auth-btn" onclick="openAuthModal()">👤 Connexion</button>
       <div class="user-dropdown" id="user-dropdown">
-        <div class="user-name-display" id="user-name-display"></div>
-        <button class="user-dropdown-item" onclick="viewOrders()">📦 Mes commandes</button>
+        <div class="user-dropdown-header">
+          <div class="user-dropdown-name" id="user-name-display">—</div>
+          <div class="user-dropdown-email" id="user-email-display"></div>
+        </div>
+        <button class="user-dropdown-item" onclick="openAccountModal('profil')">👤 Mon profil</button>
+        <button class="user-dropdown-item" onclick="openAccountModal('commandes')">📦 Mes commandes</button>
+        <button class="user-dropdown-item" onclick="openAccountModal('adresse')">📍 Mon adresse</button>
+        <button class="user-dropdown-item" onclick="openAccountModal('securite')">🔐 Sécurité & mot de passe</button>
+        <button class="user-dropdown-item" onclick="openAccountModal('parrainage')">🎁 Parrainage</button>
+        <button class="user-dropdown-item" onclick="openAccountModal('notifications')">🔔 Notifications</button>
+        <div class="user-dropdown-sep"></div>
         <button class="user-dropdown-item danger" onclick="logout()">🚪 Déconnexion</button>
       </div>
     </div>
@@ -765,9 +814,9 @@ footer img{height:40px;object-fit:contain}
       <button class="modal-submit" onclick="doLogin()">Se connecter</button>
     </div>
     <div id="form-forgot" style="display:none">
-      <p style="font-size:13px;color:var(--gray-light);margin-bottom:1.2rem">Entre ton email et nous t'enverrons un nouveau mot de passe.</p>
+      <p style="font-size:13px;color:var(--gray-light);margin-bottom:1.2rem">Entre ton email et nous t'enverrons un lien pour créer un nouveau mot de passe.</p>
       <div class="form-group"><label>Email</label><input type="email" id="forgot-email" placeholder="ton@email.com"></div>
-      <button class="modal-submit" onclick="doForgotPassword()">Réinitialiser le mot de passe</button>
+      <button class="modal-submit" onclick="doForgotPassword()">Envoyer le lien de réinitialisation</button>
       <div style="text-align:center;margin-top:12px"><a href="#" onclick="showLoginForm();return false;" style="font-size:12px;color:var(--gray);text-decoration:none">← Retour à la connexion</a></div>
     </div>
     <div id="form-register" style="display:none">
@@ -781,6 +830,10 @@ footer img{height:40px;object-fit:contain}
         </div>
       </div>
       <div class="form-group"><label>WhatsApp</label><input type="tel" id="reg-tel" placeholder="+590 6XX XX XX XX"></div>
+      <div class="form-group">
+        <label>Adresse de livraison <span style="font-size:10px;color:var(--gray);font-weight:300;letter-spacing:0;text-transform:none">(optionnel — ignorer pour le moment)</span></label>
+        <input type="text" id="reg-address" placeholder="Ex: Pointe-à-Pitre, Basse-Terre...">
+      </div>
       <button class="modal-submit" onclick="doRegister()">Créer mon compte</button>
     </div>
   </div>
@@ -825,7 +878,7 @@ footer img{height:40px;object-fit:contain}
     <div class="product-modal-body">
       <div class="product-modal-cat" id="pm-cat"></div>
       <div class="product-modal-name" id="pm-name"></div>
-      <div class="product-modal-brand">iPhone · Samsung</div>
+      <div class="product-modal-brand">iPhone · Samsung S · Samsung A</div>
       <div class="product-modal-price">12€</div>
       <div class="product-modal-colors" id="pm-colors" style="display:none">
         <div class="color-label">Choisir une couleur</div>
@@ -833,8 +886,8 @@ footer img{height:40px;object-fit:contain}
         <div class="color-label" id="pm-color-label" style="margin-top:8px"></div>
       </div>
       <div class="product-modal-info" id="pm-compat">
-        📦 Livraison rapide en Guadeloupe<br>
-        📱 Compatible iPhone 11→16 Pro Max · Samsung S20→S25<br>
+        📦 Livraison rapide en Martinique<br>
+        📱 Compatible iPhone 11→16 Pro Max · Samsung S20→S25 · Samsung A32→A56<br>
         🛡️ Protection renforcée · Design premium
       </div>
       <button class="share-btn" onclick="shareProduct()" style="margin-bottom:.8rem;width:100%">🔗 Partager cette coque</button>
@@ -898,6 +951,36 @@ footer img{height:40px;object-fit:contain}
   <div class="legal-modal">
     <button class="legal-close" onclick="closeLegalModal()">✕</button>
     <div id="legal-content"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL COMPTE CLIENT ══ -->
+<div class="modal-overlay" id="account-modal" onclick="if(event.target===this)closeAccountModal()">
+  <div class="modal account-modal" style="position:relative;max-height:85vh;overflow-y:auto">
+    <button class="modal-close" onclick="closeAccountModal()">✕</button>
+    <div class="modal-title" id="account-modal-title">Mon Compte</div>
+    <div id="account-modal-content"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL RESET MDP (lien email) ══ -->
+<div class="modal-overlay" id="reset-modal" onclick="if(event.target===this)closeResetModal()">
+  <div class="modal" style="position:relative;max-width:420px">
+    <button class="modal-close" onclick="closeResetModal()">✕</button>
+    <div class="modal-title">Nouveau mot de passe</div>
+    <div class="modal-sub">Choisis un nouveau mot de passe pour ton compte.</div>
+    <div class="reset-info" id="reset-email-info"></div>
+    <div class="modal-error" id="reset-error"></div>
+    <div class="form-group"><label>Nouveau mot de passe</label>
+      <div style="position:relative">
+        <input type="password" id="reset-new-pass" placeholder="8 caractères minimum" style="width:100%;padding-right:44px;box-sizing:border-box">
+        <button type="button" onclick="togglePass('reset-new-pass','eye-reset')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:18px;padding:0;line-height:1" id="eye-reset">👁</button>
+      </div>
+    </div>
+    <div class="form-group"><label>Confirmer le mot de passe</label>
+      <input type="password" id="reset-confirm-pass" placeholder="••••••••">
+    </div>
+    <button class="modal-submit" onclick="doResetPassword()">Confirmer le nouveau mot de passe</button>
   </div>
 </div>
 
@@ -1015,7 +1098,7 @@ function renderGrid(){
       <div class="prod-cat-badge">${CAT_LABELS[p.cat]}</div>
       <div class="prod-body">
         <div class="prod-name">${p.name}</div>
-        <div class="prod-brand">iPhone · Samsung</div>
+        <div class="prod-brand">iPhone · Samsung S · Samsung A</div>
         ${colorHtml}
         <div class="prod-price">12€</div>
         ${stockHtml}
@@ -1233,6 +1316,8 @@ function renderCart(){
   const {total_qty, normal_price, discounted, saving} = getTotals();
   if(total_qty>0){ badge.style.display='flex'; badge.textContent=total_qty; } else badge.style.display='none';
   renderCartProgress(total_qty);
+  // Récupérer le modèle sauvegardé
+  const savedModel = currentUser ? (JSON.parse(localStorage.getItem('lcs_users')||'[]').find(u=>u.email===currentUser.email)||{}).defaultPhoneModel || '' : '';
   if(!cart.length){
     list.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div>Ton panier est vide</div>`;
   } else {
@@ -1241,13 +1326,15 @@ function renderCart(){
         <img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.display='none'">
         <div class="cart-item-info">
           <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-sub">iPhone · Samsung${item.color?' · '+item.color:''}</div>
+          <div class="cart-item-sub">iPhone · Samsung S · Samsung A${item.color?' · <strong style="color:var(--white)">'+item.color+'</strong>':''}</div>
+          ${savedModel ? `<div class="cart-item-phone-model">📱 ${savedModel}</div>` : ''}
           <div class="cart-item-qty">
             <button class="qty-btn" onclick="changeQty(${item.id},'${item.color}',-1)">−</button>
             <span class="qty-val">${item.qty}</span>
             <button class="qty-btn" onclick="changeQty(${item.id},'${item.color}',1)">+</button>
           </div>
           <div class="cart-item-price">${item.qty*12}€</div>
+          <button class="cart-item-address-btn" onclick="openAddressModal()">📍 Modifier l'adresse</button>
         </div>
         <button class="cart-item-remove" onclick="removeFromCart(${item.id},'${item.color}')">✕</button>
       </div>`).join('');
@@ -1277,8 +1364,17 @@ function updateAuthUI(){
   const btn = document.getElementById('auth-btn');
   const dd = document.getElementById('user-dropdown');
   const nd = document.getElementById('user-name-display');
-  if(currentUser){ btn.textContent='👤 '+currentUser.name.split(' ')[0]; btn.onclick=()=>dd.classList.toggle('open'); nd.textContent=currentUser.email; }
-  else { btn.innerHTML='👤 Connexion'; btn.onclick=openAuthModal; dd.classList.remove('open'); }
+  const ed = document.getElementById('user-email-display');
+  if(currentUser){
+    btn.textContent='👤 '+currentUser.name.split(' ')[0];
+    btn.onclick=()=>dd.classList.toggle('open');
+    nd.textContent=currentUser.name;
+    if(ed) ed.textContent=currentUser.email;
+  } else {
+    btn.innerHTML='👤 Connexion';
+    btn.onclick=openAuthModal;
+    dd.classList.remove('open');
+  }
 }
 function openAuthModal(){ document.getElementById('auth-modal').classList.add('open'); }
 function closeAuthModal(){ document.getElementById('auth-modal').classList.remove('open'); document.getElementById('auth-error').classList.remove('show'); }
@@ -1313,15 +1409,49 @@ function doForgotPassword(){
   const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
   const user=users.find(u=>u.email===email);
   if(!user){ showAuthError('Aucun compte trouvé avec cet email.'); return; }
-  const newPass='Case'+Math.floor(1000+Math.random()*9000);
-  user.pass=btoa(newPass);
-  localStorage.setItem('lcs_users',JSON.stringify(users));
-  showAuthError('');
-  document.getElementById('auth-error').classList.remove('show');
-  showToast('Nouveau mot de passe : <strong>'+newPass+'</strong> — note-le !');
-  document.getElementById('forgot-email').value='';
-  document.getElementById('login-email').value=email;
-  showLoginForm();
+  // Générer un token de reset (valable 1h)
+  const token = btoa(email + '|' + Date.now() + '|' + Math.random().toString(36).slice(2));
+  const expiry = Date.now() + 60 * 60 * 1000; // 1 heure
+  const resetTokens = JSON.parse(localStorage.getItem('lcs_reset_tokens')||'{}');
+  resetTokens[token] = { email, expiry };
+  localStorage.setItem('lcs_reset_tokens', JSON.stringify(resetTokens));
+  // Construire le lien de reset
+  const resetUrl = window.location.origin + window.location.pathname + '?reset=' + encodeURIComponent(token);
+  const btn = document.querySelector('#form-forgot .modal-submit');
+  if(btn){ btn.disabled=true; btn.textContent='⏳ Envoi en cours...'; }
+
+  const showSuccess = () => {
+    if(btn){ btn.disabled=false; btn.textContent='Envoyer le lien de réinitialisation'; }
+    document.getElementById('form-forgot').innerHTML=`
+      <div style="text-align:center;padding:1rem 0">
+        <div style="font-size:40px;margin-bottom:1rem">📧</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:.5rem">Email envoyé !</div>
+        <p style="font-size:13px;color:var(--gray-light);line-height:1.7;margin-bottom:1.5rem">
+          Un lien de réinitialisation a été envoyé à <strong style="color:var(--white)">${email}</strong>.<br>
+          Il est valable <strong>1 heure</strong>.
+        </p>
+        <a href="#" onclick="showLoginForm();return false;" style="font-size:12px;color:var(--red);text-decoration:none">← Retour à la connexion</a>
+      </div>`;
+  };
+
+  // Essayer via l'API serveur d'abord
+  fetch('/api/send-reset-email', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ email, resetUrl, userName: user.name })
+  }).then(r=>r.json()).then(d=>{
+    if(d.success) showSuccess();
+    else throw new Error(d.error);
+  }).catch(()=>{
+    // Fallback EmailJS
+    emailjs.send(EMAILJS_SERVICE_ID, 'template_reset_pwd', {
+      to_email: email, to_name: user.name, reset_url: resetUrl, shop_name: 'La Case Shop',
+    }).then(showSuccess).catch(()=>{
+      if(btn){ btn.disabled=false; btn.textContent='Envoyer le lien de réinitialisation'; }
+      showToast('❌ Erreur d\'envoi email. Contacte-nous sur WhatsApp.');
+      console.log('[Dev] Reset URL:', resetUrl);
+    });
+  });
 }
 function doLogin(){
   const email=document.getElementById('login-email').value.trim();
@@ -1339,7 +1469,8 @@ function doRegister(){
   const email=document.getElementById('reg-email').value.trim();
   const pass=document.getElementById('reg-pass').value;
   const tel=document.getElementById('reg-tel').value.trim();
-  if(!name||!email||!pass||!tel){ showAuthError('Remplis tous les champs.'); return; }
+  const address=document.getElementById('reg-address').value.trim();
+  if(!name||!email||!pass||!tel){ showAuthError('Remplis tous les champs obligatoires.'); return; }
   if(pass.length<8){ showAuthError('Mot de passe trop court (8 min).'); return; }
   const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
   if(users.find(u=>u.email===email)){
@@ -1351,9 +1482,9 @@ function doRegister(){
     }, 1500);
     return;
   }
-  users.push({name,email,pass:btoa(pass),tel,orders:[]});
+  users.push({name,email,pass:btoa(pass),tel,address:address||'',orders:[],notifEmail:true,notifWhatsapp:false});
   localStorage.setItem('lcs_users',JSON.stringify(users));
-  currentUser={name,email,tel};
+  currentUser={name,email,tel,address:address||''};
   localStorage.setItem('lcs_user',JSON.stringify(currentUser));
   closeAuthModal(); updateAuthUI(); showToast(`Compte créé ! Bienvenue <strong>${name}</strong> 🎉`);
 }
@@ -1364,33 +1495,291 @@ function logout(){
 }
 function viewOrders(){
   document.getElementById('user-dropdown').classList.remove('open');
+  openAccountModal('commandes');
+}
+
+// ══════════════════════════════════════════
+//  MODAL COMPTE CLIENT
+// ══════════════════════════════════════════
+function openAccountModal(section){
+  document.getElementById('user-dropdown').classList.remove('open');
+  if(!currentUser){ openAuthModal(); return; }
   const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
-  const user=users.find(u=>u.email===currentUser.email);
-  const orders=user?.orders||[];
-  const html=orders.length===0
-    ?'<p style="color:var(--gray);font-size:14px;padding:1rem 0">Aucune commande pour l\'instant.</p>'
-    :orders.map(o=>`<div style="border:1px solid var(--border);padding:1rem;margin-bottom:1rem;background:var(--card2)">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">${o.id}</span>
-          <span style="font-size:11px;color:#5eed8a;background:rgba(94,237,138,.1);padding:3px 10px;border:1px solid rgba(94,237,138,.3)">${o.status}</span>
+  const user=users.find(u=>u.email===currentUser.email)||{};
+  const modal=document.getElementById('account-modal');
+  const content=document.getElementById('account-modal-content');
+  const titleEl=document.getElementById('account-modal-title');
+
+  const sections = {
+    profil: '👤 Mon Profil',
+    commandes: '📦 Mes Commandes',
+    adresse: '📍 Mon Adresse',
+    securite: '🔐 Sécurité',
+    parrainage: '🎁 Parrainage',
+    notifications: '🔔 Notifications',
+  };
+  titleEl.textContent = sections[section] || 'Mon Compte';
+
+  if(section==='profil'){
+    content.innerHTML=`
+      <div class="account-section">
+        <div class="account-section-title">✏️ Informations personnelles</div>
+        <div class="form-group"><label>Prénom & Nom</label><input type="text" id="acc-name" value="${user.name||''}" placeholder="Ton prénom et nom"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="acc-email" value="${user.email||''}" placeholder="ton@email.com"></div>
+        <div class="form-group"><label>WhatsApp</label><input type="tel" id="acc-tel" value="${user.tel||''}" placeholder="+590 6XX XX XX XX"></div>
+        <button class="account-save-btn" onclick="saveProfile()">✓ Enregistrer les modifications</button>
+      </div>
+      <div class="account-section">
+        <div class="account-section-title">📱 Modèle de téléphone par défaut</div>
+        <p style="font-size:12px;color:var(--gray);margin-bottom:.8rem;line-height:1.6">Ton modèle sera pré-rempli à chaque commande et visible dans le panier.</p>
+        <div class="form-group"><input type="text" id="acc-phone-model" value="${user.defaultPhoneModel||''}" placeholder="Ex: iPhone 15 Pro, Samsung A54..."></div>
+        <button class="account-save-btn" onclick="savePhoneModel()">✓ Sauvegarder le modèle</button>
+      </div>`;
+  } else if(section==='commandes'){
+    const orders=user.orders||[];
+    const ordersHtml = orders.length===0
+      ? '<p style="color:var(--gray);font-size:14px;padding:1rem 0;text-align:center">Aucune commande pour l\'instant.</p>'
+      : orders.map(o=>`
+        <div style="border:1px solid var(--border);padding:1rem;margin-bottom:1rem;background:var(--card2)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">${o.id}</span>
+            <span style="font-size:11px;color:#5eed8a;background:rgba(94,237,138,.1);padding:3px 10px;border:1px solid rgba(94,237,138,.3)">${o.status}</span>
+          </div>
+          <div style="font-size:12px;color:var(--gray-light);margin-bottom:.5rem">📅 ${o.date} · 📍 ${o.address||'N/A'}</div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:.5rem">${o.items.map(i=>`${i.name}${i.color?' ('+i.color+')':''} ×${i.qty}`).join(' · ')}</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red)">${o.total}€</div>
+        </div>`).join('');
+    content.innerHTML=`<div>${ordersHtml}</div>`;
+  } else if(section==='adresse'){
+    content.innerHTML=`
+      <div class="account-section">
+        <div class="account-section-title">📍 Adresse de livraison</div>
+        <p style="font-size:12px;color:var(--gray);margin-bottom:1rem;line-height:1.6">Cette adresse sera pré-remplie lors du paiement et visible dans ton panier.</p>
+        <div class="form-group"><label>Commune / Adresse</label><input type="text" id="acc-address" value="${user.address||''}" placeholder="Ex: Pointe-à-Pitre, Basse-Terre, Le Gosier..."></div>
+        <div class="form-group"><label>Complément (optionnel)</label><input type="text" id="acc-address2" value="${user.address2||''}" placeholder="Ex: Résidence Les Cocotiers, Apt 4B"></div>
+        <button class="account-save-btn" onclick="saveAddress()">✓ Sauvegarder l'adresse</button>
+      </div>`;
+    // Pré-remplir le champ adresse du checkout si dispo
+    setTimeout(()=>{
+      const delivEl=document.getElementById('delivery-address');
+      if(delivEl && user.address && !delivEl.value) delivEl.value=user.address;
+    },100);
+  } else if(section==='securite'){
+    content.innerHTML=`
+      <div class="account-section">
+        <div class="account-section-title">🔐 Changer le mot de passe</div>
+        <div class="form-group"><label>Mot de passe actuel</label>
+          <div style="position:relative"><input type="password" id="acc-old-pass" placeholder="••••••••" style="width:100%;padding-right:44px;box-sizing:border-box">
+          <button type="button" onclick="togglePass('acc-old-pass','eye-old')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:18px" id="eye-old">👁</button></div>
         </div>
-        <div style="font-size:12px;color:var(--gray-light);margin-bottom:.5rem">📅 ${o.date} · 📍 ${o.address||'N/A'}</div>
-        <div style="font-size:12px;color:var(--gray);margin-bottom:.5rem">${o.items.map(i=>`${i.name}${i.color?' ('+i.color+')':''} ×${i.qty}`).join(' · ')}</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red)">${o.total}€</div>
-      </div>`).join('');
-  let om=document.getElementById('orders-modal');
-  if(!om){
-    om=document.createElement('div'); om.id='orders-modal'; om.className='modal-overlay';
-    om.innerHTML=`<div class="modal" style="position:relative;max-width:520px;max-height:80vh;overflow-y:auto">
-      <button class="modal-close" onclick="document.getElementById('orders-modal').classList.remove('open')">✕</button>
-      <div class="modal-title">Mes Commandes</div>
-      <div class="modal-sub" style="margin-bottom:1.5rem">Historique de toutes tes commandes</div>
-      <div id="orders-list"></div></div>`;
-    document.body.appendChild(om);
+        <div class="form-group"><label>Nouveau mot de passe</label>
+          <div style="position:relative"><input type="password" id="acc-new-pass" placeholder="8 caractères minimum" style="width:100%;padding-right:44px;box-sizing:border-box">
+          <button type="button" onclick="togglePass('acc-new-pass','eye-new')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:18px" id="eye-new">👁</button></div>
+        </div>
+        <div class="form-group"><label>Confirmer le nouveau mot de passe</label>
+          <input type="password" id="acc-confirm-pass" placeholder="••••••••">
+        </div>
+        <div id="acc-pass-error" style="color:#ff6b70;font-size:12px;margin-bottom:8px;display:none"></div>
+        <button class="account-save-btn" onclick="changePassword()">✓ Mettre à jour le mot de passe</button>
+      </div>
+      <div class="account-section">
+        <div class="account-section-title">⚠️ Zone de danger</div>
+        <p style="font-size:12px;color:var(--gray);margin-bottom:1rem;line-height:1.6">La suppression de ton compte est définitive. Toutes tes données seront effacées.</p>
+        <button onclick="deleteAccount()" style="background:transparent;border:1px solid rgba(232,18,26,.4);color:var(--red);padding:10px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;width:100%;transition:all .2s" onmouseover="this.style.background='rgba(232,18,26,.1)'" onmouseout="this.style.background='transparent'">🗑️ Supprimer mon compte</button>
+      </div>`;
+  } else if(section==='parrainage'){
+    const refCode = 'LCS' + (user.name||'').toUpperCase().replace(/\s/g,'').slice(0,4) + (user.email||'').charCodeAt(0);
+    const refCount = user.referrals||0;
+    content.innerHTML=`
+      <div class="account-section">
+        <div class="account-section-title">🎁 Ton code de parrainage</div>
+        <p style="font-size:12px;color:var(--gray);margin-bottom:1rem;line-height:1.6">Partage ton code avec tes amis. Pour chaque ami qui commande, vous recevez tous les deux <strong style="color:var(--white)">-5% sur votre prochaine commande</strong> !</p>
+        <div class="account-referral-box">
+          <div style="font-size:11px;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">Ton code unique</div>
+          <div class="account-referral-code">${refCode}</div>
+          <div class="account-referral-sub">Partage ce code sur Instagram ou WhatsApp</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:1rem">
+          <button onclick="navigator.clipboard.writeText('${refCode}').then(()=>showToast('Code <strong>${refCode}</strong> copié !'))" style="flex:1;background:transparent;border:1px solid var(--border2);color:var(--gray-light);padding:10px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:all .2s" onmouseover="this.style.borderColor='var(--white)';this.style.color='var(--white)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--gray-light)'">📋 Copier</button>
+          <button onclick="window.open('https://wa.me/?text='+encodeURIComponent('Commande tes coques sur La Case Shop avec mon code ${refCode} et on reçoit tous les 2 une réduc ! 🛍️ https://lacaseshop971.onrender.com'),'_blank')" style="flex:1;background:#25D366;border:none;color:var(--white);padding:10px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.04em;text-transform:uppercase">💬 WhatsApp</button>
+        </div>
+      </div>
+      <div class="account-section">
+        <div class="account-section-title">📊 Mes filleuls</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--red);text-align:center">${refCount}</div>
+        <div style="text-align:center;font-size:12px;color:var(--gray)">ami${refCount>1?'s':''} parrainé${refCount>1?'s':''}</div>
+      </div>`;
+  } else if(section==='notifications'){
+    const notifEmail = user.notifEmail !== false;
+    const notifWhatsapp = user.notifWhatsapp || false;
+    const notifPromo = user.notifPromo !== false;
+    content.innerHTML=`
+      <div class="account-section">
+        <div class="account-section-title">🔔 Préférences de notifications</div>
+        <p style="font-size:12px;color:var(--gray);margin-bottom:1.2rem;line-height:1.6">Choisis comment tu veux être informé de l'état de tes commandes et des promotions.</p>
+        <div class="account-notif-row">
+          <span class="account-notif-label">📧 Notifications par email</span>
+          <label class="toggle-switch"><input type="checkbox" id="notif-email" ${notifEmail?'checked':''} onchange="saveNotifPref()"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="account-notif-row">
+          <span class="account-notif-label">💬 Notifications WhatsApp</span>
+          <label class="toggle-switch"><input type="checkbox" id="notif-whatsapp" ${notifWhatsapp?'checked':''} onchange="saveNotifPref()"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="account-notif-row">
+          <span class="account-notif-label">🎉 Offres & promotions</span>
+          <label class="toggle-switch"><input type="checkbox" id="notif-promo" ${notifPromo?'checked':''} onchange="saveNotifPref()"><span class="toggle-slider"></span></label>
+        </div>
+        <p style="font-size:11px;color:var(--gray);margin-top:1rem;line-height:1.6">Tes préférences sont sauvegardées automatiquement dès que tu modifies un interrupteur.</p>
+      </div>`;
   }
-  document.getElementById('orders-list').innerHTML=html;
-  om.classList.add('open');
-  om.onclick=e=>{if(e.target===om)om.classList.remove('open')};
+
+  modal.classList.add('open');
+}
+
+function closeAccountModal(){
+  document.getElementById('account-modal').classList.remove('open');
+}
+
+function saveProfile(){
+  const name=document.getElementById('acc-name').value.trim();
+  const email=document.getElementById('acc-email').value.trim();
+  const tel=document.getElementById('acc-tel').value.trim();
+  if(!name||!email){ showToast('Remplis les champs obligatoires.'); return; }
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const idx=users.findIndex(u=>u.email===currentUser.email);
+  if(idx<0) return;
+  users[idx].name=name; users[idx].email=email; users[idx].tel=tel;
+  localStorage.setItem('lcs_users',JSON.stringify(users));
+  currentUser={...currentUser,name,email,tel};
+  localStorage.setItem('lcs_user',JSON.stringify(currentUser));
+  updateAuthUI();
+  showToast('✓ Profil mis à jour !');
+}
+
+function savePhoneModel(){
+  const model=document.getElementById('acc-phone-model').value.trim();
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const idx=users.findIndex(u=>u.email===currentUser.email);
+  if(idx<0) return;
+  users[idx].defaultPhoneModel=model;
+  localStorage.setItem('lcs_users',JSON.stringify(users));
+  // Pré-remplir le champ modèle dans le checkout
+  const pmEl=document.getElementById('phone-model');
+  if(pmEl && model) pmEl.value=model;
+  renderCart();
+  showToast('✓ Modèle de téléphone sauvegardé !');
+}
+
+function saveAddress(){
+  const address=document.getElementById('acc-address').value.trim();
+  const address2=document.getElementById('acc-address2').value.trim();
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const idx=users.findIndex(u=>u.email===currentUser.email);
+  if(idx<0) return;
+  users[idx].address=address; users[idx].address2=address2;
+  localStorage.setItem('lcs_users',JSON.stringify(users));
+  currentUser={...currentUser,address};
+  localStorage.setItem('lcs_user',JSON.stringify(currentUser));
+  // Pré-remplir le champ adresse dans le checkout
+  const delivEl=document.getElementById('delivery-address');
+  if(delivEl && address) delivEl.value=address;
+  renderCart();
+  showToast('✓ Adresse sauvegardée !');
+}
+
+function openAddressModal(){
+  closeCart();
+  openAccountModal('adresse');
+}
+
+function changePassword(){
+  const oldPass=document.getElementById('acc-old-pass').value;
+  const newPass=document.getElementById('acc-new-pass').value;
+  const confirm=document.getElementById('acc-confirm-pass').value;
+  const errEl=document.getElementById('acc-pass-error');
+  errEl.style.display='none';
+  if(!oldPass||!newPass||!confirm){ errEl.textContent='Remplis tous les champs.'; errEl.style.display='block'; return; }
+  if(newPass.length<8){ errEl.textContent='Nouveau mot de passe trop court (8 min).'; errEl.style.display='block'; return; }
+  if(newPass!==confirm){ errEl.textContent='Les mots de passe ne correspondent pas.'; errEl.style.display='block'; return; }
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const idx=users.findIndex(u=>u.email===currentUser.email);
+  if(idx<0) return;
+  if(users[idx].pass!==btoa(oldPass)){ errEl.textContent='Mot de passe actuel incorrect.'; errEl.style.display='block'; return; }
+  users[idx].pass=btoa(newPass);
+  localStorage.setItem('lcs_users',JSON.stringify(users));
+  showToast('✓ Mot de passe mis à jour avec succès !');
+  closeAccountModal();
+}
+
+function deleteAccount(){
+  if(!confirm('Es-tu sûr(e) de vouloir supprimer définitivement ton compte ?')) return;
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const filtered=users.filter(u=>u.email!==currentUser.email);
+  localStorage.setItem('lcs_users',JSON.stringify(filtered));
+  logout();
+  closeAccountModal();
+  showToast('Compte supprimé. On espère te revoir ! 👋');
+}
+
+function saveNotifPref(){
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const idx=users.findIndex(u=>u.email===currentUser.email);
+  if(idx<0) return;
+  users[idx].notifEmail=document.getElementById('notif-email').checked;
+  users[idx].notifWhatsapp=document.getElementById('notif-whatsapp').checked;
+  users[idx].notifPromo=document.getElementById('notif-promo').checked;
+  localStorage.setItem('lcs_users',JSON.stringify(users));
+  showToast('✓ Préférences sauvegardées');
+}
+
+// ══════════════════════════════════════════
+//  RESET MOT DE PASSE (depuis lien email)
+// ══════════════════════════════════════════
+let _resetToken = null;
+function checkResetToken(){
+  const params=new URLSearchParams(window.location.search);
+  const token=params.get('reset');
+  if(!token) return;
+  const resetTokens=JSON.parse(localStorage.getItem('lcs_reset_tokens')||'{}');
+  const data=resetTokens[token];
+  if(!data || data.expiry < Date.now()){
+    showToast('❌ Ce lien de réinitialisation est expiré ou invalide.', 5000);
+    return;
+  }
+  _resetToken = token;
+  const modal=document.getElementById('reset-modal');
+  const infoEl=document.getElementById('reset-email-info');
+  infoEl.textContent='Tu vas créer un nouveau mot de passe pour : '+data.email;
+  modal.classList.add('open');
+  // Nettoyer l'URL
+  const cleanUrl=window.location.pathname;
+  window.history.replaceState({}, document.title, cleanUrl);
+}
+function closeResetModal(){
+  document.getElementById('reset-modal').classList.remove('open');
+  _resetToken=null;
+}
+function doResetPassword(){
+  const newPass=document.getElementById('reset-new-pass').value;
+  const confirm=document.getElementById('reset-confirm-pass').value;
+  const errEl=document.getElementById('reset-error');
+  errEl.classList.remove('show');
+  if(!newPass||!confirm){ errEl.textContent='Remplis les deux champs.'; errEl.classList.add('show'); return; }
+  if(newPass.length<8){ errEl.textContent='Mot de passe trop court (8 min).'; errEl.classList.add('show'); return; }
+  if(newPass!==confirm){ errEl.textContent='Les mots de passe ne correspondent pas.'; errEl.classList.add('show'); return; }
+  const resetTokens=JSON.parse(localStorage.getItem('lcs_reset_tokens')||'{}');
+  const data=resetTokens[_resetToken];
+  if(!data){ errEl.textContent='Token invalide.'; errEl.classList.add('show'); return; }
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const idx=users.findIndex(u=>u.email===data.email);
+  if(idx<0){ errEl.textContent='Compte introuvable.'; errEl.classList.add('show'); return; }
+  users[idx].pass=btoa(newPass);
+  localStorage.setItem('lcs_users',JSON.stringify(users));
+  delete resetTokens[_resetToken];
+  localStorage.setItem('lcs_reset_tokens',JSON.stringify(resetTokens));
+  closeResetModal();
+  showToast('✓ Mot de passe réinitialisé ! Tu peux te connecter.');
+  setTimeout(()=>openAuthModal(), 1000);
 }
 document.addEventListener('click',e=>{
   const dd=document.getElementById('user-dropdown');
@@ -1674,6 +2063,25 @@ function initAbandonedCart(){
 // ══════════════════════════════════════════
 initCookieBanner();
 initAbandonedCart();
+checkResetToken();
+
+// Auto-remplissage adresse & modèle depuis le profil utilisateur
+function prefillCheckoutFields(){
+  if(!currentUser) return;
+  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const user=users.find(u=>u.email===currentUser.email)||{};
+  const delivEl=document.getElementById('delivery-address');
+  const modelEl=document.getElementById('phone-model');
+  if(delivEl && !delivEl.value && user.address) delivEl.value=user.address;
+  if(modelEl && !modelEl.value && user.defaultPhoneModel) modelEl.value=user.defaultPhoneModel;
+}
+
+// Surcharge openCheckoutModal pour auto-remplir
+const _origOpenCheckoutModal = openCheckoutModal;
+function openCheckoutModal(){
+  _origOpenCheckoutModal();
+  setTimeout(prefillCheckoutFields, 200);
+}
 
 // Redirect si produit dans URL
 (function(){
