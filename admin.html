@@ -30,6 +30,8 @@ body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;
 .login-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:14px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;transition:background .2s}
 .login-btn:hover{background:var(--red-dark)}
 .login-err{color:#ff6b70;font-size:13px;margin-top:10px;display:none}
+.login-attempts{font-size:11px;color:var(--orange);margin-top:6px;display:none}
+.login-attempts.show{display:block}
 .login-err.show{display:block}
 
 /* ── LAYOUT ── */
@@ -181,6 +183,7 @@ body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;
       <button class="sidebar-link active" onclick="showPage('dashboard',this)"><span class="sidebar-link-icon">📊</span>Tableau de bord</button>
       <button class="sidebar-link" onclick="showPage('orders',this)"><span class="sidebar-link-icon">📦</span>Commandes</button>
       <button class="sidebar-link" onclick="showPage('tracking',this)"><span class="sidebar-link-icon">📍</span>Suivi clients</button>
+      <button class="sidebar-link" onclick="showPage('stock',this)"><span class="sidebar-link-icon">📋</span>Gestion stock</button>
       <button class="sidebar-link" onclick="showPage('export',this)"><span class="sidebar-link-icon">📤</span>Export CSV</button>
     </nav>
     <div class="sidebar-footer">
@@ -295,6 +298,19 @@ body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;
       </div>
     </div>
 
+
+    <!-- PAGE: STOCK -->
+    <div id="page-stock" style="display:none">
+      <div class="page-title-row">
+        <div><div class="page-eyebrow">Inventaire</div><div class="page-title">Gestion du stock</div></div>
+        <button class="action-btn" onclick="saveAllStock()">💾 Sauvegarder</button>
+      </div>
+      <div style="font-size:13px;color:var(--gray-light);margin-bottom:1.5rem;line-height:1.7;border:1px solid var(--border);padding:1rem;background:var(--card)">
+        ⚡ Modifie les quantités en stock de chaque coque. La boutique affichera automatiquement le badge "Plus que X en stock" ou "Victime de son succès !" selon le niveau.
+      </div>
+      <div id="stock-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)"></div>
+    </div>
+
   </div><!-- /main -->
 </div><!-- /app -->
 
@@ -344,18 +360,42 @@ const SHOP_WHATSAPP  = '590691267598';
 // ════════════════════════════════════
 let isLoggedIn = sessionStorage.getItem('admin_auth') === '1';
 
+let loginAttempts = parseInt(sessionStorage.getItem('login_attempts')||'0');
+let lockUntil = parseInt(sessionStorage.getItem('lock_until')||'0');
+
 function doLogin(){
+  const now = Date.now();
+  if(lockUntil && now < lockUntil){
+    const secs = Math.ceil((lockUntil - now)/1000);
+    document.getElementById('login-err').textContent = `⏳ Trop de tentatives. Réessaie dans ${secs}s.`;
+    document.getElementById('login-err').classList.add('show');
+    return;
+  }
   const pass = document.getElementById('admin-pass').value;
   if(pass === ADMIN_PASSWORD){
+    sessionStorage.setItem('login_attempts','0');
+    sessionStorage.removeItem('lock_until');
     sessionStorage.setItem('admin_auth','1');
     isLoggedIn = true;
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
     initApp();
   } else {
+    loginAttempts++;
+    sessionStorage.setItem('login_attempts', loginAttempts);
     const err = document.getElementById('login-err');
+    if(loginAttempts >= 5){
+      const lockTime = Date.now() + 60000; // 60 secondes
+      sessionStorage.setItem('lock_until', lockTime);
+      lockUntil = lockTime;
+      loginAttempts = 0;
+      sessionStorage.setItem('login_attempts','0');
+      err.textContent = '🔒 5 tentatives échouées. Compte bloqué 60 secondes.';
+    } else {
+      err.textContent = `❌ Mot de passe incorrect. (${loginAttempts}/5)`;
+    }
     err.classList.add('show');
-    setTimeout(()=>err.classList.remove('show'),3000);
+    setTimeout(()=>err.classList.remove('show'),4000);
   }
 }
 document.getElementById('admin-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
@@ -819,6 +859,108 @@ function showToast(msg, type=''){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
 }
+
+// ════════════════════════════════════
+//  STOCK MANAGEMENT
+// ════════════════════════════════════
+const STOCK_PRODUCTS = [
+  { id:1,  name:'La Bleue Foncée' },
+  { id:2,  name:'Masque VLONE' },
+  { id:3,  name:'VLONE Crew' },
+  { id:4,  name:'Big Trip' },
+  { id:5,  name:'Stitch Angry' },
+  { id:6,  name:'Stitch Mignon' },
+  { id:7,  name:'Stitch Clear' },
+  { id:8,  name:'Grand Voyage (Rose)' },
+  { id:9,  name:'Zoro' },
+  { id:10, name:'Dragon Ancestral' },
+  { id:11, name:'Marvel Iron Man' },
+  { id:12, name:'Black Panther Marvel' },
+  { id:13, name:'Marvel Spider-Man' },
+  { id:14, name:'Luffy' },
+  { id:16, name:'Big Trip Moon' },
+  { id:17, name:'VLONE' },
+  { id:18, name:'VLONE Gang' },
+  { id:19, name:'VFlow (Gold ⭐)' },
+];
+
+function loadStock(){
+  return JSON.parse(localStorage.getItem('lcs_admin_stock')||'{}');
+}
+function saveAllStock(){
+  const stock = {};
+  STOCK_PRODUCTS.forEach(p=>{
+    const input = document.getElementById('stock-input-'+p.id);
+    if(input) stock[p.id] = parseInt(input.value)||0;
+  });
+  localStorage.setItem('lcs_admin_stock', JSON.stringify(stock));
+  showToast('✅ Stock sauvegardé avec succès', 'success');
+}
+function renderStockPage(){
+  const stock = loadStock();
+  const grid = document.getElementById('stock-grid');
+  if(!grid) return;
+  grid.innerHTML = STOCK_PRODUCTS.map(p=>{
+    const qty = stock[p.id] !== undefined ? stock[p.id] : 5;
+    const statusColor = qty === 0 ? 'var(--red)' : qty <= 3 ? 'var(--orange)' : 'var(--green)';
+    const statusLabel = qty === 0 ? 'RUPTURE' : qty <= 3 ? 'FAIBLE' : 'OK';
+    return `
+      <div style="background:var(--black);padding:1.2rem;display:flex;align-items:center;gap:12px">
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:500;color:var(--white);margin-bottom:4px">${p.name}</div>
+          <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:${statusColor}">${statusLabel}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="adjustStock(${p.id},-1)" style="background:var(--card2);border:1px solid var(--border);color:var(--white);width:28px;height:28px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">−</button>
+          <input id="stock-input-${p.id}" type="number" min="0" value="${qty}" style="width:52px;background:#0d0d0d;border:1px solid var(--border);color:var(--white);text-align:center;padding:6px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;outline:none" onchange="updateStockDisplay(${p.id})">
+          <button onclick="adjustStock(${p.id},1)" style="background:var(--card2);border:1px solid var(--border);color:var(--white);width:28px;height:28px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">+</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+function adjustStock(pid, delta){
+  const input = document.getElementById('stock-input-'+pid);
+  if(!input) return;
+  input.value = Math.max(0, parseInt(input.value||0) + delta);
+  updateStockDisplay(pid);
+}
+function updateStockDisplay(pid){
+  // Auto-save on change
+  const stock = loadStock();
+  const input = document.getElementById('stock-input-'+pid);
+  if(input) stock[pid] = parseInt(input.value)||0;
+  localStorage.setItem('lcs_admin_stock', JSON.stringify(stock));
+}
+
+// Extend showPage to render stock
+const _origShowPage = showPage;
+function showPage(page, btn){
+  _origShowPage(page, btn);
+  if(page==='stock') renderStockPage();
+}
+
+// ════════════════════════════════════
+//  ENVOYER LIEN DE SUIVI
+// ════════════════════════════════════
+function sendTrackingLink(orderId, encodedTel){
+  const tel = decodeURIComponent(encodedTel).replace(/\D/g,'');
+  const orders = getAllOrders();
+  const order  = orders.find(o=>o.id===orderId);
+  if(!order||!tel) return;
+  const trackUrl = window.location.origin;
+  const icon = getStatusIcon(order.status);
+  const msg = encodeURIComponent(
+    `${icon} *La Case Shop — Suivi de ta commande*\n\n` +
+    `👋 Bonjour ${order.clientName||''} !\n\n` +
+    `🔖 Commande : *${orderId}*\n` +
+    `📦 Statut actuel : *${order.status}*\n\n` +
+    `👉 Pour suivre ta commande en temps réel :\n${trackUrl}\n\n` +
+    `Saisis ton numéro de commande : *${orderId}*\n\nMerci pour ta confiance ! 🙏`
+  );
+  window.open(`https://wa.me/${tel}?text=${msg}`,'_blank');
+  showToast('📍 Lien de suivi envoyé par WhatsApp','success');
+}
+
 </script>
 </body>
 </html>
