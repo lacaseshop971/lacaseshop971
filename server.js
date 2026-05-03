@@ -87,6 +87,7 @@ function emailConfirmationClient(order) {
       <div class="card">
         <p class="card-label">Livraison</p>
         <p class="card-val" style="font-size:13px">${order.address}</p>
+        <p class="card-sub">📱 ${order.phoneModel || 'Modèle non renseigné'}</p>
       </div>
     </div>
     <p class="section-title">Tes articles (${order.nbCoques} coque(s))</p>
@@ -229,6 +230,7 @@ app.post('/api/save-order', async (req, res) => {
           <h2 style="color:#e8121a;">🛍️ Nouvelle commande — ${order.id}</h2>
           <p><strong>Client :</strong> ${order.clientName} (${order.clientEmail})<br>
           <strong>WhatsApp :</strong> ${order.clientTel || 'N/A'}<br>
+          <strong>Modèle téléphone :</strong> ${order.phoneModel || 'Non renseigné'}<br>
           <strong>Adresse :</strong> ${order.address}<br>
           <strong>Total :</strong> <span style="color:#e8121a;font-size:20px;font-weight:bold;">${order.total}€</span></p>
           <h3>Articles à commander sur AliExpress :</h3>
