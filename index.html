@@ -214,9 +214,9 @@ nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-
 .lock-icon{font-size:16px}
 
 /* MODALS */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:800;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:800;display:flex;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px)}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--card);border:1px solid var(--border2);width:100%;max-width:420px;padding:2.5rem;animation:scaleIn .3s both}
+.modal{background:var(--card);border:1px solid var(--border2);width:100%;max-width:420px;padding:2.5rem;animation:scaleIn .3s both;max-height:90vh;overflow-y:auto;margin:auto}
 @keyframes scaleIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-title{font-family:'Bebas Neue',sans-serif;font-size:36px;margin-bottom:.3rem}
 .modal-sub{font-size:13px;color:var(--gray-light);margin-bottom:2rem;line-height:1.6}
@@ -235,7 +235,7 @@ nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-
 .modal-error.show{display:block}
 
 /* CHECKOUT MODAL */
-.checkout-modal{max-width:480px}
+.checkout-modal{max-width:480px;max-height:88vh;overflow-y:auto}
 .checkout-modal .modal-title{margin-bottom:1.5rem}
 #card-element{background:#0d0d0d;border:1px solid var(--border);padding:14px;transition:border-color .2s;margin-bottom:14px}
 #card-element.StripeElement--focus{border-color:var(--red)}
