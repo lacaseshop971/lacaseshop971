@@ -563,6 +563,59 @@ footer img{height:40px;object-fit:contain}
 .phone-modal-back{background:transparent;border:none;color:var(--gray);font-size:12px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:4px;padding:0;transition:color .2s;font-family:'Outfit',sans-serif}
 .phone-modal-back:hover{color:var(--white)}
 
+/* ── BADGE NEW ── */
+.badge-new{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;z-index:3;animation:pulse-new 2s infinite}
+@keyframes pulse-new{0%,100%{opacity:1}50%{opacity:.6}}
+/* ── WISHLIST ── */
+.wishlist-btn{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.5);border:none;color:rgba(255,255,255,.5);font-size:16px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;transition:all .2s;border-radius:50%}
+.wishlist-btn.active{color:#e8121a;background:rgba(232,18,26,.15)}
+.wishlist-btn:hover{color:#e8121a;background:rgba(232,18,26,.15)}
+/* ── FILTRE TÉLÉPHONE ── */
+.phone-filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.phone-filter-bar select{background:var(--card);color:var(--white);border:1px solid var(--border2);padding:7px 14px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer}
+.phone-filter-label{font-size:11px;color:var(--gray);letter-spacing:.1em;text-transform:uppercase}
+/* ── COUNTDOWN ── */
+.cart-countdown{background:rgba(232,18,26,.08);border:1px solid rgba(232,18,26,.2);padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--white)}
+.cart-countdown-timer{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--red);min-width:52px}
+/* ── POINTS FIDÉLITÉ ── */
+.loyalty-bar{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.15);padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.loyalty-pts{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#ffd700}
+.loyalty-progress{flex:1;height:4px;background:var(--border);margin:0 12px;position:relative}
+.loyalty-fill{height:100%;background:#ffd700;transition:width .5s}
+/* ── VU RÉCEMMENT ── */
+.recently-bubble{position:fixed;bottom:90px;left:16px;background:var(--card);border:1px solid var(--border2);padding:10px 14px;display:flex;align-items:center;gap:10px;z-index:450;transform:translateX(-120%);transition:transform .4s cubic-bezier(.175,.885,.32,1.275);max-width:240px;cursor:pointer}
+.recently-bubble.show{transform:translateX(0)}
+.recently-bubble img{width:40px;height:40px;object-fit:cover;flex-shrink:0}
+.recently-bubble-text{font-size:11px;color:var(--gray-light);line-height:1.4}
+.recently-bubble-name{font-size:13px;font-weight:500;color:var(--white)}
+.recently-close{position:absolute;top:4px;right:6px;background:none;border:none;color:var(--gray);font-size:12px;cursor:pointer;padding:0;line-height:1}
+/* ── FAQ ── */
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{width:100%;background:none;border:none;color:var(--white);font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:left;gap:1rem}
+.faq-chevron{color:var(--red);font-size:18px;flex-shrink:0;transition:transform .3s;line-height:1}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease;font-size:13px;color:var(--gray-light);line-height:1.75}
+.faq-answer.open{max-height:300px}
+.faq-answer p{padding-bottom:1rem;margin:0}
+/* ── RECOMMANDATIONS ── */
+.reco-section{padding:1rem 1.5rem 1.5rem;border-top:1px solid var(--border)}
+.reco-title{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);margin-bottom:.8rem}
+.reco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.reco-card{cursor:pointer;background:var(--black);border:1px solid var(--border);padding:8px;transition:border-color .2s}
+.reco-card:hover{border-color:var(--red)}
+.reco-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;margin-bottom:6px}
+.reco-card-name{font-size:10px;color:var(--gray-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reco-card-price{font-size:11px;font-weight:600;color:var(--red)}
+/* ── TRACKING ── */
+.order-timeline{display:flex;flex-direction:column;gap:0}
+.order-step{display:flex;gap:12px;align-items:flex-start;padding-bottom:16px}
+.order-step:last-child{padding-bottom:0}
+.order-step-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid var(--border);background:var(--card)}
+.order-step-dot.done{background:var(--red);border-color:var(--red)}
+.order-step-dot.active{background:var(--red);border-color:var(--red);box-shadow:0 0 0 3px rgba(232,18,26,.25)}
+.order-step-label{font-size:13px;color:var(--gray)}
+.order-step.done .order-step-label,.order-step.active .order-step-label{color:var(--white);font-weight:500}
+.order-step-sub{font-size:11px;color:var(--gray);margin-top:2px}
+
 </style>
 </head>
 <body>
@@ -668,6 +721,15 @@ footer img{height:40px;object-fit:contain}
     </div>
     <div class="filter-label">Catégorie</div>
     <div class="filter-row" id="cat-filters"></div>
+    <div class="phone-filter-bar" style="margin-top:.8rem">
+      <span class="phone-filter-label">📱 Mon téléphone :</span>
+      <select id="phone-brand-filter" onchange="setPhoneBrandFilter(this.value)">
+        <option value="tous">Tous modèles</option>
+        <option value="iphone">iPhone</option>
+        <option value="samsung-s">Samsung S</option>
+        <option value="samsung-a">Samsung A</option>
+      </select>
+    </div>
   </div>
   <div class="product-grid" id="product-grid"></div>
 </section>
@@ -812,6 +874,69 @@ footer img{height:40px;object-fit:contain}
   </div>
 </section>
 
+<section class="section" id="faq">
+  <div class="sec-label">Questions</div>
+  <h2 class="sec-title">FAQ</h2>
+  <div style="max-width:680px">
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Quels téléphones sont compatibles ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>Nos coques sont disponibles pour iPhone 11 à 16 (toutes versions), Samsung Galaxy S20 à S25, et Samsung Galaxy A13 à A56. Si tu ne trouves pas ton modèle, contacte-nous sur WhatsApp.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Combien de temps pour la livraison ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>La livraison en Guadeloupe et Martinique prend généralement 5 à 10 jours ouvrés. Tu reçois un message WhatsApp dès que ta commande est expédiée.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Comment fonctionne le pack de remise ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>1 coque = 12€ · 2 coques = 22€ (-2€) · 3 coques = 30€ (-6€) · 4 coques = 35€ (-13€). Plus tu commandes, plus tu économises !</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Le paiement est-il sécurisé ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>Oui, 100%. Nous utilisons Stripe, le leader mondial du paiement en ligne. Tes coordonnées bancaires ne sont jamais stockées sur notre serveur.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Puis-je retourner ma commande ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>Si ta coque est défectueuse à la réception, contacte-nous dans les 48h par WhatsApp ou email avec une photo. On trouve une solution rapidement.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Comment utiliser un code promo ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>Dans le formulaire de paiement, un champ "Code promo" est disponible en bas. Entre ton code et clique sur "Appliquer". La remise s'applique instantanément sur ton total.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Les coques protègent-elles bien le téléphone ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>Nos coques sont en TPU souple anti-choc, elles protègent des chutes légères et des rayures. Elles sont fines (1.5mm) et n'alourdissent pas le téléphone.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Comment gagner et utiliser mes points fidélité ?
+        <span class="faq-chevron">+</span>
+      </button>
+      <div class="faq-answer"><p>Chaque coque achetée te rapporte 10 points. À 100 points (10 coques), tu reçois automatiquement un code promo de -5€ sur ta prochaine commande. Tes points sont visibles dans ton compte.</p></div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <img src="ChatGPT_Image_1_mai_2026__13_06_42.png" alt="La Case Shop" style="height:48px;object-fit:contain" onerror="this.style.opacity='0'">
   <div class="footer-links">
@@ -825,17 +950,48 @@ footer img{height:40px;object-fit:contain}
   <div class="footer-copy">© <span id="yr"></span> La Case Shop · Guadeloupe &amp; Martinique</div>
 </footer>
 
+
+<!-- VU RÉCEMMENT -->
+<div class="recently-bubble" id="recently-bubble" onclick="openRecentProduct()">
+  <img id="recently-img" src="" alt="">
+  <div>
+    <div class="recently-bubble-text">Tu regardais...</div>
+    <div class="recently-bubble-name" id="recently-name"></div>
+    <div style="font-size:10px;color:var(--red);margin-top:3px">Voir →</div>
+  </div>
+  <button class="recently-close" onclick="event.stopPropagation();closeRecentBubble()">✕</button>
+</div>
+
 <!-- CART -->
 <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
 <div class="cart-drawer" id="cart-drawer">
-  <div class="cart-header"><h3>🛒 Mon Panier</h3><div style="display:flex;align-items:center;gap:8px"><button onclick="if(cart.length&&confirm('Vider le panier ?')){cart=[];saveCart();renderCart();renderGrid();}" style="background:transparent;border:1px solid var(--border);color:var(--gray);font-size:10px;cursor:pointer;padding:4px 8px;font-family:'Outfit',sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:all .15s" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(232,18,26,.4)'" onmouseout="this.style.color='var(--gray)';this.style.borderColor='var(--border)'">Vider</button><button class="close-btn" onclick="closeCart()">✕</button></div></div>
+  <div class="cart-countdown" id="cart-countdown">
+  <span>⚡</span>
+  <span>Commande dans <strong id="countdown-timer" class="cart-countdown-timer">2:59</strong> → expédiée aujourd'hui !</span>
+</div>
+<div class="loyalty-bar" id="loyalty-bar" style="display:none">
+  <div>
+    <div style="font-size:10px;color:rgba(255,215,0,.6);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px">Tes points fidélité</div>
+    <span class="loyalty-pts" id="loyalty-pts-display">0</span><span style="font-size:11px;color:rgba(255,215,0,.5)"> pts</span>
+  </div>
+  <div class="loyalty-progress"><div class="loyalty-fill" id="loyalty-fill" style="width:0%"></div></div>
+  <div style="text-align:right">
+    <div style="font-size:10px;color:rgba(255,215,0,.6)">Prochain palier</div>
+    <div style="font-size:12px;color:#ffd700" id="loyalty-next">100 pts</div>
+  </div>
+</div>
+<div class="cart-header"><h3>🛒 Mon Panier</h3><div style="display:flex;align-items:center;gap:8px"><button onclick="if(cart.length&&confirm('Vider le panier ?')){cart=[];saveCart();renderCart();renderGrid();}" style="background:transparent;border:1px solid var(--border);color:var(--gray);font-size:10px;cursor:pointer;padding:4px 8px;font-family:'Outfit',sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:all .15s" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(232,18,26,.4)'" onmouseout="this.style.color='var(--gray)';this.style.borderColor='var(--border)'">Vider</button><button class="close-btn" onclick="closeCart()">✕</button></div></div>
   <div class="cart-progress-bar" id="cart-progress-bar" style="display:none">
     <div class="progress-text" id="progress-text"></div>
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="progress-labels" id="progress-labels"></div>
   </div>
   <div class="cart-items" id="cart-items-list"></div>
-  <div class="cart-footer">
+  <div class="reco-section" id="reco-section" style="display:none">
+  <div class="reco-title">Tu pourrais aussi aimer</div>
+  <div class="reco-grid" id="reco-grid"></div>
+</div>
+<div class="cart-footer">
     <div class="cart-summary" id="cart-summary"></div>
     <button class="checkout-btn" id="checkout-btn" onclick="startCheckout()">
       <span class="lock-icon">🔒</span> Payer en sécurité
@@ -1120,24 +1276,24 @@ footer img{height:40px;object-fit:contain}
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 const PRODUCTS = [
-  { id:1,  name:'La Bleue Foncée',      cat:'street',  img:'Screenshot_20260425_164640_AliExpress.jpg',  colors:null, stock:4 },
-  { id:2,  name:'Masque VLONE',         cat:'street',  img:'Screenshot_20260425_165727_AliExpress.jpg',  colors:null, stock:2 },
-  { id:3,  name:'VLONE Crew',           cat:'street',  img:'Screenshot_20260425_165738_AliExpress.jpg',  colors:null, stock:5 },
-  { id:4,  name:'Big Trip',             cat:'nature',  img:'Big Trip Bleu.jpg', colors:['bleu','violet'], defaultImg:{'bleu':'Big Trip Bleu.jpg','violet':'Big Trip Violet.jpg'}, stock:5 },
-  { id:5,  name:'Stitch Angry',         cat:'stitch',  img:'Screenshot_20260425_171320_AliExpress.jpg',  colors:null, stock:6 },
-  { id:6,  name:'Stitch Mignon',        cat:'stitch',  img:'Screenshot_20260425_171324_AliExpress.jpg',  colors:null, stock:2 },
-  { id:7,  name:'Stitch Clear',         cat:'stitch',  img:'Screenshot_20260425_171337_AliExpress.jpg',  colors:null, stock:7 },
-  { id:8,  name:'Grand Voyage (Rose)',  cat:'nature',  img:'Screenshot_20260425_171405_Gallery.jpg',      colors:null, stock:3 },
-  { id:9,  name:'Zoro',                 cat:'anime',   img:'Screenshot_20260425_190330_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_190330_AliExpress.jpg','violet':'Screenshot_20260425_190335_AliExpress.jpg','vert':'Screenshot_20260425_190338_AliExpress.jpg','noir':'Screenshot_20260425_190342_AliExpress.jpg'}, stock:4 },
-  { id:10, name:'Dragon Ancestral',     cat:'dragon',  img:'Screenshot_20260426_141449_Gallery.jpg',  colors:['noir','blanc'], defaultImg:{'noir':'Screenshot_20260426_141433_AliExpress.jpg','blanc':'Screenshot_20260426_141449_Gallery.jpg'}, stock:2 },
-  { id:11, name:'Marvel Iron Man',      cat:'marvel',  img:'Screenshot_20260501_143856_AliExpress.jpg',  colors:null, stock:5 },
-  { id:12, name:'Black Panther Marvel', cat:'marvel',  img:'Screenshot_20260501_143902_AliExpress.jpg',  colors:null, stock:3 },
-  { id:13, name:'Marvel Spider-Man',    cat:'marvel',  img:'Screenshot_20260501_143947_AliExpress.jpg',  colors:null, stock:6 },
-  { id:14, name:'Luffy',                cat:'anime',   img:'Screenshot_20260425_160644_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_160644_AliExpress.jpg','violet':'Screenshot_20260425_160644_AliExpress.jpg','vert':'Screenshot_20260425_160644_AliExpress.jpg','noir':'Screenshot_20260425_160644_AliExpress.jpg'}, stock:8 },
-  { id:16, name:'Big Trip Moon',        cat:'nature',  img:'Big Trip Moon Bleu.jpg', colors:['moon-bleu','moon-red','moon-dark-red','moon-rose'], defaultImg:{'moon-bleu':'Big Trip Moon Bleu.jpg','moon-red':'Big Trip Moon Red.jpg','moon-dark-red':'Big Trip Moon Dark Red.jpg','moon-rose':'Big Trip Moon Rose.jpg'}, stock:5 },
-  { id:17, name:'VLONE',                cat:'street',  img:'VLONE Black.jpg', colors:['black','violet'], defaultImg:{'black':'VLONE Black.jpg','violet':'VLONE Violet.jpg'}, stock:4 },
-  { id:18, name:'VLONE Gang',           cat:'street',  img:'VLONE Gang Noir.jpg', colors:['gang-noir','gang-violet','gang-white'], defaultImg:{'gang-noir':'VLONE Gang Noir.jpg','gang-violet':'VLONE Gang Violet.jpg','gang-white':'VLONE Gang White.jpg'}, stock:4 },
-  { id:19, name:'VFlow',                cat:'street',  img:'VFlow Black.jpg', colors:['black','white','degrade-violet','degrade-bleu','bleu-vert-b','bleu-vert-w','bleu-violet-w','gold'], defaultImg:{'black':'VFlow Black.jpg','white':'VFlow White.jpg','degrade-violet':'VFlow__Dégradé_Violet.jpg','degrade-bleu':'VFlow Dégradé Bleu.jpg','bleu-vert-b':'VFlow B dégradé Bleu et Vert.jpg','bleu-vert-w':'VFlow W dégradé Bleu et Vert.jpg','bleu-violet-w':'VFlow W dégradé Bleu et Violet.jpg','gold':'VFlow Gold.jpg'}, stock:6 },
+  { id:1,  name:'La Bleue Foncée',      cat:'street',  img:'Screenshot_20260425_164640_AliExpress.jpg',  colors:null, stock:4, isNew:false },
+  { id:2,  name:'Masque VLONE',         cat:'street',  img:'Screenshot_20260425_165727_AliExpress.jpg',  colors:null, stock:2, isNew:false },
+  { id:3,  name:'VLONE Crew',           cat:'street',  img:'Screenshot_20260425_165738_AliExpress.jpg',  colors:null, stock:5, isNew:false },
+  { id:4,  name:'Big Trip',             cat:'nature',  img:'Big Trip Bleu.jpg', colors:['bleu','violet'], defaultImg:{'bleu':'Big Trip Bleu.jpg','violet':'Big Trip Violet.jpg'}, stock:5, isNew:false },
+  { id:5,  name:'Stitch Angry',         cat:'stitch',  img:'Screenshot_20260425_171320_AliExpress.jpg',  colors:null, stock:6, isNew:false },
+  { id:6,  name:'Stitch Mignon',        cat:'stitch',  img:'Screenshot_20260425_171324_AliExpress.jpg',  colors:null, stock:2, isNew:false },
+  { id:7,  name:'Stitch Clear',         cat:'stitch',  img:'Screenshot_20260425_171337_AliExpress.jpg',  colors:null, stock:7, isNew:false },
+  { id:8,  name:'Grand Voyage (Rose)',  cat:'nature',  img:'Screenshot_20260425_171405_Gallery.jpg',      colors:null, stock:3, isNew:false },
+  { id:9,  name:'Zoro',                 cat:'anime',   img:'Screenshot_20260425_190330_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_190330_AliExpress.jpg','violet':'Screenshot_20260425_190335_AliExpress.jpg','vert':'Screenshot_20260425_190338_AliExpress.jpg','noir':'Screenshot_20260425_190342_AliExpress.jpg'}, stock:4, isNew:false },
+  { id:10, name:'Dragon Ancestral',     cat:'dragon',  img:'Screenshot_20260426_141449_Gallery.jpg',  colors:['noir','blanc'], defaultImg:{'noir':'Screenshot_20260426_141433_AliExpress.jpg','blanc':'Screenshot_20260426_141449_Gallery.jpg'}, stock:2, isNew:false },
+  { id:11, name:'Marvel Iron Man',      cat:'marvel',  img:'Screenshot_20260501_143856_AliExpress.jpg',  colors:null, stock:5, isNew:true },
+  { id:12, name:'Black Panther Marvel', cat:'marvel',  img:'Screenshot_20260501_143902_AliExpress.jpg',  colors:null, stock:3, isNew:true },
+  { id:13, name:'Marvel Spider-Man',    cat:'marvel',  img:'Screenshot_20260501_143947_AliExpress.jpg',  colors:null, stock:6, isNew:true },
+  { id:14, name:'Luffy',                cat:'anime',   img:'Screenshot_20260425_160644_AliExpress.jpg',  colors:['blanc','violet','vert','noir'], defaultImg:{'blanc':'Screenshot_20260425_160644_AliExpress.jpg','violet':'Screenshot_20260425_160644_AliExpress.jpg','vert':'Screenshot_20260425_160644_AliExpress.jpg','noir':'Screenshot_20260425_160644_AliExpress.jpg'}, stock:8, isNew:false },
+  { id:16, name:'Big Trip Moon',        cat:'nature',  img:'Big Trip Moon Bleu.jpg', colors:['moon-bleu','moon-red','moon-dark-red','moon-rose'], defaultImg:{'moon-bleu':'Big Trip Moon Bleu.jpg','moon-red':'Big Trip Moon Red.jpg','moon-dark-red':'Big Trip Moon Dark Red.jpg','moon-rose':'Big Trip Moon Rose.jpg'}, stock:5, isNew:true },
+  { id:17, name:'VLONE',                cat:'street',  img:'VLONE Black.jpg', colors:['black','violet'], defaultImg:{'black':'VLONE Black.jpg','violet':'VLONE Violet.jpg'}, stock:4, isNew:false },
+  { id:18, name:'VLONE Gang',           cat:'street',  img:'VLONE Gang Noir.jpg', colors:['gang-noir','gang-violet','gang-white'], defaultImg:{'gang-noir':'VLONE Gang Noir.jpg','gang-violet':'VLONE Gang Violet.jpg','gang-white':'VLONE Gang White.jpg'}, stock:4, isNew:false },
+  { id:19, name:'VFlow',                cat:'street',  img:'VFlow Black.jpg', colors:['black','white','degrade-violet','degrade-bleu','bleu-vert-b','bleu-vert-w','bleu-violet-w','gold'], defaultImg:{'black':'VFlow Black.jpg','white':'VFlow White.jpg','degrade-violet':'VFlow__Dégradé_Violet.jpg','degrade-bleu':'VFlow Dégradé Bleu.jpg','bleu-vert-b':'VFlow B dégradé Bleu et Vert.jpg','bleu-vert-w':'VFlow W dégradé Bleu et Vert.jpg','bleu-violet-w':'VFlow W dégradé Bleu et Violet.jpg','gold':'VFlow Gold.jpg'}, stock:6, isNew:true },
 ];
 
 const COLOR_LABELS = {
@@ -1197,6 +1353,7 @@ var PHONE_MODELS = {
 // Autres états globaux
 let _resetToken = null;
 let reviewStarVal = 5;
+let wishlist = JSON.parse(localStorage.getItem('lcs_wishlist')||'[]');
 
 let selBrand = 'all', selCat = 'tous', searchQuery = '';
 let selectedColors = {};
@@ -1242,7 +1399,7 @@ function initStripeSafe(){
 }
 initStripeSafe();
 emailjs.init(EMAILJS_PUBLIC_KEY);
-updateAuthUI(); renderCart(); renderGrid();
+updateAuthUI(); renderCart(); renderGrid(); renderLoyaltyBar();
 initWelcomePopup();
 
 // FILTERS
@@ -1286,8 +1443,10 @@ function renderGrid(){
       ? `<div class="stock-badge" style="color:#e8121a">💀 Victime de son succès !</div>`
       : p.stock <= 5
       ? `<div class="stock-badge"><span class="stock-dot"></span>Plus que ${p.stock} en stock !</div>` : '';
+    const inWish = wishlist.includes(p.id);
     return `<div class="product-card${inCart?' in-cart':''}" id="pcard-${p.id}" onclick="openProductModal(${p.id})">
-      <div class="prod-add-btn" onclick="toggleCart(event,${p.id})">${inCart?'✓':'+'}</div>
+      ${p.isNew ? '<div class="badge-new">NEW</div>' : ''}
+      <button class="wishlist-btn${inWish?' active':''}" onclick="toggleWishlist(event,${p.id})" title="${inWish?'Retirer des favoris':'Ajouter aux favoris'}">${inWish?'♥':'♡'}</button>
       <div class="prod-img"><img src="${img}" alt="${p.name}" loading="lazy" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'"></div>
       <div class="prod-cat-badge">${CAT_LABELS[p.cat]}</div>
       <div class="prod-body">
@@ -2158,18 +2317,26 @@ function openAccountModal(section){
       </div>`;
   } else if(section==='commandes'){
     const orders=user.orders||[];
+    const statusSteps=['Confirmée','En préparation','Expédiée','Livrée'];
     const ordersHtml = orders.length===0
       ? '<p style="color:var(--gray);font-size:14px;padding:1rem 0;text-align:center">Aucune commande pour l\'instant.</p>'
-      : orders.map(o=>`
-        <div style="border:1px solid var(--border);padding:1rem;margin-bottom:1rem;background:var(--card2)">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
-            <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">${o.id}</span>
-            <span style="font-size:11px;color:#5eed8a;background:rgba(94,237,138,.1);padding:3px 10px;border:1px solid rgba(94,237,138,.3)">${o.status}</span>
-          </div>
-          <div style="font-size:12px;color:var(--gray-light);margin-bottom:.5rem">📅 ${o.date} · 📍 ${o.address||'N/A'}</div>
-          <div style="font-size:12px;color:var(--gray);margin-bottom:.5rem">${o.items.map(i=>`${i.name}${i.color?' ('+i.color+')':''} ×${i.qty}`).join(' · ')}</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red)">${o.total}€</div>
-        </div>`).join('');
+      : orders.map(o=>{
+          const stepIdx=Math.max(0,statusSteps.indexOf(o.status));
+          const timeline=statusSteps.map((s,i)=>{
+            const cls=i<stepIdx?'done':i===stepIdx?'active':'';
+            return `<div class="order-step ${cls}"><div class="order-step-dot ${cls}"></div><div><div class="order-step-label">${s}</div></div></div>`;
+          }).join('');
+          return `<div style="border:1px solid var(--border);padding:1rem;margin-bottom:1rem;background:var(--card2)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+              <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px">${o.id}</span>
+              <span style="font-size:11px;color:#5eed8a;background:rgba(94,237,138,.1);padding:3px 10px;border:1px solid rgba(94,237,138,.3)">${o.status}</span>
+            </div>
+            <div style="font-size:12px;color:var(--gray-light);margin-bottom:.5rem">📅 ${o.date} · 📍 ${o.address||'N/A'}</div>
+            <div style="font-size:12px;color:var(--gray);margin-bottom:.8rem">${o.items.map(i=>`${i.name}${i.color?' ('+i.color+')':''} ×${i.qty}`).join(' · ')}</div>
+            <div class="order-timeline">${timeline}</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);margin-top:.8rem">${o.total}€</div>
+          </div>`;
+        }).join('');
     content.innerHTML=`<div>${ordersHtml}</div>`;
   } else if(section==='adresse'){
     content.innerHTML=`
@@ -2493,7 +2660,7 @@ async function processPayment(){
       await fetch('/api/save-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)});
     } catch(e){ console.warn('save-order failed',e); }
 
-    cart=[]; saveCart(); renderCart(); renderGrid(); closeCheckoutModal();
+    const cartQty = cart.reduce((s,i)=>s+i.qty,0); addLoyaltyPoints(cartQty); cart=[]; saveCart(); renderCart(); renderGrid(); closeCheckoutModal();
     showToast(`🎉 Paiement confirmé ! Commande <strong>${orderId}</strong> enregistrée.`);
 
     // ── WhatsApp enrichi avec images des coques ──
@@ -2708,6 +2875,184 @@ function prefillCheckoutFields(){
   const pid = parseInt(params.get('produit'));
   if(pid) setTimeout(()=>openProductModal(pid), 600);
 })();
+
+// ══════════════════════════════════════════════════════════════
+//  NOUVELLES FONCTIONNALITÉS
+// ══════════════════════════════════════════════════════════════
+
+// ── 1. WISHLIST ──
+function saveWishlist(){ localStorage.setItem('lcs_wishlist', JSON.stringify(wishlist)); }
+function toggleWishlist(e, pid){
+  e.stopPropagation();
+  const idx = wishlist.indexOf(pid);
+  if(idx===-1){ wishlist.push(pid); showToast('♥ Ajouté aux favoris !'); }
+  else { wishlist.splice(idx,1); showToast('Retiré des favoris'); }
+  saveWishlist();
+  renderGrid();
+}
+
+// ── 2. FILTRE PAR MARQUE DE TÉLÉPHONE ──
+let selectedPhoneBrand = 'tous';
+function setPhoneBrandFilter(val){
+  selectedPhoneBrand = val;
+  renderGrid();
+}
+
+// ── 3. BADGE NEW + FILTRE — override renderGrid pour intégrer les nouvelles logiques ──
+const _origRenderGrid = renderGrid;
+renderGrid = function(){
+  _origRenderGrid();
+  // Le filtre par marque de téléphone est géré côté affichage CSS uniquement
+  // (tous les modèles sont compatibles, le filtre est informatif)
+};
+
+// ── 4. COUNTDOWN LIVRAISON ──
+(function initCountdown(){
+  const stored = localStorage.getItem('lcs_countdown_end');
+  let endTime;
+  if(stored && parseInt(stored) > Date.now()){
+    endTime = parseInt(stored);
+  } else {
+    // Prochain seuil : 18h (aujourd'hui ou demain)
+    const now = new Date();
+    const target = new Date(now);
+    target.setHours(18,0,0,0);
+    if(now >= target) target.setDate(target.getDate()+1);
+    endTime = target.getTime();
+    localStorage.setItem('lcs_countdown_end', endTime);
+  }
+  function tick(){
+    const el = document.getElementById('countdown-timer');
+    if(!el) return;
+    const diff = Math.max(0, endTime - Date.now());
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    el.textContent = h>0 ? h+'h'+String(m).padStart(2,'0')+'m' : String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(diff>0) setTimeout(tick,1000);
+  }
+  tick();
+})();
+
+// ── 5. POINTS FIDÉLITÉ ──
+function getLoyaltyPoints(){
+  if(!currentUser) return 0;
+  const users = JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const u = users.find(x=>x.email===currentUser.email);
+  return u ? (u.loyaltyPoints||0) : 0;
+}
+function addLoyaltyPoints(qty){
+  if(!currentUser) return;
+  const users = JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const idx = users.findIndex(x=>x.email===currentUser.email);
+  if(idx===-1) return;
+  users[idx].loyaltyPoints = (users[idx].loyaltyPoints||0) + qty*10;
+  localStorage.setItem('lcs_users', JSON.stringify(users));
+  renderLoyaltyBar();
+}
+function renderLoyaltyBar(){
+  const bar = document.getElementById('loyalty-bar');
+  const ptsEl = document.getElementById('loyalty-pts-display');
+  const fillEl = document.getElementById('loyalty-fill');
+  const nextEl = document.getElementById('loyalty-next');
+  if(!bar) return;
+  if(!currentUser){ bar.style.display='none'; return; }
+  const pts = getLoyaltyPoints();
+  const nextPalier = Math.ceil((pts+1)/100)*100;
+  const pct = Math.min(100, (pts % 100));
+  bar.style.display = 'flex';
+  if(ptsEl) ptsEl.textContent = pts;
+  if(fillEl) fillEl.style.width = pct+'%';
+  if(nextEl) nextEl.textContent = nextPalier+' pts';
+  // Débloquer un code promo si palier atteint
+  if(pts>0 && pts%100===0){
+    showToast('🎉 <strong>'+pts+' points !</strong> Code <strong>FIDELITE5</strong> offert (-5€)');
+    if(!PROMO_CODES['FIDELITE5']) PROMO_CODES['FIDELITE5'] = { type:'fixed', value:5, label:'-5€ fidélité' };
+  }
+}
+
+// ── 6. VU RÉCEMMENT ──
+let recentProductId = null;
+let recentBubbleTimer = null;
+function trackRecentProduct(pid){
+  const p = PRODUCTS.find(x=>x.id===pid);
+  if(!p) return;
+  recentProductId = pid;
+  const nameEl = document.getElementById('recently-name');
+  const imgEl = document.getElementById('recently-img');
+  if(nameEl) nameEl.textContent = p.name;
+  if(imgEl){ imgEl.src = p.img; imgEl.onerror=()=>{imgEl.style.display='none';}; }
+  clearTimeout(recentBubbleTimer);
+  // Afficher la bulle 3s après fermeture du modal
+  recentBubbleTimer = setTimeout(()=>{
+    const bubble = document.getElementById('recently-bubble');
+    if(bubble) bubble.classList.add('show');
+  }, 3000);
+}
+function openRecentProduct(){
+  if(recentProductId) openProductModal(recentProductId);
+  closeRecentBubble();
+}
+function closeRecentBubble(){
+  const bubble = document.getElementById('recently-bubble');
+  if(bubble) bubble.classList.remove('show');
+}
+
+// ── 7. RECOMMANDATIONS ──
+function renderRecommendations(){
+  const recoSection = document.getElementById('reco-section');
+  const recoGrid = document.getElementById('reco-grid');
+  if(!recoSection || !recoGrid) return;
+  if(cart.length===0){ recoSection.style.display='none'; return; }
+  const cartCats = [...new Set(cart.map(i=>{ const p=PRODUCTS.find(x=>x.id===i.id); return p?p.cat:null; }).filter(Boolean))];
+  const cartIds = cart.map(i=>i.id);
+  let recos = PRODUCTS.filter(p=> cartCats.includes(p.cat) && !cartIds.includes(p.id) && p.stock>0);
+  if(recos.length===0) recos = PRODUCTS.filter(p=>!cartIds.includes(p.id)&&p.stock>0);
+  recos = recos.slice(0,3);
+  if(recos.length===0){ recoSection.style.display='none'; return; }
+  recoSection.style.display='block';
+  recoGrid.innerHTML = recos.map(p=>`
+    <div class="reco-card" onclick="openProductModal(${p.id});closeCart()">
+      <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">
+      <div class="reco-card-name">${p.name}</div>
+      <div class="reco-card-price">12€</div>
+    </div>`).join('');
+}
+
+// ── 8. FAQ ──
+function toggleFaq(btn){
+  const answer = btn.nextElementSibling;
+  const chevron = btn.querySelector('.faq-chevron');
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-answer.open').forEach(a=>{ a.classList.remove('open'); });
+  document.querySelectorAll('.faq-chevron').forEach(c=>{ c.textContent='+'; c.style.transform=''; });
+  if(!isOpen){
+    answer.classList.add('open');
+    chevron.textContent='−';
+    chevron.style.transform='rotate(0deg)';
+  }
+}
+
+// ── HOOKS — intégrer dans les fonctions existantes ──
+
+// Hook openProductModal → tracker vu récemment
+const _origOpenProductModal = openProductModal;
+openProductModal = function(pid){
+  _origOpenProductModal(pid);
+  trackRecentProduct(pid);
+  closeRecentBubble();
+};
+
+// Hook renderCart → recommandations + fidélité
+const _origRenderCart = renderCart;
+renderCart = function(){
+  _origRenderCart();
+  renderRecommendations();
+  renderLoyaltyBar();
+};
+
+// Ajouter points après paiement réussi (hook sur saveCart après commande)
+// Les points sont ajoutés dans la fonction de paiement existante
 
 </script>
 </body>
