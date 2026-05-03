@@ -224,7 +224,7 @@ body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;
       <div style="border:1px solid var(--border);background:var(--card);padding:1.5rem">
         <div style="font-size:10px;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;margin-bottom:1rem">Actions rapides</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="action-btn" onclick="showPage('orders',document.querySelector('.sidebar-link:nth-child(2)'))">📦 Voir toutes les commandes</button>
+          <button class="action-btn" onclick="showPage('orders', document.querySelector('[onclick*=\"orders\"]'))">📦 Voir toutes les commandes</button>
           <button class="action-btn" onclick="exportCSV()">📤 Exporter CSV</button>
           <button class="action-btn" onclick="window.open('index.html','_blank')">🛍️ Voir la boutique</button>
           <button class="action-btn" onclick="refreshData()">🔄 Actualiser</button>
@@ -460,11 +460,15 @@ function refreshData(){
 
 function showPage(page, btn){
   document.querySelectorAll('[id^="page-"]').forEach(p=>p.style.display='none');
-  document.getElementById('page-'+page).style.display='block';
+  const target = document.getElementById('page-'+page);
+  if(!target){ console.warn('Page introuvable:', page); return; }
+  target.style.display='block';
   currentPage = page;
   if(btn){ document.querySelectorAll('.sidebar-link').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
-  if(page==='orders') renderOrders();
+  if(page==='orders')    renderOrders();
   if(page==='dashboard') renderDashboard();
+  if(page==='stock')     renderStockPage();
+  if(page==='tracking')  document.getElementById('track-search-input') && document.getElementById('track-search-input').focus();
   // Close sidebar on mobile
   if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
 }
@@ -796,7 +800,7 @@ function adminSearchTracking(){
       }).join('')}
     </div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <button class="save-status-btn" onclick="openStatusModal('${order.id}');showPage('orders',document.querySelector('.sidebar-link:nth-child(2)'))">✏️ Modifier le statut de cette commande</button>
+      <button class="save-status-btn" onclick="openStatusModal('${order.id}');showPage('orders',document.querySelector('[onclick*=\\'orders\\']'))">✏️ Modifier le statut de cette commande</button>
       ${order.clientTel?`<button class="save-status-btn" style="background:#25d366;border:none" onclick="waContact('${order.id}','${encodeURIComponent(order.clientTel)}')">💬 Envoyer le lien de suivi par WhatsApp</button>`:''}
       <div style="font-size:11px;color:var(--gray);line-height:1.6;margin-top:.5rem">🔗 Lien de suivi : <span style="color:var(--white)">${trackUrl}</span><br>Le client peut entrer son numéro <strong style="color:var(--white)">${order.id}</strong> sur la boutique.</div>
     </div>
@@ -932,12 +936,7 @@ function updateStockDisplay(pid){
   localStorage.setItem('lcs_admin_stock', JSON.stringify(stock));
 }
 
-// Extend showPage to render stock
-const _origShowPage = showPage;
-function showPage(page, btn){
-  _origShowPage(page, btn);
-  if(page==='stock') renderStockPage();
-}
+// renderStockPage est appelé directement dans showPage
 
 // ════════════════════════════════════
 //  ENVOYER LIEN DE SUIVI
