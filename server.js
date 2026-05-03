@@ -177,6 +177,61 @@ function emailStatusUpdate(order, newStatus) {
 </body></html>`;
 }
 
+// ── ROUTE : Envoyer email de reset mot de passe ──────────────────────────────
+app.post('/api/send-reset-email', async (req, res) => {
+  try {
+    const { email, resetUrl, userName } = req.body;
+    if (!email || !resetUrl) return res.status(400).json({ error: 'Données manquantes' });
+
+    await transporter.sendMail({
+      from: `"La Case Shop" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: `🔐 Réinitialisation de ton mot de passe — La Case Shop`,
+      html: `
+        <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
+        <style>
+          body{margin:0;padding:0;background:#f1f0ec;font-family:'Helvetica Neue',Arial,sans-serif;}
+          .wrap{max-width:600px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e0deda;}
+          .header{background:#080808;padding:28px 40px;}
+          .logo{font-size:20px;font-weight:600;letter-spacing:3px;color:#f7f5f0;text-transform:uppercase;}
+          .logo span{color:#e8121a;}
+          .body{padding:40px;}
+          .icon{font-size:48px;text-align:center;margin-bottom:16px;}
+          .title{font-size:26px;font-weight:700;color:#0a0a0a;text-align:center;margin-bottom:8px;}
+          .sub{font-size:15px;color:#555;text-align:center;margin-bottom:32px;line-height:1.6;}
+          .btn{display:block;width:fit-content;margin:0 auto 32px;background:#e8121a;color:#fff;padding:16px 36px;text-decoration:none;font-weight:700;font-size:15px;border-radius:4px;letter-spacing:.04em;}
+          .note{font-size:12px;color:#aaa;text-align:center;line-height:1.7;}
+          .footer{background:#f8f7f4;border-top:1px solid #ece9e4;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;}
+          .footer-logo{font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#0a0a0a;}
+          .footer-logo span{color:#e8121a;}
+        </style></head><body>
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f0ec;padding:40px 16px;">
+        <tr><td align="center"><div class="wrap">
+          <div class="header"><div class="logo">LA CASE<span> SHOP</span></div></div>
+          <div class="body">
+            <div class="icon">🔐</div>
+            <div class="title">Réinitialisation du mot de passe</div>
+            <div class="sub">Bonjour <strong>${userName || email}</strong>,<br>
+            Clique sur le bouton ci-dessous pour créer un nouveau mot de passe.<br>Ce lien est valable <strong>1 heure</strong>.</div>
+            <a href="${resetUrl}" class="btn">Créer un nouveau mot de passe →</a>
+            <div class="note">Si tu n'as pas demandé cette réinitialisation, ignore cet email.<br>
+            Pour des questions : <a href="mailto:Lacaseshop971@gmail.com" style="color:#e8121a">Lacaseshop971@gmail.com</a></div>
+          </div>
+          <div class="footer">
+            <div class="footer-logo">LA CASE<span> SHOP</span></div>
+            <div style="font-size:12px;color:#aaa">Martinique · Livraison rapide</div>
+          </div>
+        </div></td></tr></table>
+        </body></html>`,
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── ROUTE : Créer PaymentIntent ──────────────────────────────────────────────
 app.post('/api/create-payment-intent', async (req, res) => {
   try {
