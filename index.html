@@ -679,7 +679,7 @@ footer img{height:40px;object-fit:contain}
   <button class="submit-review-btn" onclick="openReviewForm()">✍️ Laisser mon avis</button>
 
   <!-- MODALE AVIS -->
-  <div class="review-form-modal" id="review-form-modal">
+  <div class="review-form-modal" id="review-form-modal" onclick="if(event.target===this)document.getElementById('review-form-modal').classList.remove('open')">
     <div class="review-form-box">
       <button class="legal-close" onclick="document.getElementById('review-form-modal').classList.remove('open')">✕</button>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:.3rem">Ton avis</div>
@@ -844,7 +844,7 @@ footer img{height:40px;object-fit:contain}
 </div>
 
 <!-- AUTH MODAL -->
-<div class="modal-overlay" id="auth-modal">
+<div class="modal-overlay" id="auth-modal" onclick="if(event.target===this)closeAuthModal()">
   <div class="modal" style="position:relative">
     <button class="modal-close" onclick="closeAuthModal()">✕</button>
     <div class="modal-title" id="auth-modal-title">Mon Compte</div>
@@ -895,7 +895,7 @@ footer img{height:40px;object-fit:contain}
 </div>
 
 <!-- CHECKOUT MODAL -->
-<div class="modal-overlay" id="checkout-modal">
+<div class="modal-overlay" id="checkout-modal" onclick="if(event.target===this)closeCheckoutModal()">
   <div class="modal checkout-modal" style="position:relative">
     <button class="modal-close" onclick="closeCheckoutModal()">✕</button>
     <div class="modal-title">Paiement sécurisé</div>
@@ -2521,7 +2521,7 @@ async function processPayment(){
 }
 
 let toastTimer;
-function showToast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),30000); }
+function showToast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),4000); }
 
 // ══════════════════════════════════════════
 //  COOKIES RGPD
