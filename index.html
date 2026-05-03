@@ -531,13 +531,14 @@ footer img{height:40px;object-fit:contain}
 .brand-card-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--white)}
 .brand-card-sub{font-size:10px;color:var(--gray);letter-spacing:.08em;text-transform:uppercase}
 
-/* Sélecteur de modèle */
+/* Sélecteur de modèle custom */
 .model-select-wrap{margin-bottom:1.5rem}
 .model-select-label{font-size:11px;color:var(--gray-light);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;display:block}
-.model-select{width:100%;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;cursor:pointer;transition:border-color .2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
-.model-select:focus{border-color:var(--red)}
-.model-select option{background:#111;color:var(--white)}
-.model-select:disabled{opacity:.4;cursor:not-allowed}
+#model-list-box::-webkit-scrollbar{width:4px}
+#model-list-box::-webkit-scrollbar-track{background:#0d0d0d}
+#model-list-box::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+#model-search-input::placeholder{color:rgba(255,255,255,.3)}
+#model-search-input:focus{border-color:var(--red);outline:none}
 
 /* Bouton confirmer */
 .phone-modal-confirm{width:100%;background:var(--red);color:var(--white);border:none;padding:14px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -1007,13 +1008,23 @@ footer img{height:40px;object-fit:contain}
         <button class="phone-modal-back" onclick="goBackToBrand()">← Changer de marque</button>
         <div class="model-select-wrap">
           <label class="model-select-label" id="model-select-label">Sélectionne ton modèle</label>
-          <select class="model-select" id="model-select" onchange="onModelSelect()">
-            <option value="">— Choisir un modèle —</option>
-          </select>
+          <!-- Recherche rapide -->
+          <input type="text" id="model-search-input"
+            placeholder="🔍 Rechercher (ex: iPhone 15, S24…)"
+            style="width:100%;box-sizing:border-box;background:#0d0d0d;border:1px solid var(--border);border-bottom:none;color:var(--white);padding:10px 14px;font-family:Outfit,sans-serif;font-size:13px;outline:none;"
+            oninput="filterModelList(this.value)">
+          <!-- Liste scrollable -->
+          <div id="model-list-box"
+            style="width:100%;max-height:200px;overflow-y:auto;background:#0d0d0d;border:1px solid var(--border);box-sizing:border-box;">
+          </div>
+          <!-- Valeur cachée sélectionnée -->
+          <input type="hidden" id="model-select" value="">
         </div>
         <div id="model-other-wrap" style="display:none">
           <label class="model-select-label">Saisis ton modèle</label>
-          <input type="text" id="model-other-input" placeholder="Ex: Galaxy A15, Pixel 8…" style="width:100%;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:Outfit,sans-serif;font-size:14px;outline:none;transition:border-color .2s" oninput="onModelSelect()">
+          <input type="text" id="model-other-input" placeholder="Ex: Galaxy A15, Pixel 8…"
+            style="width:100%;background:#0d0d0d;border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:Outfit,sans-serif;font-size:14px;outline:none;transition:border-color .2s;box-sizing:border-box;"
+            oninput="onModelSelect()">
         </div>
         <button class="phone-modal-confirm" id="pm-confirm-btn" onclick="confirmPhoneAndAddToCart()" disabled>🛒 Ajouter au panier</button>
         <p style="font-size:11px;color:var(--gray);text-align:center;margin-top:.8rem;line-height:1.6">Ton modèle sera sauvegardé pour tes prochaines commandes.</p>
@@ -1478,32 +1489,67 @@ function selectBrand(brand){
   phoneModalState.selectedBrand = brand;
   phoneModalState.selectedModel = null;
 
-  // Highlight la carte sélectionnée
   document.querySelectorAll('.brand-card').forEach(c=>c.classList.remove('selected'));
   const map = {'iPhone':'brand-iphone','Samsung S':'brand-samsung-s','Samsung A':'brand-samsung-a','Autre':'brand-other'};
   if(map[brand]) document.getElementById(map[brand]).classList.add('selected');
 
-  // Aller step 2 après micro-delay pour animation
-  setTimeout(()=>{
+  setTimeout(function(){
     _showPhoneStep(2);
-    const sel = document.getElementById('model-select');
     const otherWrap = document.getElementById('model-other-wrap');
-    document.getElementById('model-select-label').textContent = brand === 'Autre' ? 'Modèle non listé ?' : `Sélectionne ton ${brand}`;
+    const listBox   = document.getElementById('model-list-box');
+    const searchInp = document.getElementById('model-search-input');
+    const hiddenSel = document.getElementById('model-select');
+    document.getElementById('model-select-label').textContent = brand === 'Autre' ? 'Modèle non listé ?' : 'Sélectionne ton ' + brand;
 
     if(brand === 'Autre'){
-      sel.style.display = 'none';
-      otherWrap.style.display = 'block';
+      otherWrap.style.display  = 'block';
+      listBox.parentElement.style.display = 'none'; // cacher le wrap recherche+liste
       document.getElementById('model-other-input').value = '';
     } else {
-      sel.style.display = 'block';
       otherWrap.style.display = 'none';
-      // Peupler le select
-      const models = PHONE_MODELS[brand] || [];
-      sel.innerHTML = '<option value="">— Choisir un modèle —</option>' +
-        models.map(m=>`<option value="${m}">${m}</option>`).join('');
+      listBox.parentElement.style.display = 'block';
+      searchInp.value = '';
+      hiddenSel.value = '';
+      _buildModelList(PHONE_MODELS[brand]||[], '');
     }
     document.getElementById('pm-confirm-btn').disabled = true;
   }, 120);
+}
+
+function _buildModelList(models, filter){
+  const box = document.getElementById('model-list-box');
+  const hiddenSel = document.getElementById('model-select');
+  const currentVal = hiddenSel ? hiddenSel.value : '';
+  const filtered = filter ? models.filter(function(m){ return m.toLowerCase().includes(filter.toLowerCase()); }) : models;
+  box.innerHTML = '';
+  if(!filtered.length){
+    var empty = document.createElement('div');
+    empty.style.cssText = 'padding:12px 14px;color:var(--gray);font-size:13px;font-family:Outfit,sans-serif;';
+    empty.textContent = 'Aucun modèle trouvé';
+    box.appendChild(empty);
+    return;
+  }
+  filtered.forEach(function(m){
+    var item = document.createElement('div');
+    item.textContent = m;
+    var isSelected = (m === currentVal);
+    item.style.cssText = 'padding:11px 14px;font-family:Outfit,sans-serif;font-size:14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s;color:' + (isSelected ? '#fff' : 'rgba(255,255,255,.8)') + ';background:' + (isSelected ? 'rgba(232,18,26,.2)' : 'transparent') + ';';
+    if(isSelected) item.style.fontWeight = '600';
+    item.onmouseover = function(){ if(m!==currentVal) this.style.background='rgba(255,255,255,.06)'; };
+    item.onmouseout  = function(){ if(m!==currentVal) this.style.background='transparent'; };
+    item.onclick = function(){
+      // Désélectionner l'ancien
+      box.querySelectorAll('div').forEach(function(d){ d.style.background='transparent'; d.style.fontWeight='400'; d.style.color='rgba(255,255,255,.8)'; });
+      // Sélectionner celui-ci
+      this.style.background = 'rgba(232,18,26,.2)';
+      this.style.fontWeight = '600';
+      this.style.color = '#fff';
+      hiddenSel.value = m;
+      phoneModalState.selectedModel = m;
+      document.getElementById('pm-confirm-btn').disabled = false;
+    };
+    box.appendChild(item);
+  });
 }
 
 function goBackToBrand(){
@@ -1513,13 +1559,23 @@ function goBackToBrand(){
   _showPhoneStep(1);
 }
 
+function filterModelList(val){
+  const brand = phoneModalState.selectedBrand;
+  if(!brand || brand === 'Autre') return;
+  const hiddenSel = document.getElementById('model-select');
+  if(hiddenSel) hiddenSel.value = '';
+  phoneModalState.selectedModel = null;
+  document.getElementById('pm-confirm-btn').disabled = true;
+  _buildModelList(PHONE_MODELS[brand]||[], val);
+}
+
 function onModelSelect(){
   const brand = phoneModalState.selectedBrand;
   let model = '';
   if(brand === 'Autre'){
     model = document.getElementById('model-other-input').value.trim();
   } else {
-    model = document.getElementById('model-select').value;
+    model = phoneModalState.selectedModel || '';
   }
   phoneModalState.selectedModel = model;
   document.getElementById('pm-confirm-btn').disabled = !model;
