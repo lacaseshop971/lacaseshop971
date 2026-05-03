@@ -183,6 +183,15 @@ app.post('/api/send-reset-email', async (req, res) => {
     const { email, resetUrl, userName } = req.body;
     if (!email || !resetUrl) return res.status(400).json({ error: 'Données manquantes' });
 
+    // Vérifier que les variables d'env sont bien définies
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
+      console.error('[Reset] Variables GMAIL_USER ou GMAIL_PASS manquantes dans .env');
+      return res.status(500).json({ error: 'Configuration email manquante sur le serveur. Contacte l\'administrateur.' });
+    }
+
+    // Tester la connexion au transporteur avant l'envoi
+    await transporter.verify();
+
     await transporter.sendMail({
       from: `"La Case Shop" <${process.env.GMAIL_USER}>`,
       to: email,
