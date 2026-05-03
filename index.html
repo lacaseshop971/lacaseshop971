@@ -1163,7 +1163,11 @@ let cart = (()=>{
 })();
 let currentUser = JSON.parse(localStorage.getItem('lcs_user')||'null');
 let stripe, cardElement;
-let currentProductModal = null; // product id currently in modal
+let currentProductModal = null;
+
+// Déclarations anticipées pour éviter les erreurs "before initialization"
+const PACK_STEPS = [1,2,3,4];
+let phoneModalState = { pendingPid:null, pendingColor:null, pendingAction:null, selectedBrand:null, selectedModel:null };
 
 // INIT
 document.getElementById('yr').textContent = new Date().getFullYear();
@@ -1239,7 +1243,6 @@ function renderGrid(){
 }
 
 // ══ PROGRESS BAR PANIER ══
-const PACK_STEPS = [1,2,3,4];
 function renderCartProgress(total_qty){
   const bar = document.getElementById('cart-progress-bar');
   const text = document.getElementById('progress-text');
@@ -1407,14 +1410,7 @@ const PHONE_MODELS = {
   'Autre': []
 };
 
-// État interne de la modale téléphone
-let phoneModalState = {
-  pendingPid: null,       // id produit à ajouter
-  pendingColor: null,     // couleur sélectionnée
-  pendingAction: null,    // 'addToCart' | 'payNow'
-  selectedBrand: null,
-  selectedModel: null,
-};
+// État interne de la modale téléphone (déclaré en haut du script)
 
 function getStoredPhoneModel(){
   if(currentUser){
