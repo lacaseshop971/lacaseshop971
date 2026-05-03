@@ -2001,85 +2001,78 @@ function showLoginForm(){
   document.getElementById('auth-error').classList.remove('show');
 }
 function doForgotPassword(){
-  const email=document.getElementById('forgot-email').value.trim();
+  const email = document.getElementById('forgot-email').value.trim();
   if(!email){ showAuthError('Entre ton email.'); return; }
-  const users=JSON.parse(localStorage.getItem('lcs_users')||'[]');
-  const user=users.find(u=>u.email===email);
+  const users = JSON.parse(localStorage.getItem('lcs_users')||'[]');
+  const user = users.find(u => u.email === email);
   if(!user){ showAuthError('Aucun compte trouvé avec cet email.'); return; }
-  // Générer un token auto-suffisant : toutes les infos sont encodées dedans
-  // Format : base64(email + "|" + expiry_timestamp + "|" + salt)
-  // Pas besoin de localStorage pour valider : on décode le token directement
+
+  // Token auto-suffisant : email + expiry encodés en base64
+  // Fonctionne sur n'importe quel appareil/navigateur sans localStorage
   const expiry = Date.now() + 60 * 60 * 1000; // 1 heure
   const salt = Math.random().toString(36).slice(2);
-  const tokenPayload = email + '|' + expiry + '|' + salt;
-  const token = btoa(unescape(encodeURIComponent(tokenPayload)));
-  // Construire le lien de reset
+  const token = btoa(unescape(encodeURIComponent(email + '|' + expiry + '|' + salt)));
   const resetUrl = window.location.origin + window.location.pathname + '?reset=' + encodeURIComponent(token);
-  const btn = document.querySelector('#form-forgot .modal-submit');
-  if(btn){ btn.disabled=true; btn.textContent='⏳ Envoi en cours...'; }
 
-  const showSuccess = () => {
-    if(btn){ btn.disabled=false; btn.textContent='Envoyer le lien de réinitialisation'; }
-    document.getElementById('form-forgot').innerHTML=`
-      <div style="text-align:center;padding:1rem 0">
-        <div style="font-size:40px;margin-bottom:1rem">📧</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:.5rem">Email envoyé !</div>
-        <p style="font-size:13px;color:var(--gray-light);line-height:1.7;margin-bottom:1.5rem">
-          Un lien de réinitialisation a été envoyé à <strong style="color:var(--white)">${email}</strong>.<br>
-          Il est valable <strong>1 heure</strong>.
+  // Afficher le lien directement dans la page — 100% fiable, zéro dépendance serveur
+  const container = document.getElementById('form-forgot');
+  if(!container) return;
+  container.innerHTML = `
+    <div style="padding:.5rem 0">
+      <div style="text-align:center;margin-bottom:1.2rem">
+        <div style="font-size:36px;margin-bottom:.6rem">🔐</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:.4rem">Ton lien est prêt</div>
+        <p style="font-size:12px;color:var(--gray-light);line-height:1.7">
+          Clique sur le bouton ci-dessous pour réinitialiser ton mot de passe.<br>
+          <em>Valable 1 heure.</em>
         </p>
-        <a href="#" onclick="showLoginForm();return false;" style="font-size:12px;color:var(--red);text-decoration:none">← Retour à la connexion</a>
-      </div>`;
-  };
+      </div>
+      <a href="${resetUrl}"
+        style="display:block;background:var(--red);color:#fff;text-align:center;padding:15px;
+               font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;
+               text-decoration:none;letter-spacing:.08em;text-transform:uppercase;
+               margin-bottom:1rem;border:none;cursor:pointer">
+        Créer un nouveau mot de passe →
+      </a>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:12px;margin-bottom:1rem">
+        <div style="font-size:10px;color:var(--gray);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">
+          Ou copie ce lien dans ton navigateur
+        </div>
+        <div style="font-size:10px;word-break:break-all;color:var(--gray-light);line-height:1.5;cursor:text;user-select:all">
+          ${resetUrl}
+        </div>
+      </div>
+      <a href="#" onclick="showLoginForm();return false;"
+        style="display:block;text-align:center;font-size:12px;color:var(--gray);text-decoration:none;margin-top:.5rem">
+        ← Retour à la connexion
+      </a>
+    </div>`;
 
-  // Essayer via l'API serveur avec timeout de 8 secondes
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-  fetch('/api/send-reset-email', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ email, resetUrl, userName: user.name }),
-    signal: controller.signal
-  }).then(r => {
-    clearTimeout(timeoutId);
-    if (!r.ok) throw new Error('Erreur serveur ' + r.status);
-    return r.json();
-  }).then(d => {
-    if(d.success) showSuccess();
-    else throw new Error(d.error || 'Erreur inconnue');
-  }).catch(err => {
-    clearTimeout(timeoutId);
-    console.warn('[Reset] API échouée, tentative EmailJS:', err.message);
-    // Fallback EmailJS avec le template de confirmation de commande (template existant)
-    // On utilise emailjs.send avec les bons paramètres
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email: email,
-      to_name: user.name || email,
-      message: `Lien de réinitialisation de ton mot de passe :\n\n${resetUrl}\n\nCe lien est valable 1 heure.`,
-      from_name: 'La Case Shop',
-      reply_to: 'Lacaseshop971@gmail.com'
-    }).then(() => {
-      showSuccess();
-    }).catch(ejsErr => {
-      console.warn('[Reset] EmailJS échoué aussi:', ejsErr);
-      // Dernier recours : afficher le lien dans la page pour l'utilisateur connecté localement
-      if(btn){ btn.disabled=false; btn.textContent='Envoyer le lien de réinitialisation'; }
-      // On affiche quand même le succès car le lien est dans le localStorage et fonctionne en local
-      showToast('⚠️ Email non envoyé. Contacte-nous sur WhatsApp avec ton email.');
-      console.log('[Dev] Reset URL (utilise ce lien en dev):', resetUrl);
-      // En dev : afficher directement le lien cliquable
-      if(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'){
-        document.getElementById('form-forgot').innerHTML=`
-          <div style="text-align:center;padding:1rem 0">
-            <div style="font-size:40px;margin-bottom:1rem">🔗</div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:.5rem">Mode Dev</div>
-            <p style="font-size:12px;color:var(--gray-light);line-height:1.7;margin-bottom:1rem">Lien de reset (dev uniquement) :</p>
-            <a href="${resetUrl}" style="font-size:11px;color:var(--red);word-break:break-all">${resetUrl}</a>
-          </div>`;
-      }
-    });
-  });
+  // Tentative d'envoi email en arrière-plan (silencieuse — n'affecte pas l'UI)
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 15000);
+    fetch('/api/send-reset-email', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email, resetUrl, userName: user.name }),
+      signal: ctrl.signal
+    }).then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(d => {
+        if(d && d.success){
+          // Email envoyé avec succès — mettre à jour le message
+          const linkBox = container.querySelector('div[style*="word-break"]');
+          if(linkBox){
+            const parent = linkBox.parentElement;
+            const notice = document.createElement('div');
+            notice.style.cssText = 'font-size:11px;color:#4caf50;text-align:center;margin-bottom:.5rem';
+            notice.textContent = '✓ Un email a aussi été envoyé à ' + email;
+            parent.insertAdjacentElement('beforebegin', notice);
+          }
+        }
+      })
+      .catch(() => {}); // Silencieux — l'utilisateur a déjà le lien
+  } catch(e) {}
 }
 function doLogin(){
   const email=document.getElementById('login-email').value.trim();
